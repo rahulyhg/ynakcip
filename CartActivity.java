@@ -203,7 +203,7 @@ public class CartActivity extends AppCompatActivity {
         @Override
         public void onPlusClick(Product product) {
             products.addOneTo(product);
-           // updateQuantity(product);
+           // updateQuantity(product)1231231;
             productsAdapter.notifyDataSetChanged();
         }
 
