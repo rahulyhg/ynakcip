@@ -137,6 +137,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getApplicationContext(), AddressListActivity.class);
+                            intent.putExtra("itemslength",itemsCount);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

@@ -35,7 +35,7 @@ public class AddressListActivity extends AppCompatActivity {
     AddressItem cartItem = new AddressItem();
     Gson gson;
     Button btnDelivery,btnAddAddress;
-    String userId;
+    String userId,itemslength;
     int checked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class AddressListActivity extends AppCompatActivity {
         // Displaying user information from shared preferences
         HashMap<String, String> profile = pref.getUserDetails();
         userId=profile.get("id");
+        itemslength=getIntent().getStringExtra("itemslength");
 
 
         recyclerViewCart = (ListView) findViewById(R.id.addressList);
@@ -121,6 +122,7 @@ public class AddressListActivity extends AppCompatActivity {
 
                                 Intent intent =new Intent(AddressListActivity.this, CheckoutActivity.class);
                                 intent.putExtra("addressId",addressItem.getId());
+                                intent.putExtra("itemslength",itemslength);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
