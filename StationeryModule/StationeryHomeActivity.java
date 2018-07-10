@@ -26,10 +26,11 @@ import com.prism.pickany247.Adapters.SchoolAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
+import com.prism.pickany247.Response.StationeryHomeResponse;
 import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.Singleton.AppController;
 
-public class StationeryHomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class StationeryHomeActivity extends AppCompatActivity  {
     SwipeRefreshLayout swipeRefreshLayout;
     AppController appController;
     private ArtAdapter artAdapter;
@@ -39,6 +40,7 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
     private ExtraAdapter extraAdapter;
     private RecyclerView rcArt,rcDesk,rcSchool,rcOffice,rcExtra;
     private TextView txtArt,txtDesk,txtSchool,txtOffice,txtExtra;
+    private TextView txtArtName,txtDeskName,txtSchoolName,txtOfficeName,txtExtraName;
     Gson gson;
     StationeryResponse stationeryResponse =new StationeryResponse();
 
@@ -62,36 +64,34 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
         rcOffice = (RecyclerView) findViewById(R.id.recyclerOffice);
         rcExtra = (RecyclerView) findViewById(R.id.recyclerExtra);
 
+        txtArtName=(TextView)findViewById(R.id.txtArtName);
+        txtDeskName=(TextView)findViewById(R.id.txtDeskName);
+        txtSchoolName=(TextView)findViewById(R.id.txtSchoolName);
+        txtOfficeName=(TextView)findViewById(R.id.txtOfficeName);
+        txtExtraName=(TextView)findViewById(R.id.txtExtraName);
+
         txtArt=(TextView)findViewById(R.id.txtArtCrafts);
         txtDesk=(TextView)findViewById(R.id.txtDesk);
         txtSchool=(TextView)findViewById(R.id.txtSchool);
         txtOffice=(TextView)findViewById(R.id.txtOffice);
         txtExtra=(TextView)findViewById(R.id.txtExtra);
 
-        txtArt.setOnClickListener(this);
+       /* txtArt.setOnClickListener(this);
         txtDesk.setOnClickListener(this);
         txtSchool.setOnClickListener(this);
         txtOffice.setOnClickListener(this);
-        txtExtra.setOnClickListener(this);
+        txtExtra.setOnClickListener(this);*/
 
 
         if (appController.isConnection()) {
 
-            prepareArtData();
-            prepareDeskData();
-            prepareSchoolData();
-            prepareOfficeData();
-            prepareExtraData();
+            prepareCategoeriesData();
 
 
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    prepareArtData();
-                    prepareDeskData();
-                    prepareSchoolData();
-                    prepareOfficeData();
-                    prepareExtraData();
+                    prepareCategoeriesData();
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
@@ -122,11 +122,74 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void prepareArtData(){
+    private void prepareCategoeriesData(){
 
         swipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+"1", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_CATEGORIES_URL, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                swipeRefreshLayout.setRefreshing(false);
+
+                gson = new Gson();
+               StationeryHomeResponse stationeryhomeResponse = gson.fromJson(response, StationeryHomeResponse.class);
+
+               for (StationeryHomeResponse.MainCategoriesBean mainCategoriesBean:stationeryhomeResponse.getMainCategories()){
+
+                   if (mainCategoriesBean.getId().equals("1")){
+
+                       prepareArtData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+
+                       txtArtName.setText(mainCategoriesBean.getCategory_name());
+
+                   }
+                   else if (mainCategoriesBean.getId().equals("2")){
+
+                       prepareDeskData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                       txtDeskName.setText(mainCategoriesBean.getCategory_name());
+                   }
+                   else if (mainCategoriesBean.getId().equals("4")){
+
+                       prepareSchoolData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                       txtSchoolName.setText(mainCategoriesBean.getCategory_name());
+                   }
+                   else if (mainCategoriesBean.getId().equals("3")){
+
+                       prepareOfficeData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                       txtOfficeName.setText(mainCategoriesBean.getCategory_name());
+                   }
+                   else if (mainCategoriesBean.getId().equals("5")){
+
+                       prepareExtraData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                       txtExtraName.setText(mainCategoriesBean.getCategory_name());
+                   }
+               }
+
+
+                //dynamic carAdapter
+                // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
+
+
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
+
+    }
+
+
+    private void prepareArtData(final String id, final String catname){
+
+        swipeRefreshLayout.setRefreshing(true);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -144,6 +207,20 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
                 rcArt.setAdapter(artAdapter);
                 artAdapter.notifyDataSetChanged();
 
+                txtArt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
+                        intent1.putExtra("catId",id);
+                        intent1.putExtra("title",catname);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent1);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                    }
+                });
+
 
                 //dynamic carAdapter
                 // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
@@ -162,11 +239,11 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void prepareDeskData(){
+    private void prepareDeskData(final String id, final String catname){
 
         swipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+"2", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -184,7 +261,19 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
                 rcDesk.setAdapter(deskAdapter);
                 deskAdapter.notifyDataSetChanged();
 
+                txtDesk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
+                        intent1.putExtra("catId",id);
+                        intent1.putExtra("title",catname);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent1);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                    }
+                });
                 //dynamic carAdapter
                 // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
@@ -202,11 +291,11 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void prepareSchoolData(){
+    private void prepareSchoolData(final String id, final String catname){
 
         swipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+"3", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -225,6 +314,19 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
                 schoolAdapter.notifyDataSetChanged();
 
 
+                txtSchool.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
+                        intent1.putExtra("catId",id);
+                        intent1.putExtra("title",catname);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent1);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                    }
+                });
                 //dynamic carAdapter
                 // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
@@ -242,11 +344,11 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void prepareOfficeData(){
+    private void prepareOfficeData(final String id, final String catname){
 
         swipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+"4", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -264,7 +366,19 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
                 rcOffice.setAdapter(officeAdpter);
                 officeAdpter.notifyDataSetChanged();
 
+                txtOffice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
+                        intent1.putExtra("catId",id);
+                        intent1.putExtra("title",catname);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent1);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                    }
+                });
                 //dynamic carAdapter
                 // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
@@ -282,11 +396,11 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void prepareExtraData(){
+    private void prepareExtraData(final String id, final String catname){
 
         swipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+"5", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -305,6 +419,19 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
                 extraAdapter.notifyDataSetChanged();
 
 
+                txtExtra.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
+                        intent1.putExtra("catId",id);
+                        intent1.putExtra("title",catname);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent1);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                    }
+                });
                 //dynamic carAdapter
                 // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
@@ -334,7 +461,7 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
         }
         return super.onOptionsItemSelected(item);
     }
-
+/*
     @Override
     public void onClick(View v) {
 
@@ -393,5 +520,5 @@ public class StationeryHomeActivity extends AppCompatActivity implements View.On
 
                 break;
         }
-    }
+    }*/
 }

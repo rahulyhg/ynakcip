@@ -11,13 +11,6 @@ public class Api {
     public final static String HOME_URL =BASE_URL+"modules";
 
 
-                          // Stationery url
-
-    public final static String STATIONERY_URL =BASE_URL+"products?module=stationery&limit=10&maincatId=";
-
-    public final static String PRODUCTS_URL =BASE_URL+"products?module=stationery&maincatId=";
-
-    public final static String PRODUCT_DETAILS_URL =BASE_URL+"products?module=stationery&productId=";
 
 
     // cart api
@@ -41,5 +34,22 @@ public class Api {
 
     // checkout
     public final static String CHECKOUT_URL =BASE_URL+"checkout";
+
+
+
+    // Stationery url
+
+    public final static String STATIONERY_URL =BASE_URL+"products?module=stationery&limit=10&maincatId=";
+
+    public final static String PRODUCTS_URL =BASE_URL+"products?module=stationery&maincatId=";
+
+    public final static String PRODUCT_DETAILS_URL =BASE_URL+"products?module=stationery&productId=";
+
+    public final static String STATIONERY_CATEGORIES_URL =BASE_URL+"maincategories?module=stationery";
+
+
+    // mobile url
+
+    public final static String MOBILE_HOME_URL =BASE_URL+"maincategories?module=mobile";
 
 }

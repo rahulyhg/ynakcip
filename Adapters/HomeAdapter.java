@@ -14,7 +14,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.prism.pickany247.Helper.ImageDecoder;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.HomeResponse;
 import com.prism.pickany247.Singleton.AppController;
