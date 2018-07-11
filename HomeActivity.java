@@ -65,6 +65,8 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setLogo(R.drawable.main_logo);
+        toolbar.setContentInsetStartWithNavigation(0);
 
         appController= (AppController) getApplication();
 
@@ -141,13 +143,19 @@ public class HomeActivity extends AppCompatActivity
 
                 // homeKitchen Adapter
                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-               /* GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 2);
+                GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 2);
                 manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override
                     public int getSpanSize(int position) {
                         return (position % 3 == 0 ? 2 : 1);
+
+                      /*  if(position% 2 == 1) {
+                            return 2;
+                        }else{
+                            return 3;
+                        }*/
                     }
-                });*/
+                });
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
 

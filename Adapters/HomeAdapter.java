@@ -14,6 +14,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.prism.pickany247.MobilesModule.MobileHomeActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.HomeResponse;
 import com.prism.pickany247.Singleton.AppController;
@@ -83,6 +84,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
                     mContext.startActivity(intent);
                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
+                else  if (home.getId().equalsIgnoreCase("6")) {
+
+//                    Activity activity = (Activity) mContext;
+                    Intent intent = new Intent(mContext, MobileHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
             }
         });
 
@@ -96,5 +105,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
     }
 
 
-
+/*
+    @Override
+    public int getItemViewType(int position) {
+        if(position% 2 == 1) {
+            return 2;
+        }else{
+            return 3;
+        }
+    }
+*/
 }
