@@ -8,8 +8,7 @@ public class Api {
 
     public final static String REGISTRATION_URL =BASE_URL+"new_user";
 
-    public final static String HOME_URL =BASE_URL+"modules";
-
+    public final static String HOME_URL =BASE_URL+"h_banners_modules";
 
 
 

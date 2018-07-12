@@ -10,8 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,10 +28,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.DexterError;
@@ -40,18 +40,25 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.prism.pickany247.Adapters.HomeAdapter;
+import com.prism.pickany247.Adapters.ViewPagerAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.Response.HomeResponse;
+import com.prism.pickany247.Response.ViewPagerItem;
 import com.prism.pickany247.Singleton.AppController;
+import com.rd.PageIndicatorView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ss.com.bannerslider.banners.Banner;
+import ss.com.bannerslider.banners.RemoteBanner;
+import ss.com.bannerslider.views.BannerSlider;
+
 import static com.karumi.dexter.Dexter.*;
 
-public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     AppController appController;
     private ProgressDialog pDialog;
     private PrefManager pref;
@@ -59,13 +66,17 @@ public class HomeActivity extends AppCompatActivity
     private HomeAdapter adapter;
     HomeResponse homeResponse =new HomeResponse();
     Gson gson;
+    List<ViewPagerItem> viewPagerItemslist=new ArrayList<>();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setLogo(R.drawable.main_logo);
+        toolbar.setLogo(R.drawable.ic_main_logo_new);
         toolbar.setContentInsetStartWithNavigation(0);
 
         appController= (AppController) getApplication();
@@ -82,6 +93,7 @@ public class HomeActivity extends AppCompatActivity
         HashMap<String, String> profile = pref.getUserDetails();
 
         recyclerView = (RecyclerView) findViewById(R.id.homeRecycler);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -103,6 +115,7 @@ public class HomeActivity extends AppCompatActivity
             pDialog.setContentView(R.layout.my_progress);
 
             prepareHomeData();
+
 
         } else {
 
@@ -127,6 +140,8 @@ public class HomeActivity extends AppCompatActivity
 
 
     }
+
+
 
     private void prepareHomeData(){
 
@@ -162,6 +177,44 @@ public class HomeActivity extends AppCompatActivity
                 adapter = new HomeAdapter(getApplicationContext(), homeResponse.getModules());
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+
+
+                 // home banners
+                List<Banner> banners=new ArrayList<>();
+                for (final HomeResponse.HomeBannersBean homeBannersBean:homeResponse.getHome_Banners()){
+
+                    /*viewPagerItemslist.add(new ViewPagerItem(homeBannersBean.getImage()));*/
+                    banners.add(new RemoteBanner(homeBannersBean.getImage()));
+
+                }
+
+                BannerSlider bannerSlider = (BannerSlider) findViewById(R.id.banner_slider1);
+
+                //add banner using image url
+                // banners.add(new RemoteBanner("Put banner image url here ..."));
+                //add banner using resource drawable
+                bannerSlider.setBanners(banners);
+
+               /* final PageIndicatorView pageIndicatorView = findViewById(R.id.pageIndicatorView);
+                ViewPagerAdapter adapter =new ViewPagerAdapter(getApplicationContext(),viewPagerItemslist);
+                ViewPager viewPager =(ViewPager)findViewById(R.id.viewPager);
+                viewPager.setAdapter(adapter);
+                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        pageIndicatorView.setSelection(position);
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });*/
 
 
                 //dynamic carAdapter
@@ -225,7 +278,7 @@ public class HomeActivity extends AppCompatActivity
                             // do nothing
                         }
                     })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.mipmap.ic_launcher_round)
                     .show();
         }
     }
