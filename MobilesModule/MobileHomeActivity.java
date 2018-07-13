@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+
+
+
 import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.ArtAdapter;
 import com.prism.pickany247.Adapters.DeskAdapter;
@@ -28,6 +33,9 @@ import com.prism.pickany247.Response.StationeryHomeResponse;
 import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.Singleton.AppController;
 import com.prism.pickany247.StationeryModule.ProductListActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,11 +75,15 @@ public class MobileHomeActivity extends AppCompatActivity {
 
     ArtAdapter artAdapter;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mbile_home);
         ButterKnife.bind(this);
+
+
 
         simpleSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,R.color.colorBlue,R.color.colorPrimary);
         appController=(AppController)getApplicationContext();
@@ -86,6 +98,8 @@ public class MobileHomeActivity extends AppCompatActivity {
                     simpleSwipeRefreshLayout.setRefreshing(false);
                 }
             });
+
+
 
 
         } else {
@@ -202,6 +216,7 @@ public class MobileHomeActivity extends AppCompatActivity {
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
 
                     }
                 });

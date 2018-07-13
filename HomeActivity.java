@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.prism.pickany247.Adapters.HomeAdapter;
 import com.prism.pickany247.Adapters.ViewPagerAdapter;
 import com.prism.pickany247.Apis.Api;
+import com.prism.pickany247.Helper.MySpanSizeLookup;
 import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.Response.HomeResponse;
 import com.prism.pickany247.Response.ViewPagerItem;
@@ -157,20 +159,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 homeResponse = gson.fromJson(response, HomeResponse.class);
 
                 // homeKitchen Adapter
-               RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 2);
-                manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                    @Override
-                    public int getSpanSize(int position) {
-                        return (position % 3 == 0 ? 2 : 1);
-
-                      /*  if(position% 2 == 1) {
-                            return 2;
-                        }else{
-                            return 3;
-                        }*/
-                    }
-                });
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -195,30 +184,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 //add banner using resource drawable
                 bannerSlider.setBanners(banners);
 
-               /* final PageIndicatorView pageIndicatorView = findViewById(R.id.pageIndicatorView);
-                ViewPagerAdapter adapter =new ViewPagerAdapter(getApplicationContext(),viewPagerItemslist);
-                ViewPager viewPager =(ViewPager)findViewById(R.id.viewPager);
-                viewPager.setAdapter(adapter);
-                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        pageIndicatorView.setSelection(position);
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-
-                    }
-                });*/
-
-
-                //dynamic carAdapter
-                // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
 
             }
