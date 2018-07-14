@@ -6,40 +6,40 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.StationeryResponse;
-import com.prism.pickany247.StationeryModule.ProductDetailsActivity;
+import com.prism.pickany247.Response.StationeryCatResponse;
+import com.prism.pickany247.StationeryModule.ProductListActivity;
 
 import java.util.List;
 
-public class DeskAdapter extends RecyclerView.Adapter<DeskAdapter.MyViewHolder>{
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class StationeryCatAdapter extends RecyclerView.Adapter<StationeryCatAdapter.MyViewHolder>{
     private Context mContext;
-    private List<StationeryResponse.FilteredProductsBean> homeList;
+    private List<StationeryCatResponse.CategoriesBean> homeList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public ImageView thumbnail;
-        public TextView txtPrice,txtName;
+        public CircleImageView thumbnail;
+        public TextView txtName;
         public LinearLayout linearLayout;
 
 
         public MyViewHolder(View view) {
             super(view);
 
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            txtPrice = (TextView) view.findViewById(R.id.txtproductPrice);
-            txtName = (TextView) view.findViewById(R.id.txtproductName);
+            thumbnail = (CircleImageView) view.findViewById(R.id.thumbnail);
+            txtName = (TextView) view.findViewById(R.id.txtCatName);
             linearLayout=(LinearLayout)view.findViewById(R.id.parentLayout);
 
 
         }
     }
 
-    public DeskAdapter(Context mContext, List<StationeryResponse.FilteredProductsBean> homekitchenList) {
+    public StationeryCatAdapter(Context mContext, List<StationeryCatResponse.CategoriesBean> homekitchenList) {
         this.mContext = mContext;
         this.homeList = homekitchenList;
     }
@@ -54,23 +54,23 @@ public class DeskAdapter extends RecyclerView.Adapter<DeskAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final StationeryResponse.FilteredProductsBean home = homeList.get(position);
+        final StationeryCatResponse.CategoriesBean home = homeList.get(position);
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(home.getImagePath()+home.getSingleImage()).into(holder.thumbnail);
-        holder.txtName.setText(home.getProduct_name());
-        holder.txtPrice.setText("\u20B9"+home.getUnit_price());
+        Glide.with(mContext).load(home.getImage()).into(holder.thumbnail);
+        holder.txtName.setText(home.getCategory_name());
+
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 //                    Activity activity = (Activity) mContext;
-                Intent intent = new Intent(mContext, ProductDetailsActivity.class);
-                intent.putExtra("productId",home.getProduct_id());
-                intent.putExtra("productName",home.getProduct_name());
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-                // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    Intent intent = new Intent(mContext, ProductListActivity.class);
+                    intent.putExtra("catId", home.getId());
+                    intent.putExtra("title", home.getCategory_name());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
 
             }

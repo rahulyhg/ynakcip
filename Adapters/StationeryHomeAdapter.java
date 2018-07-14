@@ -12,14 +12,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.HomeResponse;
 import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.StationeryModule.ProductDetailsActivity;
-import com.prism.pickany247.StationeryModule.StationeryHomeActivity;
 
 import java.util.List;
 
-public class ArtAdapter extends RecyclerView.Adapter<ArtAdapter.MyViewHolder>{
+public class StationeryHomeAdapter extends RecyclerView.Adapter<StationeryHomeAdapter.MyViewHolder>{
     private Context mContext;
     private List<StationeryResponse.FilteredProductsBean> homeList;
 
@@ -33,15 +31,15 @@ public class ArtAdapter extends RecyclerView.Adapter<ArtAdapter.MyViewHolder>{
             super(view);
 
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            txtPrice = (TextView) view.findViewById(R.id.txtproductPrice);
-            txtName = (TextView) view.findViewById(R.id.txtproductName);
+            txtPrice = (TextView) view.findViewById(R.id.productPrice);
+            txtName = (TextView) view.findViewById(R.id.productTitle);
             linearLayout=(LinearLayout)view.findViewById(R.id.parentLayout);
 
 
         }
     }
 
-    public ArtAdapter(Context mContext, List<StationeryResponse.FilteredProductsBean> homekitchenList) {
+    public StationeryHomeAdapter(Context mContext, List<StationeryResponse.FilteredProductsBean> homekitchenList) {
         this.mContext = mContext;
         this.homeList = homekitchenList;
     }
@@ -49,7 +47,7 @@ public class ArtAdapter extends RecyclerView.Adapter<ArtAdapter.MyViewHolder>{
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.stationery_home_card, parent, false);
+                .inflate(R.layout.stationery_cat_card, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -67,12 +65,12 @@ public class ArtAdapter extends RecyclerView.Adapter<ArtAdapter.MyViewHolder>{
             public void onClick(View v) {
 
 //                    Activity activity = (Activity) mContext;
-                    Intent intent = new Intent(mContext, ProductDetailsActivity.class);
-                    intent.putExtra("productId",home.getProduct_id());
-                    intent.putExtra("productName",home.getProduct_name());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(intent);
-                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                Intent intent = new Intent(mContext, ProductDetailsActivity.class);
+                intent.putExtra("productId",home.getProduct_id());
+                intent.putExtra("productName",home.getProduct_name());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+                // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
 
             }

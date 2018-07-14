@@ -68,9 +68,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private HomeAdapter adapter;
     HomeResponse homeResponse =new HomeResponse();
     Gson gson;
-    List<ViewPagerItem> viewPagerItemslist=new ArrayList<>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

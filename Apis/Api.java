@@ -38,7 +38,9 @@ public class Api {
 
     // Stationery url
 
-    public final static String STATIONERY_URL =BASE_URL+"products?module=stationery&limit=10&maincatId=";
+    public final static String STATIONERY_HOME_URL =BASE_URL+"banners_categories?module=stationery";
+
+    public final static String STATIONERY_URL =BASE_URL+"products?module=stationery&limit=4&maincatId=";
 
     public final static String PRODUCTS_URL =BASE_URL+"products?module=stationery&maincatId=";
 

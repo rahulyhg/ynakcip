@@ -4,38 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.recyclerview.extensions.ListAdapter;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-
-
 
 import com.google.gson.Gson;
-import com.prism.pickany247.Adapters.ArtAdapter;
-import com.prism.pickany247.Adapters.DeskAdapter;
-import com.prism.pickany247.Adapters.OfficeAdpter;
-import com.prism.pickany247.Adapters.SchoolAdapter;
-import com.prism.pickany247.Apis.Api;
+import com.prism.pickany247.Adapters.StationeryCatAdapter;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.StationeryHomeResponse;
 import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.Singleton.AppController;
-import com.prism.pickany247.StationeryModule.ProductListActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,7 +53,7 @@ public class MobileHomeActivity extends AppCompatActivity {
     @BindView(R.id.simpleSwipeRefreshLayout)
     SwipeRefreshLayout simpleSwipeRefreshLayout;
 
-    ArtAdapter artAdapter;
+    StationeryCatAdapter stationeryCatAdapter;
 
 
 
@@ -89,12 +69,12 @@ public class MobileHomeActivity extends AppCompatActivity {
         appController=(AppController)getApplicationContext();
         if (appController.isConnection()) {
 
-            prepareCategoeriesData();
+          //  prepareCategoeriesData();
 
             simpleSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    prepareCategoeriesData();
+               //     prepareCategoeriesData();
                     simpleSwipeRefreshLayout.setRefreshing(false);
                 }
             });
@@ -125,7 +105,7 @@ public class MobileHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareCategoeriesData(){
+   /* private void prepareCategoeriesData(){
 
         simpleSwipeRefreshLayout.setRefreshing(true);
 
@@ -136,9 +116,9 @@ public class MobileHomeActivity extends AppCompatActivity {
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                StationeryHomeResponse stationeryhomeResponse = gson.fromJson(response, StationeryHomeResponse.class);
+                StationeryCatResponse stationeryhomeResponse = gson.fromJson(response, StationeryCatResponse.class);
 
-                for (StationeryHomeResponse.MainCategoriesBean mainCategoriesBean:stationeryhomeResponse.getMainCategories()){
+                for (StationeryCatResponse.MainCategoriesBean mainCategoriesBean:stationeryhomeResponse.getMainCategories()){
 
                     if (mainCategoriesBean.getId().equals("1")){
 
@@ -202,9 +182,9 @@ public class MobileHomeActivity extends AppCompatActivity {
                 recyclerNew.setLayoutManager(mLayoutManager);
                 recyclerNew.setItemAnimator(new DefaultItemAnimator());
 
-                artAdapter = new ArtAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                recyclerNew.setAdapter(artAdapter);
-                artAdapter.notifyDataSetChanged();
+                stationeryCatAdapter = new StationeryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                recyclerNew.setAdapter(stationeryCatAdapter);
+                stationeryCatAdapter.notifyDataSetChanged();
 
                 txtNewView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -257,9 +237,9 @@ public class MobileHomeActivity extends AppCompatActivity {
                 recyclerUsed.setLayoutManager(mLayoutManager);
                 recyclerUsed.setItemAnimator(new DefaultItemAnimator());
 
-                artAdapter = new ArtAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                recyclerUsed.setAdapter(artAdapter);
-                artAdapter.notifyDataSetChanged();
+                stationeryCatAdapter = new StationeryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                recyclerUsed.setAdapter(stationeryCatAdapter);
+                stationeryCatAdapter.notifyDataSetChanged();
 
                 txtUsedView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -309,9 +289,9 @@ public class MobileHomeActivity extends AppCompatActivity {
                 recyclerTablet.setLayoutManager(mLayoutManager);
                 recyclerTablet.setItemAnimator(new DefaultItemAnimator());
 
-                artAdapter = new ArtAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                recyclerTablet.setAdapter(artAdapter);
-                artAdapter.notifyDataSetChanged();
+                stationeryCatAdapter = new StationeryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                recyclerTablet.setAdapter(stationeryCatAdapter);
+                stationeryCatAdapter.notifyDataSetChanged();
 
 
                 txtTabletView.setOnClickListener(new View.OnClickListener() {
@@ -362,9 +342,9 @@ public class MobileHomeActivity extends AppCompatActivity {
                 recyclerAccessories.setLayoutManager(mLayoutManager);
                 recyclerAccessories.setItemAnimator(new DefaultItemAnimator());
 
-                artAdapter = new ArtAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                recyclerAccessories.setAdapter(artAdapter);
-                artAdapter.notifyDataSetChanged();
+                stationeryCatAdapter = new StationeryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                recyclerAccessories.setAdapter(stationeryCatAdapter);
+                stationeryCatAdapter.notifyDataSetChanged();
 
                 txtAccessoriesView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -394,7 +374,7 @@ public class MobileHomeActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
 
-    }
+    }*/
 
     @OnClick({R.id.txtNewView, R.id.txtUsedView, R.id.txtTabletView, R.id.txtAccessoriesView})
     public void onViewClicked(View view) {

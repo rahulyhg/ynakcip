@@ -1,12 +1,14 @@
 package com.prism.pickany247.StationeryModule;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,206 +16,243 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.prism.pickany247.Adapters.ArtAdapter;
-import com.prism.pickany247.Adapters.DeskAdapter;
-import com.prism.pickany247.Adapters.ExtraAdapter;
-import com.prism.pickany247.Adapters.OfficeAdpter;
-import com.prism.pickany247.Adapters.SchoolAdapter;
+import com.prism.pickany247.Adapters.StationeryHomeAdapter;
+import com.prism.pickany247.Adapters.StationeryCatAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.StationeryHomeResponse;
+import com.prism.pickany247.Response.StationeryCatResponse;
 import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.Singleton.AppController;
 
-public class StationeryHomeActivity extends AppCompatActivity  {
-    SwipeRefreshLayout swipeRefreshLayout;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import ss.com.bannerslider.banners.Banner;
+import ss.com.bannerslider.banners.RemoteBanner;
+import ss.com.bannerslider.views.BannerSlider;
+
+public class StationeryHomeActivity extends AppCompatActivity {
+
+
     AppController appController;
-    private ArtAdapter artAdapter;
-    private DeskAdapter deskAdapter;
-    private SchoolAdapter schoolAdapter;
-    private OfficeAdpter officeAdpter;
-    private ExtraAdapter extraAdapter;
-    private RecyclerView rcArt,rcDesk,rcSchool,rcOffice,rcExtra;
-    private TextView txtArt,txtDesk,txtSchool,txtOffice,txtExtra;
-    private TextView txtArtName,txtDeskName,txtSchoolName,txtOfficeName,txtExtraName;
+    @BindView(R.id.catRecycler)
+    RecyclerView catRecycler;
+    @BindView(R.id.banner_slider1)
+    BannerSlider bannerSlider1;
+    @BindView(R.id.txtArtTitle)
+    TextView txtArtTitle;
+    @BindView(R.id.artViewAll)
+    TextView artViewAll;
+    @BindView(R.id.artRecycler)
+    RecyclerView artRecycler;
+    @BindView(R.id.txtDeskTitle)
+    TextView txtDeskTitle;
+    @BindView(R.id.deskViewAll)
+    TextView deskViewAll;
+    @BindView(R.id.deskRecycler)
+    RecyclerView deskRecycler;
+    @BindView(R.id.txtOfficeTitle)
+    TextView txtOfficeTitle;
+    @BindView(R.id.officeViewAll)
+    TextView officeViewAll;
+    @BindView(R.id.officeRecycler)
+    RecyclerView officeRecycler;
+    @BindView(R.id.txtSchoolTitle)
+    TextView txtSchoolTitle;
+    @BindView(R.id.schoolViewAll)
+    TextView schoolViewAll;
+    @BindView(R.id.schoolRecycler)
+    RecyclerView schoolRecycler;
+    @BindView(R.id.txtExtraTitle)
+    TextView txtExtraTitle;
+    @BindView(R.id.extraViewAll)
+    TextView extraViewAll;
+    @BindView(R.id.extraRecycler)
+    RecyclerView extraRecycler;
+    @BindView(R.id.simpleSwipeRefreshLayout)
+    SwipeRefreshLayout simpleSwipeRefreshLayout;
+
+    private StationeryCatAdapter adapter;
+    private StationeryHomeAdapter stationeryHomeAdapter;
+    StationeryCatResponse homeResponse = new StationeryCatResponse();
+    StationeryResponse stationeryResponse = new StationeryResponse();
     Gson gson;
-    StationeryResponse stationeryResponse =new StationeryResponse();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stationery_home);
+        ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Stationery");
 
-        appController=(AppController)getApplicationContext();
+        appController = (AppController) getApplication();
 
-
-        // init SwipeRefreshLayout and ListView
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.simpleSwipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,R.color.colorBlue,R.color.colorPrimary);
-
-        rcArt = (RecyclerView) findViewById(R.id.recyclerArt);
-        rcDesk = (RecyclerView) findViewById(R.id.recyclerdesk);
-        rcSchool = (RecyclerView) findViewById(R.id.recyclerSchool);
-        rcOffice = (RecyclerView) findViewById(R.id.recyclerOffice);
-        rcExtra = (RecyclerView) findViewById(R.id.recyclerExtra);
-
-        txtArtName=(TextView)findViewById(R.id.txtArtName);
-        txtDeskName=(TextView)findViewById(R.id.txtDeskName);
-        txtSchoolName=(TextView)findViewById(R.id.txtSchoolName);
-        txtOfficeName=(TextView)findViewById(R.id.txtOfficeName);
-        txtExtraName=(TextView)findViewById(R.id.txtExtraName);
-
-        txtArt=(TextView)findViewById(R.id.txtArtCrafts);
-        txtDesk=(TextView)findViewById(R.id.txtDesk);
-        txtSchool=(TextView)findViewById(R.id.txtSchool);
-        txtOffice=(TextView)findViewById(R.id.txtOffice);
-        txtExtra=(TextView)findViewById(R.id.txtExtra);
-
-       /* txtArt.setOnClickListener(this);
-        txtDesk.setOnClickListener(this);
-        txtSchool.setOnClickListener(this);
-        txtOffice.setOnClickListener(this);
-        txtExtra.setOnClickListener(this);*/
-
-
+        simpleSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorBlue, R.color.colorPrimary);
+        appController = (AppController) getApplicationContext();
         if (appController.isConnection()) {
 
-            prepareCategoeriesData();
+            prepareHomeData();
 
 
-            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            simpleSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    prepareCategoeriesData();
-                    swipeRefreshLayout.setRefreshing(false);
+                    prepareHomeData();
+
+                    simpleSwipeRefreshLayout.setRefreshing(false);
                 }
             });
-
-
-
-
 
         } else {
 
             setContentView(R.layout.internet);
-
-            Button tryButton =(Button)findViewById(R.id.btnTryagain);
+            Button tryButton = (Button) findViewById(R.id.btnTryagain);
             tryButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent =new Intent(getApplicationContext(),HomeActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             });
 
-            // app.internetDilogue(KitchenitemListActivity.this);
 
         }
 
+
     }
 
-    private void prepareCategoeriesData(){
+    private void prepareHomeData() {
 
-        swipeRefreshLayout.setRefreshing(true);
+        simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_CATEGORIES_URL, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_HOME_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                swipeRefreshLayout.setRefreshing(false);
+                Log.e("RESPONSE", "" + response);
+                simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-               StationeryHomeResponse stationeryhomeResponse = gson.fromJson(response, StationeryHomeResponse.class);
+                homeResponse = gson.fromJson(response, StationeryCatResponse.class);
 
-               for (StationeryHomeResponse.MainCategoriesBean mainCategoriesBean:stationeryhomeResponse.getMainCategories()){
+                for (StationeryCatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
 
-                   if (mainCategoriesBean.getId().equals("1")){
+                    if (mainCategoriesBean.getId().equals("1")){
 
-                       prepareArtData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                        prepareArtData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
 
-                       txtArtName.setText(mainCategoriesBean.getCategory_name());
+                        }
+                    else if (mainCategoriesBean.getId().equals("2")){
 
-                   }
-                   else if (mainCategoriesBean.getId().equals("2")){
+                        prepareDeskData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
 
-                       prepareDeskData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
-                       txtDeskName.setText(mainCategoriesBean.getCategory_name());
-                   }
-                   else if (mainCategoriesBean.getId().equals("4")){
+                    }
+                    else if (mainCategoriesBean.getId().equals("3")){
 
-                       prepareSchoolData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
-                       txtSchoolName.setText(mainCategoriesBean.getCategory_name());
-                   }
-                   else if (mainCategoriesBean.getId().equals("3")){
+                        prepareOfficeData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
 
-                       prepareOfficeData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
-                       txtOfficeName.setText(mainCategoriesBean.getCategory_name());
-                   }
-                   else if (mainCategoriesBean.getId().equals("5")){
+                    }
+                    else if (mainCategoriesBean.getId().equals("4")){
 
-                       prepareExtraData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
-                       txtExtraName.setText(mainCategoriesBean.getCategory_name());
-                   }
-               }
+                        prepareSchoolData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+
+                    }
+                    else if (mainCategoriesBean.getId().equals("5")){
+
+                        prepareExtraData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+
+                    }
+
+                }
+
+                // home Adapter
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+                catRecycler.setLayoutManager(mLayoutManager);
+                catRecycler.setItemAnimator(new DefaultItemAnimator());
+
+                adapter = new StationeryCatAdapter(getApplicationContext(), homeResponse.getCategories());
+                catRecycler.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
 
 
-                //dynamic carAdapter
-                // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
+                // home banners
+                List<Banner> banners = new ArrayList<>();
+                banners.clear();
+                Log.e("BANNERS", "" + banners.size());
+                for (final StationeryCatResponse.BannersBean homeBannersBean : homeResponse.getBanners()) {
+
+                    banners.add(new RemoteBanner(homeBannersBean.getImage()));
+
+                }
+
+                BannerSlider bannerSlider = (BannerSlider) findViewById(R.id.banner_slider1);
+
+                //add banner using image url
+                // banners.add(new RemoteBanner("Put banner image url here ..."));
+                //add banner using resource drawable
+                bannerSlider.setBanners(banners);
+                bannerSlider.onIndicatorSizeChange();
 
 
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                swipeRefreshLayout.setRefreshing(false);
+                simpleSwipeRefreshLayout.setRefreshing(true);
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(stringRequest);
+// Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringRequest);
+       /* RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);*/
 
 
     }
 
+    private void prepareArtData(final String id, final String catname) {
 
-    private void prepareArtData(final String id, final String catname){
+        simpleSwipeRefreshLayout.setRefreshing(true);
 
-        swipeRefreshLayout.setRefreshing(true);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                swipeRefreshLayout.setRefreshing(false);
+                Log.e("RESPONSE", "" + response);
+                simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
                 stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-                rcArt.setLayoutManager(mLayoutManager);
-                rcArt.setItemAnimator(new DefaultItemAnimator());
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+                artRecycler.setLayoutManager(mLayoutManager);
+                artRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                artAdapter = new ArtAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                rcArt.setAdapter(artAdapter);
-                artAdapter.notifyDataSetChanged();
+                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                artRecycler.setAdapter(stationeryHomeAdapter);
+                stationeryHomeAdapter.notifyDataSetChanged();
 
-                txtArt.setOnClickListener(new View.OnClickListener() {
+                // textview
+                txtArtTitle.setText(catname);
+                artViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
-                        intent1.putExtra("catId",id);
-                        intent1.putExtra("title",catname);
+                        intent1.putExtra("catId", id);
+                        intent1.putExtra("title", catname);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -222,15 +261,11 @@ public class StationeryHomeActivity extends AppCompatActivity  {
                 });
 
 
-                //dynamic carAdapter
-                // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
-
-
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                swipeRefreshLayout.setRefreshing(false);
+                simpleSwipeRefreshLayout.setRefreshing(false);
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -239,50 +274,52 @@ public class StationeryHomeActivity extends AppCompatActivity  {
 
     }
 
-    private void prepareDeskData(final String id, final String catname){
+    private void prepareDeskData(final String id, final String catname) {
 
-        swipeRefreshLayout.setRefreshing(true);
+        simpleSwipeRefreshLayout.setRefreshing(false);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                swipeRefreshLayout.setRefreshing(false);
+                Log.e("RESPONSE", "" + response);
+                simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
                 stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-                rcDesk.setLayoutManager(mLayoutManager);
-                rcDesk.setItemAnimator(new DefaultItemAnimator());
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+                deskRecycler.setLayoutManager(mLayoutManager);
+                deskRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                deskAdapter = new DeskAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                rcDesk.setAdapter(deskAdapter);
-                deskAdapter.notifyDataSetChanged();
+                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                deskRecycler.setAdapter(stationeryHomeAdapter);
+                stationeryHomeAdapter.notifyDataSetChanged();
 
-                txtDesk.setOnClickListener(new View.OnClickListener() {
+
+                // textview
+                txtDeskTitle.setText(catname);
+                deskViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
-                        intent1.putExtra("catId",id);
-                        intent1.putExtra("title",catname);
+                        intent1.putExtra("catId", id);
+                        intent1.putExtra("title", catname);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                     }
                 });
-                //dynamic carAdapter
-                // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
 
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                swipeRefreshLayout.setRefreshing(false);
+                simpleSwipeRefreshLayout.setRefreshing(false);
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -291,51 +328,51 @@ public class StationeryHomeActivity extends AppCompatActivity  {
 
     }
 
-    private void prepareSchoolData(final String id, final String catname){
+    private void prepareOfficeData(final String id, final String catname) {
 
-        swipeRefreshLayout.setRefreshing(true);
+        simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                swipeRefreshLayout.setRefreshing(false);
+                Log.e("RESPONSE", "" + response);
+                simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
                 stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-                rcSchool.setLayoutManager(mLayoutManager);
-                rcSchool.setItemAnimator(new DefaultItemAnimator());
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+                officeRecycler.setLayoutManager(mLayoutManager);
+                officeRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                schoolAdapter = new SchoolAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                rcSchool.setAdapter(schoolAdapter);
-                schoolAdapter.notifyDataSetChanged();
+                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                officeRecycler.setAdapter(stationeryHomeAdapter);
+                stationeryHomeAdapter.notifyDataSetChanged();
 
-
-                txtSchool.setOnClickListener(new View.OnClickListener() {
+                // textview
+                txtOfficeTitle.setText(catname);
+                officeViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
-                        intent1.putExtra("catId",id);
-                        intent1.putExtra("title",catname);
+                        intent1.putExtra("catId", id);
+                        intent1.putExtra("title", catname);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                     }
                 });
-                //dynamic carAdapter
-                // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
 
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                swipeRefreshLayout.setRefreshing(false);
+                simpleSwipeRefreshLayout.setRefreshing(false);
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -344,50 +381,51 @@ public class StationeryHomeActivity extends AppCompatActivity  {
 
     }
 
-    private void prepareOfficeData(final String id, final String catname){
+    private void prepareSchoolData(final String id, final String catname) {
 
-        swipeRefreshLayout.setRefreshing(true);
+        simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                swipeRefreshLayout.setRefreshing(false);
+                Log.e("RESPONSE", "" + response);
+                simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
                 stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-                rcOffice.setLayoutManager(mLayoutManager);
-                rcOffice.setItemAnimator(new DefaultItemAnimator());
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+                schoolRecycler.setLayoutManager(mLayoutManager);
+                schoolRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                officeAdpter = new OfficeAdpter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                rcOffice.setAdapter(officeAdpter);
-                officeAdpter.notifyDataSetChanged();
+                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                schoolRecycler.setAdapter(stationeryHomeAdapter);
+                stationeryHomeAdapter.notifyDataSetChanged();
 
-                txtOffice.setOnClickListener(new View.OnClickListener() {
+                // textview
+                txtSchoolTitle.setText(catname);
+                schoolViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
-                        intent1.putExtra("catId",id);
-                        intent1.putExtra("title",catname);
+                        intent1.putExtra("catId", id);
+                        intent1.putExtra("title", catname);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                     }
                 });
-                //dynamic carAdapter
-                // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
 
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                swipeRefreshLayout.setRefreshing(false);
+                simpleSwipeRefreshLayout.setRefreshing(false);
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -396,51 +434,51 @@ public class StationeryHomeActivity extends AppCompatActivity  {
 
     }
 
-    private void prepareExtraData(final String id, final String catname){
+    private void prepareExtraData(final String id, final String catname) {
 
-        swipeRefreshLayout.setRefreshing(true);
+        simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL+id, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                swipeRefreshLayout.setRefreshing(false);
+                Log.e("RESPONSE", "" + response);
+                simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
                 stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-                rcExtra.setLayoutManager(mLayoutManager);
-                rcExtra.setItemAnimator(new DefaultItemAnimator());
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+                extraRecycler.setLayoutManager(mLayoutManager);
+                extraRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                extraAdapter = new ExtraAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                rcExtra.setAdapter(extraAdapter);
-                extraAdapter.notifyDataSetChanged();
+                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                extraRecycler.setAdapter(stationeryHomeAdapter);
+                stationeryHomeAdapter.notifyDataSetChanged();
 
-
-                txtExtra.setOnClickListener(new View.OnClickListener() {
+                // textview
+                txtExtraTitle.setText(catname);
+                extraViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
-                        intent1.putExtra("catId",id);
-                        intent1.putExtra("title",catname);
+                        intent1.putExtra("catId", id);
+                        intent1.putExtra("title", catname);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                     }
                 });
-                //dynamic carAdapter
-                // carAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
 
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                swipeRefreshLayout.setRefreshing(false);
+                simpleSwipeRefreshLayout.setRefreshing(false);
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -461,64 +499,23 @@ public class StationeryHomeActivity extends AppCompatActivity  {
         }
         return super.onOptionsItemSelected(item);
     }
-/*
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()){
-            case R.id.txtArtCrafts:
-
-                Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
-                intent1.putExtra("catId","1");
-                intent1.putExtra("title","Art & Crafts");
-                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent1);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
+  /*  @OnClick({R.id.artViewAll, R.id.deskViewAll, R.id.officeViewAll, R.id.schoolViewAll, R.id.extraViewAll})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.artViewAll:
                 break;
-
-            case R.id.txtDesk:
-
-                Intent intent2 = new Intent(getApplicationContext(), ProductListActivity.class);
-                intent2.putExtra("catId","2");
-                intent2.putExtra("title","Desk Organizers");
-                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent2);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
+            case R.id.deskViewAll:
                 break;
-            case R.id.txtSchool:
-
-                Intent intent3 = new Intent(getApplicationContext(), ProductListActivity.class);
-                intent3.putExtra("catId","3");
-                intent3.putExtra("title","School & Colleges ");
-                intent3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent3);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
+            case R.id.officeViewAll:
                 break;
-
-            case R.id.txtOffice:
-
-                Intent intent4 = new Intent(getApplicationContext(), ProductListActivity.class);
-                intent4.putExtra("catId","4");
-                intent4.putExtra("title","Office Stationery");
-                intent4.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent4);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
+            case R.id.schoolViewAll:
                 break;
-
-            case R.id.txtExtra:
-
-                Intent intent5 = new Intent(getApplicationContext(), ProductListActivity.class);
-                intent5.putExtra("catId","5");
-                intent5.putExtra("title","Extra Stationery");
-                intent5.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent5);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
+            case R.id.extraViewAll:
                 break;
         }
-    }*/
+    }
+*/
+
+
 }
