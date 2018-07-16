@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.SationeryProductAadpter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.CartActivity;
+import com.prism.pickany247.FilterActivity;
 import com.prism.pickany247.Fragments.BottomSheet3DialogFragment;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
@@ -37,20 +38,30 @@ public class ProductListActivity extends AppCompatActivity {
     private RecyclerView rcProduct;
     Gson gson;
     StationeryResponse stationeryResponse =new StationeryResponse();
-    LinearLayout sortLinear;
+    LinearLayout sortLinear,filterLinear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        filterLinear=(LinearLayout)findViewById(R.id.linearFilter);
         sortLinear=(LinearLayout)findViewById(R.id.linearSort);
         sortLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BottomSheetDialogFragment bottomSheetDialogFragment = new BottomSheet3DialogFragment();
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+            }
+        });
+
+        filterLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(getApplicationContext(),FilterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
