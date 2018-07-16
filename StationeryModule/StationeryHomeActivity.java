@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.StationeryHomeAdapter;
 import com.prism.pickany247.Adapters.StationeryCatAdapter;
 import com.prism.pickany247.Apis.Api;
+import com.prism.pickany247.CartActivity;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.StationeryCatResponse;
@@ -488,6 +490,13 @@ public class StationeryHomeActivity extends AppCompatActivity {
     }
 
 ///
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+    return true;
+}
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -496,26 +505,22 @@ public class StationeryHomeActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
+
+            case R.id.action_cart:
+                Intent intent =new Intent(getApplicationContext(),CartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                break;
+
+            case R.id.action_search:
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-  /*  @OnClick({R.id.artViewAll, R.id.deskViewAll, R.id.officeViewAll, R.id.schoolViewAll, R.id.extraViewAll})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.artViewAll:
-                break;
-            case R.id.deskViewAll:
-                break;
-            case R.id.officeViewAll:
-                break;
-            case R.id.schoolViewAll:
-                break;
-            case R.id.extraViewAll:
-                break;
-        }
-    }
-*/
+
 
 
 }

@@ -1,15 +1,19 @@
 package com.prism.pickany247.StationeryModule;
 
 import android.content.Intent;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +23,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.SationeryProductAadpter;
 import com.prism.pickany247.Apis.Api;
+import com.prism.pickany247.CartActivity;
+import com.prism.pickany247.Fragments.BottomSheet3DialogFragment;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.StationeryResponse;
@@ -31,12 +37,23 @@ public class ProductListActivity extends AppCompatActivity {
     private RecyclerView rcProduct;
     Gson gson;
     StationeryResponse stationeryResponse =new StationeryResponse();
-
+    LinearLayout sortLinear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        sortLinear=(LinearLayout)findViewById(R.id.linearSort);
+        sortLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialogFragment bottomSheetDialogFragment = new BottomSheet3DialogFragment();
+                bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+            }
+        });
+
 
         final String id = getIntent().getStringExtra("catId");
         String title =getIntent().getStringExtra("title");
@@ -131,6 +148,12 @@ public class ProductListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -139,6 +162,17 @@ public class ProductListActivity extends AppCompatActivity {
 
             case android.R.id.home:
                 onBackPressed();
+                break;
+
+            case R.id.action_cart:
+                Intent intent =new Intent(getApplicationContext(),CartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                break;
+
+            case R.id.action_search:
+
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -44,12 +45,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
     Gson gson;
     StationeryResponse stationeryResponse =new StationeryResponse();
     List<ViewPagerItem> viewPagerItemslist=new ArrayList<>();
-    TextView txtName,txtPrice;
+    TextView txtName,txtPrice,txtDescription;
     RatingBar ratingBar;
     Button btnAddToCart,btnBuyNow;
     private PrefManager pref;
     String userid;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
@@ -133,11 +135,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     txtName=(TextView)findViewById(R.id.txtProductName);
                     txtPrice=(TextView)findViewById(R.id.txtPrice);
                     ratingBar=(RatingBar)findViewById(R.id.ratingBar);
+                    txtDescription=(TextView)findViewById(R.id.txtDescription);
 
                     txtName.setText(filteredProductsBean.getProduct_name());
-                    txtPrice.setText(filteredProductsBean.getUnit_price());
+                    txtPrice.setText("\u20B9"+filteredProductsBean.getUnit_price());
                     ratingBar.setRating(Float.parseFloat(filteredProductsBean.getRating()));
-
+                    txtDescription.setText("");
                     btnAddToCart=(Button)findViewById(R.id.btnAddtocart);
                     btnBuyNow=(Button)findViewById(R.id.btnbuynow);
 
@@ -299,12 +302,30 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
 
             case android.R.id.home:
                 onBackPressed();
+                break;
+
+            case R.id.action_cart:
+                Intent intent =new Intent(getApplicationContext(),CartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                break;
+
+            case R.id.action_search:
+
                 break;
         }
         return super.onOptionsItemSelected(item);

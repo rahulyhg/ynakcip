@@ -25,7 +25,7 @@ public class SationeryProductAadpter extends RecyclerView.Adapter<SationeryProdu
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView thumbnail;
         public TextView txtPrice,txtName;
-        public RatingBar ratingBar;
+      //  public RatingBar ratingBar;
         public LinearLayout linearLayout;
 
 
@@ -36,7 +36,7 @@ public class SationeryProductAadpter extends RecyclerView.Adapter<SationeryProdu
             txtPrice = (TextView) view.findViewById(R.id.txtproductPrice);
             txtName = (TextView) view.findViewById(R.id.txtproductName);
             linearLayout=(LinearLayout)view.findViewById(R.id.parentLayout);
-            ratingBar=(RatingBar)view.findViewById(R.id.ratingBar);
+           // ratingBar=(RatingBar)view.findViewById(R.id.ratingBar);
 
 
         }
@@ -63,7 +63,7 @@ public class SationeryProductAadpter extends RecyclerView.Adapter<SationeryProdu
         Glide.with(mContext).load(home.getImagePath()+home.getSingleImage()).into(holder.thumbnail);
         holder.txtName.setText(home.getProduct_name());
         holder.txtPrice.setText("\u20B9"+home.getUnit_price());
-        holder.ratingBar.setRating(Float.parseFloat(home.getRating()));
+      //  holder.ratingBar.setRating(Float.parseFloat(home.getRating()));
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

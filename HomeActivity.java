@@ -90,7 +90,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         // Displaying user information from shared preferences
         HashMap<String, String> profile = pref.getUserDetails();
-
         recyclerView = (RecyclerView) findViewById(R.id.homeRecycler);
 
 
@@ -106,7 +105,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             // Showing progress dialog before making http request
             pDialog = new ProgressDialog(this);
-
             pDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             pDialog.setIndeterminate(true);
             pDialog.setCancelable(false);
@@ -132,14 +130,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
 
-            // app.internetDilogue(KitchenitemListActivity.this);
+
 
         }
 
 
 
     }
-
 
 
     private void prepareHomeData(){
@@ -194,9 +191,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         AppController.getInstance().addToRequestQueue(stringRequest);
        /* RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);*/
-
-
-    }
+       }
 
     @Override
     public void onDestroy() {
@@ -210,7 +205,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             pDialog = null;
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -260,7 +254,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_cart) {
+
+            Intent intent =new Intent(getApplicationContext(),CartActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
             return true;
         }
 
