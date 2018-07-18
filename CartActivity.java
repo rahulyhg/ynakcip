@@ -153,7 +153,7 @@ public class CartActivity extends AppCompatActivity {
                             startActivity(intent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                        }else if (cartResponse.getMessage().equalsIgnoreCase("List of items in cart")){
+                        }else if (cartResponse.getMessage().equalsIgnoreCase("List of countries in cart")){
 
                             for (CartResponse.UserAddressBean addressInfoBean:cartResponse.getUser_address()){
 
