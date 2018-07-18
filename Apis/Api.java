@@ -46,7 +46,9 @@ public class Api {
 
     public final static String PRODUCT_DETAILS_URL =BASE_URL+"products?module=stationery&productId=";
 
-    public final static String STATIONERY_CATEGORIES_URL =BASE_URL+"maincategories?module=stationery";
+    public final static String STATIONERY_SUB_CATEGORIES_URL =BASE_URL+"fsubcat?catId=";
+
+    public final static String STATIONERY_FILTER_URL =BASE_URL+"filters";
 
 
     // mobile url

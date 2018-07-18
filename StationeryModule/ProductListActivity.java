@@ -45,6 +45,10 @@ public class ProductListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        final String id = getIntent().getStringExtra("catId");
+        final String title =getIntent().getStringExtra("title");
+
+
         filterLinear=(LinearLayout)findViewById(R.id.linearFilter);
         sortLinear=(LinearLayout)findViewById(R.id.linearSort);
         sortLinear.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +63,8 @@ public class ProductListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent =new Intent(getApplicationContext(),FilterActivity.class);
+                intent.putExtra("catId", id);
+                intent.putExtra("title", title);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -66,8 +72,6 @@ public class ProductListActivity extends AppCompatActivity {
         });
 
 
-        final String id = getIntent().getStringExtra("catId");
-        String title =getIntent().getStringExtra("title");
 
         getSupportActionBar().setTitle(title);
         appController=(AppController)getApplicationContext();
