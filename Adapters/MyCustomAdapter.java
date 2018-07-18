@@ -7,23 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.Country;
+import com.prism.pickany247.Response.CheckBoxItem;
 
 import java.util.ArrayList;
 
-public class MyCustomAdapter extends ArrayAdapter<Country> {
+public class MyCustomAdapter extends ArrayAdapter<CheckBoxItem> {
 
-    public ArrayList<Country> countryList;
+    public ArrayList<CheckBoxItem> checkBoxItemList;
 
     public MyCustomAdapter(Context context, int textViewResourceId,
-                           ArrayList<Country> countryList) {
-        super(context, textViewResourceId, countryList);
-        this.countryList = new ArrayList<Country>();
-        this.countryList.addAll(countryList);
+                           ArrayList<CheckBoxItem> checkBoxItemList) {
+        super(context, textViewResourceId, checkBoxItemList);
+        this.checkBoxItemList = new ArrayList<CheckBoxItem>();
+        this.checkBoxItemList.addAll(checkBoxItemList);
     }
 
     private class ViewHolder {
@@ -51,23 +50,23 @@ public class MyCustomAdapter extends ArrayAdapter<Country> {
             holder.name.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     CheckBox cb = (CheckBox) v;
-                    Country country = (Country) cb.getTag();
-                    Toast.makeText(getContext(),
+                    CheckBoxItem checkBoxItem = (CheckBoxItem) cb.getTag();
+                   /* Toast.makeText(getContext(),
                             "Clicked on Checkbox: " + cb.getText() +
                                     " is " + cb.isChecked(),
-                            Toast.LENGTH_LONG).show();
-                    country.setSelected(cb.isChecked());
+                            Toast.LENGTH_LONG).show();*/
+                    checkBoxItem.setSelected(cb.isChecked());
                 }
             });
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Country country = countryList.get(position);
-      //  holder.code.setText(" (" + country.getCode() + ")");
-        holder.name.setText(country.getName());
-        holder.name.setChecked(country.isSelected());
-        holder.name.setTag(country);
+        CheckBoxItem checkBoxItem = checkBoxItemList.get(position);
+      //  holder.code.setText(" (" + checkBoxItem.getCode() + ")");
+        holder.name.setText(checkBoxItem.getName());
+        holder.name.setChecked(checkBoxItem.isSelected());
+        holder.name.setTag(checkBoxItem);
 
         return convertView;
 

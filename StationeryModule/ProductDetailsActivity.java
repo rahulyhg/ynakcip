@@ -230,7 +230,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             }else {
                                 btnAddToCart.setText("GO TO CART");
-                                Toast.makeText(getApplicationContext(),"Country Added to cart",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"CheckBoxItem Added to cart",Toast.LENGTH_SHORT).show();
                             }
                         }
                         else if (btnValue.equalsIgnoreCase("BUY NOW"))
