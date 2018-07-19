@@ -3,15 +3,31 @@ package com.prism.pickany247.Response;
 import android.graphics.drawable.Drawable;
 
 public class CheckBoxItem {
+    public boolean checked;
+    String id;
+    String ItemString;
+    /*CheckBoxItem(Drawable drawable, String t, boolean b){
+        ItemDrawable = drawable;
+        ItemString = t;
+        checked = b;
+    }
 
-    String id =null;
-    String name = null;
-    boolean selected = false;
+    public boolean isChecked(){
+        return checked;
+    }*/
 
-    public CheckBoxItem(String id, String name, boolean selected) {
+    public CheckBoxItem(boolean checked, String id, String itemString) {
+        this.checked = checked;
         this.id = id;
-        this.name = name;
-        this.selected = selected;
+        ItemString = itemString;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public String getId() {
@@ -22,19 +38,11 @@ public class CheckBoxItem {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getItemString() {
+        return ItemString;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
+    public void setItemString(String itemString) {
+        ItemString = itemString;
     }
 }

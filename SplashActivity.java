@@ -24,7 +24,7 @@ public class SplashActivity extends Activity {
             public void run() {
 
                 // shared animation between two activites
-                Intent intent  = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent intent  = new Intent(SplashActivity.this, HomeActivity.class);
                 Pair[] pair =new Pair[1];
                 pair[0]=new Pair<View,String>(imageView,"imageTransision");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SplashActivity.this, pair);

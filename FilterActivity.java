@@ -32,17 +32,19 @@ import com.prism.pickany247.Response.StationerySubCatResponse;
 import com.prism.pickany247.Singleton.AppController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FilterActivity extends AppCompatActivity implements View.OnClickListener{
-    ArrayList<CheckBoxItem> checkBoxItemList = new ArrayList<CheckBoxItem>();
-    MyCustomAdapter dataAdapter = null;
+    List<CheckBoxItem> checkBoxItems =new ArrayList<>();
+    MyCustomAdapter myMyCustomAdapter;
     StationeryCatResponse homeResponse = new StationeryCatResponse();
     StationerFilterResponse filterResponse = new StationerFilterResponse();
     Gson gson;
+
     @BindView(R.id.rbPrice)
     RadioButton rbPrice;
     @BindView(R.id.rbCat)
@@ -104,15 +106,11 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
         ButterKnife.bind(this);
 
-        catId = getIntent().getStringExtra("catId");
+         catId = getIntent().getStringExtra("catId");
          title =getIntent().getStringExtra("title");
 
-
-        // price range
+         // price range
         priceRange();
-
-
-
 
     }
 
@@ -139,6 +137,8 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
     private void prepareCatData() {
 
+        Log.e("PRINTCAT",""+"print");
+
         //  simpleSwipeRefreshLayout.setRefreshing(true);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_HOME_URL, new Response.Listener<String>() {
@@ -150,7 +150,8 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 homeResponse = gson.fromJson(response, StationeryCatResponse.class);
-                checkBoxItemList.clear();
+
+                checkBoxItems.clear();
                 boolean value;
 
                 for (StationeryCatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
@@ -162,17 +163,17 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                         value = false;
                     }
 
-                    checkBoxItemList.add(new CheckBoxItem(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), value));
+                    checkBoxItems.add(new CheckBoxItem(value,mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                dataAdapter = new MyCustomAdapter(FilterActivity.this, R.layout.row, checkBoxItemList);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
                 // Assign adapter to ListView
-                catList.setAdapter(dataAdapter);
-                dataAdapter.notifyDataSetChanged();
+                catList.setAdapter(myMyCustomAdapter);
+                myMyCustomAdapter.notifyDataSetChanged();
 
-                // sub cat items
+                // sub cat checkBoxItems
                 rbSubCat.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
@@ -185,19 +186,26 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                         colorLayout.setVisibility(View.GONE);
                         ratingsLayout.setVisibility(View.GONE);
 
-                        // checkbox values
-                        StringBuffer responseText = new StringBuffer();
-                        checkBoxItemList = dataAdapter.checkBoxItemList;
-                        for (int i = 0; i < checkBoxItemList.size(); i++) {
-                            CheckBoxItem checkBoxItem = checkBoxItemList.get(i);
-                            if (checkBoxItem.isSelected()) {
-                                responseText.append("" + checkBoxItem.getId() + ",");
-                                final String catId = responseText.deleteCharAt(responseText.length() - 1).toString();
+                        String catStr = "";
 
-                              //  Toast.makeText(getApplicationContext(), catId, Toast.LENGTH_LONG).show();
-                                prepareSubCatData(catId);
+                        for (int i = 0; i< checkBoxItems.size(); i++){
+                            if (checkBoxItems.get(i).isChecked()){
+                                catStr += checkBoxItems.get(i).getId() + ",";
+
                             }
                         }
+                        if(catStr.length()>0){
+                            String strone =catStr.substring(0,catStr.length() - 1);
+                            Log.e("CHECKBOXES",""+strone);
+                            Toast.makeText(FilterActivity.this, strone, Toast.LENGTH_LONG).show();
+                            prepareSubCatData(strone);
+
+                        }else{
+                            System.out.println(catStr);
+                        }
+
+
+
 
                     }
                 });
@@ -231,21 +239,22 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 StationerySubCatResponse homeResponse = gson.fromJson(response, StationerySubCatResponse.class);
-                checkBoxItemList.clear();
+
+                checkBoxItems.clear();
                 boolean value;
 
                 for (StationerySubCatResponse.FSubCatListBean subCatListBean : homeResponse.getFSubCatList()) {
 
-                    checkBoxItemList.add(new CheckBoxItem(subCatListBean.getSub_category_id(), subCatListBean.getSub_category_name(), false));
+                    checkBoxItems.add(new CheckBoxItem(false, subCatListBean.getSub_category_id(), subCatListBean.getSub_category_name()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                dataAdapter = new MyCustomAdapter(FilterActivity.this, R.layout.row, checkBoxItemList);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
-                subcatList.setAdapter(dataAdapter);
-                dataAdapter.notifyDataSetChanged();
+                subcatList.setAdapter(myMyCustomAdapter);
+                myMyCustomAdapter.notifyDataSetChanged();
 
 
             }
@@ -276,21 +285,22 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
-                checkBoxItemList.clear();
+                checkBoxItems = new ArrayList<>();
+                checkBoxItems.clear();
                 boolean value;
 
                 for (StationerFilterResponse.BrandsBean brandsBean : filterResponse.getBrands()) {
 
-                    checkBoxItemList.add(new CheckBoxItem(brandsBean.getId(), brandsBean.getBrand_name(), false));
+                    checkBoxItems.add(new CheckBoxItem(false, brandsBean.getId(), brandsBean.getBrand_name()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                dataAdapter = new MyCustomAdapter(FilterActivity.this, R.layout.row, checkBoxItemList);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
-                brandList.setAdapter(dataAdapter);
-                dataAdapter.notifyDataSetChanged();
+                brandList.setAdapter(myMyCustomAdapter);
+                myMyCustomAdapter.notifyDataSetChanged();
 
 
             }
@@ -321,21 +331,22 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
-                checkBoxItemList.clear();
+                checkBoxItems = new ArrayList<>();
+                checkBoxItems.clear();
                 boolean value;
 
                 for (StationerFilterResponse.ProductTypesBean productTypesBean : filterResponse.getProduct_Types()) {
 
-                    checkBoxItemList.add(new CheckBoxItem("", productTypesBean.getProduct_type(), false));
+                    checkBoxItems.add(new CheckBoxItem(false, "", productTypesBean.getProduct_type()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                dataAdapter = new MyCustomAdapter(FilterActivity.this, R.layout.row, checkBoxItemList);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
-                productTypecatList.setAdapter(dataAdapter);
-                dataAdapter.notifyDataSetChanged();
+                productTypecatList.setAdapter(myMyCustomAdapter);
+                myMyCustomAdapter.notifyDataSetChanged();
 
 
             }
@@ -366,21 +377,22 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
-                checkBoxItemList.clear();
+                checkBoxItems = new ArrayList<>();
+                checkBoxItems.clear();
                 boolean value;
 
                 for (StationerFilterResponse.ColorsBean colorsBean : filterResponse.getColors()) {
 
-                    checkBoxItemList.add(new CheckBoxItem(colorsBean.getId(), colorsBean.getName(), false));
+                    checkBoxItems.add(new CheckBoxItem(false,colorsBean.getId(), colorsBean.getName()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                dataAdapter = new MyCustomAdapter(FilterActivity.this, R.layout.row, checkBoxItemList);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
-                colorList.setAdapter(dataAdapter);
-                dataAdapter.notifyDataSetChanged();
+                colorList.setAdapter(myMyCustomAdapter);
+                myMyCustomAdapter.notifyDataSetChanged();
 
 
             }
@@ -411,21 +423,22 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
-                checkBoxItemList.clear();
+                checkBoxItems = new ArrayList<>();
+                checkBoxItems.clear();
                 boolean value;
 
                 for (StationerFilterResponse.RatingBean ratingBean : filterResponse.getRating()) {
 
-                    checkBoxItemList.add(new CheckBoxItem("", ratingBean.getRating1(), false));
+                    checkBoxItems.add(new CheckBoxItem(false, ratingBean.getRating1(), ratingBean.getRating1()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                dataAdapter = new MyCustomAdapter(FilterActivity.this, R.layout.row, checkBoxItemList);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
-                ratingsList.setAdapter(dataAdapter);
-                dataAdapter.notifyDataSetChanged();
+                ratingsList.setAdapter(myMyCustomAdapter);
+                myMyCustomAdapter.notifyDataSetChanged();
 
 
             }
@@ -497,7 +510,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;*/
             case R.id.rbBrand:
 
-                prepareBrandData();
+               // prepareBrandData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
@@ -509,7 +522,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.rbProductType:
 
-                prepareProductTypeData();
+              //  prepareProductTypeData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
@@ -521,7 +534,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.rbColor:
 
-                prepareColorData();
+              //  prepareColorData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
@@ -534,7 +547,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.rbRatings:
 
-                prepareRatingData();
+              //  prepareRatingData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
@@ -546,6 +559,19 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case R.id.btnApply:
+
+                String catStr = "Check checkBoxItems:\n";
+
+                for (int i = 0; i< checkBoxItems.size(); i++){
+                    if (checkBoxItems.get(i).isChecked()){
+                        catStr += checkBoxItems.get(i).getId() + ",";
+
+                    }
+                }
+                String strone =catStr.substring(0,catStr.length() - 1);
+                Log.e("CHECKBOXES",""+strone);
+
+
                 break;
         }
     }

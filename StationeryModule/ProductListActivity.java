@@ -1,7 +1,6 @@
 package com.prism.pickany247.StationeryModule;
 
 import android.content.Intent;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
