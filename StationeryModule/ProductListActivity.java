@@ -55,6 +55,7 @@ public class ProductListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BottomSheetDialogFragment bottomSheetDialogFragment = new BottomSheet3DialogFragment();
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+
             }
         });
 

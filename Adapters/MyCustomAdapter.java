@@ -86,9 +86,12 @@ public class MyCustomAdapter extends BaseAdapter {
         viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean newState = !list.get(position).isChecked();
-                list.get(position).checked = newState;
-                Toast.makeText(context, itemStr + "setOnClickListener\nchecked: " + newState, Toast.LENGTH_LONG).show();
+                if (list.size()>0) {
+
+                    boolean newState = !list.get(position).isChecked();
+                    list.get(position).checked = newState;
+                    // Toast.makeText(context, itemStr + "setOnClickListener\nchecked: " + newState, Toast.LENGTH_LONG).show();
+                }
             }
         });
 

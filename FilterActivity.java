@@ -1,8 +1,6 @@
 package com.prism.pickany247;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,7 +26,6 @@ import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Response.CheckBoxItem;
 import com.prism.pickany247.Response.StationerFilterResponse;
 import com.prism.pickany247.Response.StationeryCatResponse;
-import com.prism.pickany247.Response.StationerySubCatResponse;
 import com.prism.pickany247.Singleton.AppController;
 
 import java.util.ArrayList;
@@ -38,13 +35,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FilterActivity extends AppCompatActivity implements View.OnClickListener{
-    List<CheckBoxItem> checkBoxItems =new ArrayList<>();
+public class FilterActivity extends AppCompatActivity implements View.OnClickListener {
+    List<CheckBoxItem> catItems = new ArrayList<>();
+    List<CheckBoxItem> subCatItems = new ArrayList<>();
+    List<CheckBoxItem> productTypeItems = new ArrayList<>();
+    List<CheckBoxItem> colorItems = new ArrayList<>();
+    List<CheckBoxItem> brandItems = new ArrayList<>();
+    List<CheckBoxItem> ratingItems = new ArrayList<>();
     MyCustomAdapter myMyCustomAdapter;
     StationeryCatResponse homeResponse = new StationeryCatResponse();
     StationerFilterResponse filterResponse = new StationerFilterResponse();
     Gson gson;
 
+
+    String catId, title;
     @BindView(R.id.rbPrice)
     RadioButton rbPrice;
     @BindView(R.id.rbCat)
@@ -96,7 +100,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.btnApply)
     Button btnApply;
 
-    String catId,title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,11 +110,13 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
         ButterKnife.bind(this);
 
-         catId = getIntent().getStringExtra("catId");
-         title =getIntent().getStringExtra("title");
+        catId = getIntent().getStringExtra("catId");
+        title = getIntent().getStringExtra("title");
 
-         // price range
+
+        // price range
         priceRange();
+
 
     }
 
@@ -137,21 +143,19 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
     private void prepareCatData() {
 
-        Log.e("PRINTCAT",""+"print");
-
         //  simpleSwipeRefreshLayout.setRefreshing(true);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_HOME_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Log.e("RESPONSE", "" + response);
+                Log.e("CAT_RESPONSE", "" + response);
                 //  simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
                 homeResponse = gson.fromJson(response, StationeryCatResponse.class);
 
-                checkBoxItems.clear();
+                catItems.clear();
                 boolean value;
 
                 for (StationeryCatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
@@ -163,21 +167,22 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                         value = false;
                     }
 
-                    checkBoxItems.add(new CheckBoxItem(value,mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name()));
+                    catItems.add(new CheckBoxItem(value, mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, catItems);
                 // Assign adapter to ListView
                 catList.setAdapter(myMyCustomAdapter);
                 myMyCustomAdapter.notifyDataSetChanged();
 
-                // sub cat checkBoxItems
+
+
                 rbSubCat.setOnClickListener(new View.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View v) {
+
                         priceLayout.setVisibility(View.GONE);
                         catLayout.setVisibility(View.GONE);
                         subcatLayout.setVisibility(View.VISIBLE);
@@ -188,27 +193,29 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                         String catStr = "";
 
-                        for (int i = 0; i< checkBoxItems.size(); i++){
-                            if (checkBoxItems.get(i).isChecked()){
-                                catStr += checkBoxItems.get(i).getId() + ",";
+                        for (int i = 0; i < catItems.size(); i++) {
+                            if (catItems.get(i).isChecked()) {
+                                catStr += catItems.get(i).getId() + ",";
 
                             }
                         }
-                        if(catStr.length()>0){
-                            String strone =catStr.substring(0,catStr.length() - 1);
-                            Log.e("CHECKBOXES",""+strone);
-                            Toast.makeText(FilterActivity.this, strone, Toast.LENGTH_LONG).show();
-                            prepareSubCatData(strone);
 
-                        }else{
+                        if (catStr.length() > 0) {
+                            String strone = catStr.substring(0, catStr.length() - 1);
+                            Log.e("CHECKBOXES", "" + strone);
+                            //  Toast.makeText(FilterActivity.this, strone, Toast.LENGTH_LONG).show();
+                            prepareSubCatData(strone);
+                            prepareBrandData(strone);
+                            prepareColorData(strone);
+                            prepareProductTypeData(strone);
+                            prepareRatingData(strone);
+
+                        } else {
                             System.out.println(catStr);
                         }
-
-
-
-
                     }
                 });
+
 
 
             }
@@ -230,27 +237,27 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
         //  simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_SUB_CATEGORIES_URL + catId, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Log.e("RESPONSE", "" + response);
+                Log.e("SUB_CAT_RESPONSE", "" + response);
                 //  simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                StationerySubCatResponse homeResponse = gson.fromJson(response, StationerySubCatResponse.class);
+                StationerFilterResponse homeResponse = gson.fromJson(response, StationerFilterResponse.class);
 
-                checkBoxItems.clear();
+                subCatItems.clear();
                 boolean value;
 
-                for (StationerySubCatResponse.FSubCatListBean subCatListBean : homeResponse.getFSubCatList()) {
+                for (StationerFilterResponse.SubCategoryBean subCatListBean : homeResponse.getSub_Category()) {
 
-                    checkBoxItems.add(new CheckBoxItem(false, subCatListBean.getSub_category_id(), subCatListBean.getSub_category_name()));
+                    subCatItems.add(new CheckBoxItem(false, subCatListBean.getSub_category_id(), subCatListBean.getSub_category_name()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, subCatItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 subcatList.setAdapter(myMyCustomAdapter);
@@ -272,11 +279,11 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void prepareBrandData() {
+    private void prepareBrandData(String catId) {
 
         //  simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -285,18 +292,18 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
-                checkBoxItems = new ArrayList<>();
-                checkBoxItems.clear();
+                brandItems = new ArrayList<>();
+                brandItems.clear();
                 boolean value;
 
                 for (StationerFilterResponse.BrandsBean brandsBean : filterResponse.getBrands()) {
 
-                    checkBoxItems.add(new CheckBoxItem(false, brandsBean.getId(), brandsBean.getBrand_name()));
+                    brandItems.add(new CheckBoxItem(false, brandsBean.getId(), brandsBean.getBrand_name()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, brandItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 brandList.setAdapter(myMyCustomAdapter);
@@ -318,11 +325,11 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void prepareProductTypeData() {
+    private void prepareProductTypeData(String catId) {
 
         //  simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -331,18 +338,18 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
-                checkBoxItems = new ArrayList<>();
-                checkBoxItems.clear();
+                productTypeItems = new ArrayList<>();
+                productTypeItems.clear();
                 boolean value;
 
                 for (StationerFilterResponse.ProductTypesBean productTypesBean : filterResponse.getProduct_Types()) {
 
-                    checkBoxItems.add(new CheckBoxItem(false, "", productTypesBean.getProduct_type()));
+                    productTypeItems.add(new CheckBoxItem(false, "", productTypesBean.getProduct_type()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, productTypeItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 productTypecatList.setAdapter(myMyCustomAdapter);
@@ -364,11 +371,11 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void prepareColorData() {
+    private void prepareColorData(String catId) {
 
         //  simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -377,18 +384,18 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
-                checkBoxItems = new ArrayList<>();
-                checkBoxItems.clear();
+                colorItems = new ArrayList<>();
+                colorItems.clear();
                 boolean value;
 
                 for (StationerFilterResponse.ColorsBean colorsBean : filterResponse.getColors()) {
 
-                    checkBoxItems.add(new CheckBoxItem(false,colorsBean.getId(), colorsBean.getName()));
+                    colorItems.add(new CheckBoxItem(false, colorsBean.getId(), colorsBean.getName()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, colorItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 colorList.setAdapter(myMyCustomAdapter);
@@ -410,11 +417,11 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void prepareRatingData() {
+    private void prepareRatingData(String catId) {
 
         //  simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL , new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -423,18 +430,22 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
-                checkBoxItems = new ArrayList<>();
-                checkBoxItems.clear();
-                boolean value;
+                ratingItems = new ArrayList<>();
+                catItems.clear();
+
 
                 for (StationerFilterResponse.RatingBean ratingBean : filterResponse.getRating()) {
 
-                    checkBoxItems.add(new CheckBoxItem(false, ratingBean.getRating1(), ratingBean.getRating1()));
+                    ratingItems.add(new CheckBoxItem(false, "", "1.0 & above  (" + ratingBean.getRating1() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "", "2.0 & above  (" + ratingBean.getRating2() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "", "3.0 & above  (" + ratingBean.getRating3() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "", "4.0 & above  (" + ratingBean.getRating4() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "", "5.0 & above  (" + ratingBean.getRating5() + " )"));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, checkBoxItems);
+                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, ratingItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 ratingsList.setAdapter(myMyCustomAdapter);
@@ -470,6 +481,9 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
     @OnClick({R.id.rbPrice, R.id.rbCat, R.id.rbSubCat, R.id.rbBrand, R.id.rbProductType, R.id.rbColor, R.id.rbRatings, R.id.btnApply})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -484,10 +498,11 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 colorLayout.setVisibility(View.GONE);
                 ratingsLayout.setVisibility(View.GONE);
 
+
                 break;
             case R.id.rbCat:
 
-                prepareCatData();
+                 prepareCatData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.VISIBLE);
                 subcatLayout.setVisibility(View.GONE);
@@ -510,7 +525,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;*/
             case R.id.rbBrand:
 
-               // prepareBrandData();
+                // prepareBrandData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
@@ -522,7 +537,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.rbProductType:
 
-              //  prepareProductTypeData();
+                //  prepareProductTypeData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
@@ -534,7 +549,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.rbColor:
 
-              //  prepareColorData();
+                //  prepareColorData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
@@ -547,7 +562,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.rbRatings:
 
-              //  prepareRatingData();
+                //  prepareRatingData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
@@ -560,21 +575,95 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btnApply:
 
-                String catStr = "Check checkBoxItems:\n";
+                // cat data
+                String catStr = "";
 
-                for (int i = 0; i< checkBoxItems.size(); i++){
-                    if (checkBoxItems.get(i).isChecked()){
-                        catStr += checkBoxItems.get(i).getId() + ",";
+                for (int i = 0; i < catItems.size(); i++) {
+                    if (catItems.get(i).isChecked()) {
+                        catStr += catItems.get(i).getId() + ",";
 
                     }
                 }
-                String strone =catStr.substring(0,catStr.length() - 1);
-                Log.e("CHECKBOXES",""+strone);
 
+                if (catStr.length() > 0) {
+                    String strone = catStr.substring(0, catStr.length() - 1);
+                    Log.e("CHECKBOXES", "" + strone);
+
+
+                } else {
+                    System.out.println(catStr);
+                }
+
+
+                // subcat data
+                String subCat = "";
+                for (CheckBoxItem checkBox : subCatItems) {
+
+                    if (checkBox.checked) {
+                        subCat += checkBox.getId() + ",";
+                    }
+                }
+                if (subCat.length() > 0) {
+                    String strSubCat = subCat.substring(0, subCat.length() - 1);
+                    Log.e("strSubCat", "" + strSubCat);
+                }
+
+                // brand data
+                String brand = "";
+                for (CheckBoxItem checkBox : brandItems) {
+
+                    if (checkBox.checked) {
+                        brand += checkBox.getId() + ",";
+                    }
+                }
+                if (brand.length() > 0) {
+                    String strBrand = brand.substring(0, brand.length() - 1);
+                    Log.e("strBrand", "" + strBrand);
+                }
+
+                // product data
+                String productType = "";
+                for (CheckBoxItem checkBox : productTypeItems) {
+
+                    if (checkBox.checked) {
+                        productType += checkBox.getItemString() + ",";
+                    }
+                }
+                if (productType.length() > 0) {
+                    String strProductType = productType.substring(0, productType.length() - 1);
+                    Log.e("strProductType", "" + strProductType);
+                }
+
+                // color data
+                String color = "";
+                for (CheckBoxItem checkBox : colorItems) {
+
+                    if (checkBox.checked) {
+                        color += checkBox.getId() + ",";
+                    }
+                }
+                if (productType.length() > 0) {
+                    String strColor = color.substring(0, color.length() - 1);
+                    Log.e("strColor", "" + strColor);
+                }
+
+
+                // color data
+                String rating = "";
+                for (CheckBoxItem checkBox : ratingItems) {
+
+                    if (checkBox.checked) {
+                        rating += checkBox.getId() + ",";
+                    }
+                }
+                if (productType.length() > 0) {
+                    String strRating = rating.substring(0, rating.length() - 1);
+                    Log.e("strRating", "" + strRating);
+                }
+
+               // Toast.makeText(getApplicationContext(),"toast",Toast.LENGTH_SHORT).show();
 
                 break;
         }
     }
-
-
 }

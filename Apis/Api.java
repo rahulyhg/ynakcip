@@ -48,7 +48,7 @@ public class Api {
 
     public final static String STATIONERY_SUB_CATEGORIES_URL =BASE_URL+"fsubcat?catId=";
 
-    public final static String STATIONERY_FILTER_URL =BASE_URL+"filters";
+    public final static String STATIONERY_FILTER_URL =BASE_URL+"filters?module=stationery&maincatId=";
 
 
     // mobile url
