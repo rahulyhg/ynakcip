@@ -67,8 +67,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.MyView
         // loading album cover using Glide library
         Glide.with(mContext).load(cartListBean.getImage()).into(holder.thumbnail);
 
-
-
         holder.btnDecrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

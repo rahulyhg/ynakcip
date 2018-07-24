@@ -1,5 +1,6 @@
 package com.prism.pickany247;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.prism.pickany247.Response.CheckBoxItem;
 import com.prism.pickany247.Response.StationerFilterResponse;
 import com.prism.pickany247.Response.StationeryCatResponse;
 import com.prism.pickany247.Singleton.AppController;
+import com.prism.pickany247.StationeryModule.ProductListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
     StationeryCatResponse homeResponse = new StationeryCatResponse();
     StationerFilterResponse filterResponse = new StationerFilterResponse();
     Gson gson;
-
+    String strCat="";
 
     String catId, title;
     @BindView(R.id.rbPrice)
@@ -192,7 +194,6 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                         ratingsLayout.setVisibility(View.GONE);
 
                         String catStr = "";
-
                         for (int i = 0; i < catItems.size(); i++) {
                             if (catItems.get(i).isChecked()) {
                                 catStr += catItems.get(i).getId() + ",";
@@ -201,14 +202,14 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                         }
 
                         if (catStr.length() > 0) {
-                            String strone = catStr.substring(0, catStr.length() - 1);
-                            Log.e("CHECKBOXES", "" + strone);
+                            strCat = catStr.substring(0, catStr.length() - 1);
+                            Log.e("CHECKBOXES", "" + strCat);
                             //  Toast.makeText(FilterActivity.this, strone, Toast.LENGTH_LONG).show();
-                            prepareSubCatData(strone);
-                            prepareBrandData(strone);
-                            prepareColorData(strone);
-                            prepareProductTypeData(strone);
-                            prepareRatingData(strone);
+                            prepareSubCatData(strCat);
+                            prepareBrandData(strCat);
+                            prepareColorData(strCat);
+                            prepareProductTypeData(strCat);
+                            prepareRatingData(strCat);
 
                         } else {
                             System.out.println(catStr);
@@ -436,11 +437,11 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 for (StationerFilterResponse.RatingBean ratingBean : filterResponse.getRating()) {
 
-                    ratingItems.add(new CheckBoxItem(false, "", "1.0 & above  (" + ratingBean.getRating1() + " )"));
-                    ratingItems.add(new CheckBoxItem(false, "", "2.0 & above  (" + ratingBean.getRating2() + " )"));
-                    ratingItems.add(new CheckBoxItem(false, "", "3.0 & above  (" + ratingBean.getRating3() + " )"));
-                    ratingItems.add(new CheckBoxItem(false, "", "4.0 & above  (" + ratingBean.getRating4() + " )"));
-                    ratingItems.add(new CheckBoxItem(false, "", "5.0 & above  (" + ratingBean.getRating5() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "1", "1.0 & above  (" + ratingBean.getRating1() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "2", "2.0 & above  (" + ratingBean.getRating2() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "3", "3.0 & above  (" + ratingBean.getRating3() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "4", "4.0 & above  (" + ratingBean.getRating4() + " )"));
+                    ratingItems.add(new CheckBoxItem(false, "5", "5.0 & above  (" + ratingBean.getRating5() + " )"));
 
                 }
 
@@ -576,7 +577,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btnApply:
 
                 // cat data
-                String catStr = "";
+               /* String catStr = "";
 
                 for (int i = 0; i < catItems.size(); i++) {
                     if (catItems.get(i).isChecked()) {
@@ -587,12 +588,14 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 if (catStr.length() > 0) {
                     String strone = catStr.substring(0, catStr.length() - 1);
-                    Log.e("CHECKBOXES", "" + strone);
+                    Log.e("CHECKBOXESONE", "" + strone);
 
 
                 } else {
                     System.out.println(catStr);
-                }
+                }*/
+
+                Log.e("CHECKBOXESONE", "" + strCat);
 
 
                 // subcat data
@@ -639,16 +642,16 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 for (CheckBoxItem checkBox : colorItems) {
 
                     if (checkBox.checked) {
-                        color += checkBox.getId() + ",";
+                        color += checkBox.getItemString() + ",";
                     }
                 }
-                if (productType.length() > 0) {
+                if (color.length() > 0) {
                     String strColor = color.substring(0, color.length() - 1);
                     Log.e("strColor", "" + strColor);
                 }
 
 
-                // color data
+                // rating data
                 String rating = "";
                 for (CheckBoxItem checkBox : ratingItems) {
 
@@ -656,12 +659,27 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                         rating += checkBox.getId() + ",";
                     }
                 }
-                if (productType.length() > 0) {
+                if (rating.length() > 0) {
                     String strRating = rating.substring(0, rating.length() - 1);
                     Log.e("strRating", "" + strRating);
                 }
+                 String finalvalue="";
+                if (strCat.equals("")){
+                     finalvalue =catId+"&subcatId="+"&priceRange="+textMin1.getText()+","+textMax1.getText()+subCat+"&brand="+brand+"&productType="+productType+"&color="+color+"&rating="+rating;
 
-               // Toast.makeText(getApplicationContext(),"toast",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    finalvalue =strCat+"&subcatId="+"&priceRange="+textMin1+","+textMax1+subCat+"&brand="+brand+"&productType="+productType+"&color="+color+"&rating="+rating;
+                }
+
+                Log.e("RESULTSTRING",""+finalvalue);
+
+                Intent intent =new Intent(getApplicationContext(),ProductListActivity.class);
+                intent.putExtra("catId", finalvalue);
+                intent.putExtra("title", title);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                 break;
         }
