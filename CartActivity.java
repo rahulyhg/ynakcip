@@ -63,6 +63,7 @@ public class CartActivity extends AppCompatActivity {
         HashMap<String, String> profile = pref.getUserDetails();
         userId=profile.get("id");
 
+
         txtSubTotal=(TextView)findViewById(R.id.txtSubTotal);
         btnCheckOut=(Button)findViewById(R.id.btnCheckOut);
 
@@ -106,7 +107,7 @@ public class CartActivity extends AppCompatActivity {
 
 
     private void cartData() {
-
+     Log.e("CARTURL",""+Api.CART_URL+userId);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.CART_URL + userId, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -146,6 +147,8 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+
+
                         if (cartResponse.getMessage().equalsIgnoreCase("No address found")){
 
                             Intent intent =new Intent(CartActivity.this, AddAddressActivity.class);
@@ -153,7 +156,9 @@ public class CartActivity extends AppCompatActivity {
                             startActivity(intent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                        }else if (cartResponse.getMessage().equalsIgnoreCase("List of countries in cart")){
+                            Log.e("CHECKOUT",""+"if");
+
+                        }else if (cartResponse.getMessage().equalsIgnoreCase("List of items in cart")){
 
                             for (CartResponse.UserAddressBean addressInfoBean:cartResponse.getUser_address()){
 
@@ -165,7 +170,7 @@ public class CartActivity extends AppCompatActivity {
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             }
 
-
+                            Log.e("CHECKOUT",""+"else");
                         }
                     }
                 });

@@ -1,4 +1,4 @@
-package com.prism.pickany247.StationeryModule;
+package com.prism.pickany247.GroceryModule;
 
 import android.content.Intent;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -30,7 +30,8 @@ import com.prism.pickany247.R;
 import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.Singleton.AppController;
 
-public class ProductListActivity extends AppCompatActivity {
+public class GroceryProductListActivity extends AppCompatActivity {
+
     SwipeRefreshLayout swipeRefreshLayout;
     AppController appController;
     private SationeryProductAadpter adapter;
@@ -41,7 +42,7 @@ public class ProductListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_list);
+        setContentView(R.layout.activity_grocery_product_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final String id = getIntent().getStringExtra("catId");
@@ -194,3 +195,4 @@ public class ProductListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+

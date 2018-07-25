@@ -60,6 +60,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         final String id = getIntent().getStringExtra("productId");
         Log.e("PRODUCTID",""+id);
         String title =getIntent().getStringExtra("productName");
+        String module =getIntent().getStringExtra("module");
 
         getSupportActionBar().setTitle(title);
         appController=(AppController)getApplicationContext();
@@ -81,7 +82,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             pDialog.show();
             pDialog.setContentView(R.layout.my_progress);
 
-            prepareProductDetailsData(id);
+            prepareProductDetailsData(id,module);
 
 
         } else {
@@ -106,10 +107,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void prepareProductDetailsData(String id){
-
+    private void prepareProductDetailsData(String id,String module){
+     Log.e("PRODUCT_URL",""+Api.PRODUCT_DETAILS_URL+module+"&productId="+id);
          pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.PRODUCT_DETAILS_URL+id, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.PRODUCT_DETAILS_URL+module+"&productId="+id, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -138,7 +139,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     txtDescription=(TextView)findViewById(R.id.txtDescription);
 
                     txtName.setText(filteredProductsBean.getProduct_name());
-                    txtPrice.setText("\u20B9"+filteredProductsBean.getUnit_price());
+                    txtPrice.setText("\u20B9"+filteredProductsBean.getIncl_price());
                     ratingBar.setRating(Float.parseFloat(filteredProductsBean.getRating()));
                     txtDescription.setText("");
                     btnAddToCart=(Button)findViewById(R.id.btnAddtocart);
@@ -149,7 +150,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         public void onClick(View v) {
 
                             String cart ="ADD TO CART";
-                          addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),"1",filteredProductsBean.getUnit_price(),
+                          addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),"1",filteredProductsBean.getIncl_price(),
                           "","","","","","","","","",cart);
                         }
                     });
@@ -159,7 +160,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         public void onClick(View v) {
 
                             String cart ="BUY NOW";
-                            addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),"1",filteredProductsBean.getUnit_price(),
+                            addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),"1",filteredProductsBean.getIncl_price(),
                                     "","","","","","","","","",cart);
                         }
                     });

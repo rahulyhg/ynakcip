@@ -3,6 +3,7 @@ package com.prism.pickany247.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.StationeryModule.ProductDetailsActivity;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class SationeryProductAadpter extends RecyclerView.Adapter<SationeryProductAadpter.MyViewHolder>{
     private Context mContext;
@@ -62,16 +64,39 @@ public class SationeryProductAadpter extends RecyclerView.Adapter<SationeryProdu
         // loading album cover using Glide library
         Glide.with(mContext).load(home.getImagePath()+home.getSingleImage()).into(holder.thumbnail);
         holder.txtName.setText(home.getProduct_name());
-        holder.txtPrice.setText("\u20B9"+home.getUnit_price());
+
+        if ("".equalsIgnoreCase(home.getCapacity())){
+
+            holder.txtPrice.setText("\u20B9"+home.getIncl_price());
+
+        }else{
+
+            String firstPrice="";
+            String firstcapacity="";
+            if(home.getIncl_price()!=null){
+                StringTokenizer stringTokenizer =new StringTokenizer(home.getIncl_price());
+                firstPrice = stringTokenizer.nextToken(",");
+            }
+
+            if (home.getCapacity()!=null){
+                StringTokenizer stringTokenizer1 =new StringTokenizer(home.getCapacity());
+                firstcapacity = stringTokenizer1.nextToken(",");
+            }
+            holder.txtPrice.setText("\u20B9"+firstPrice+"  ("+firstcapacity+")");
+        }
+
+
       //  holder.ratingBar.setRating(Float.parseFloat(home.getRating()));
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                    Activity activity = (Activity) mContext;
+     //                    Activity activity = (Activity) mContext;
                 Intent intent = new Intent(mContext, ProductDetailsActivity.class);
                 intent.putExtra("productId",home.getProduct_id());
                 intent.putExtra("productName",home.getProduct_name());
+                intent.putExtra("module",home.getModule());
+                Log.e("MODULE",""+home.getModule());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
                 // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

@@ -153,27 +153,27 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
                     if (mainCategoriesBean.getId().equals("1")){
 
-                        prepareArtData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                        prepareArtData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                         }
                     else if (mainCategoriesBean.getId().equals("2")){
 
-                        prepareDeskData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                        prepareDeskData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
                     else if (mainCategoriesBean.getId().equals("3")){
 
-                        prepareOfficeData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                        prepareOfficeData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
                     else if (mainCategoriesBean.getId().equals("4")){
 
-                        prepareSchoolData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                        prepareSchoolData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
                     else if (mainCategoriesBean.getId().equals("5")){
 
-                        prepareExtraData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name());
+                        prepareExtraData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
 
@@ -223,7 +223,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareArtData(final String id, final String catname) {
+    private void prepareArtData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
 
@@ -255,6 +255,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
                         intent1.putExtra("catId", id);
                         intent1.putExtra("title", catname);
+                        intent1.putExtra("module", module);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -276,7 +277,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareDeskData(final String id, final String catname) {
+    private void prepareDeskData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(false);
 
@@ -309,6 +310,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
                         intent1.putExtra("catId", id);
                         intent1.putExtra("title", catname);
+                        intent1.putExtra("module", module);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -330,7 +332,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareOfficeData(final String id, final String catname) {
+    private void prepareOfficeData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
 
@@ -362,6 +364,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
                         intent1.putExtra("catId", id);
                         intent1.putExtra("title", catname);
+                        intent1.putExtra("module", module);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -383,7 +386,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareSchoolData(final String id, final String catname) {
+    private void prepareSchoolData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
 
@@ -415,6 +418,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
                         intent1.putExtra("catId", id);
                         intent1.putExtra("title", catname);
+                        intent1.putExtra("module", module);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -436,7 +440,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareExtraData(final String id, final String catname) {
+    private void prepareExtraData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
 
@@ -468,6 +472,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                         Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
                         intent1.putExtra("catId", id);
                         intent1.putExtra("title", catname);
+                        intent1.putExtra("module", module);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

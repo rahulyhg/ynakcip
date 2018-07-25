@@ -182,7 +182,7 @@ public class MobileHomeActivity extends AppCompatActivity {
                 recyclerNew.setLayoutManager(mLayoutManager);
                 recyclerNew.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryCatAdapter = new StationeryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryCatAdapter = new GroceryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 recyclerNew.setAdapter(stationeryCatAdapter);
                 stationeryCatAdapter.notifyDataSetChanged();
 
@@ -237,7 +237,7 @@ public class MobileHomeActivity extends AppCompatActivity {
                 recyclerUsed.setLayoutManager(mLayoutManager);
                 recyclerUsed.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryCatAdapter = new StationeryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryCatAdapter = new GroceryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 recyclerUsed.setAdapter(stationeryCatAdapter);
                 stationeryCatAdapter.notifyDataSetChanged();
 
@@ -289,7 +289,7 @@ public class MobileHomeActivity extends AppCompatActivity {
                 recyclerTablet.setLayoutManager(mLayoutManager);
                 recyclerTablet.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryCatAdapter = new StationeryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryCatAdapter = new GroceryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 recyclerTablet.setAdapter(stationeryCatAdapter);
                 stationeryCatAdapter.notifyDataSetChanged();
 
@@ -342,7 +342,7 @@ public class MobileHomeActivity extends AppCompatActivity {
                 recyclerAccessories.setLayoutManager(mLayoutManager);
                 recyclerAccessories.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryCatAdapter = new StationeryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryCatAdapter = new GroceryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 recyclerAccessories.setAdapter(stationeryCatAdapter);
                 stationeryCatAdapter.notifyDataSetChanged();
 

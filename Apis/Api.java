@@ -1,6 +1,10 @@
 package com.prism.pickany247.Apis;
 
+import android.widget.BaseAdapter;
+
 public class Api {
+
+    public final static String LOCAL_URL ="http://192.168.0.101/LatestUpdate-2018-05-24/APIS/index.php/Api/";
 
     public final static String BASE_URL ="https://pickany247.com/APIS/index.php/Api/";
 
@@ -42,9 +46,9 @@ public class Api {
 
     public final static String STATIONERY_URL =BASE_URL+"products?module=stationery&limit=4&maincatId=";
 
-    public final static String PRODUCTS_URL =BASE_URL+"products?module=stationery&maincatId=";
+    public final static String PRODUCTS_URL =BASE_URL+"products?module=";
 
-    public final static String PRODUCT_DETAILS_URL =BASE_URL+"products?module=stationery&productId=";
+    public final static String PRODUCT_DETAILS_URL =BASE_URL+"products?module=";
 
     public final static String STATIONERY_SUB_CATEGORIES_URL =BASE_URL+"fsubcat?catId=";
 
@@ -54,5 +58,12 @@ public class Api {
     // mobile url
 
     public final static String MOBILE_HOME_URL =BASE_URL+"maincategories?module=mobile";
+
+
+    // grocery Url
+    public final static String GROCERY_HOME_URL =BASE_URL+"banners_categories?module=grocery";
+
+    public final static String GROCERY_PRODUCT_URL = BASE_URL+"products?module=grocery&limit=4&maincatId=";
+
 
 }

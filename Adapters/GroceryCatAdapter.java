@@ -10,7 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.prism.pickany247.GroceryModule.GroceryProductListActivity;
 import com.prism.pickany247.R;
+import com.prism.pickany247.Response.GroceryHomeResponse;
 import com.prism.pickany247.Response.StationeryCatResponse;
 import com.prism.pickany247.StationeryModule.ProductListActivity;
 
@@ -18,9 +20,9 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class StationeryCatAdapter extends RecyclerView.Adapter<StationeryCatAdapter.MyViewHolder>{
+public class GroceryCatAdapter extends RecyclerView.Adapter<GroceryCatAdapter.MyViewHolder>{
     private Context mContext;
-    private List<StationeryCatResponse.CategoriesBean> homeList;
+    private List<GroceryHomeResponse.CategoriesBean> homeList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView thumbnail;
@@ -39,22 +41,22 @@ public class StationeryCatAdapter extends RecyclerView.Adapter<StationeryCatAdap
         }
     }
 
-    public StationeryCatAdapter(Context mContext, List<StationeryCatResponse.CategoriesBean> homekitchenList) {
+    public GroceryCatAdapter(Context mContext, List<GroceryHomeResponse.CategoriesBean> homekitchenList) {
         this.mContext = mContext;
         this.homeList = homekitchenList;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GroceryCatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.stationery_home_card, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new GroceryCatAdapter.MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final StationeryCatResponse.CategoriesBean home = homeList.get(position);
+        final GroceryHomeResponse.CategoriesBean home = homeList.get(position);
 
         // loading album cover using Glide library
         Glide.with(mContext).load(home.getImage()).into(holder.thumbnail);
@@ -65,13 +67,13 @@ public class StationeryCatAdapter extends RecyclerView.Adapter<StationeryCatAdap
             public void onClick(View v) {
 
 //                    Activity activity = (Activity) mContext;
-                    Intent intent = new Intent(mContext, ProductListActivity.class);
-                    intent.putExtra("catId", home.getId());
-                    intent.putExtra("title", home.getCategory_name());
-                    intent.putExtra("module", home.getModule());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(intent);
-                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                Intent intent = new Intent(mContext, ProductListActivity.class);
+                intent.putExtra("catId", home.getId());
+                intent.putExtra("title", home.getCategory_name());
+                intent.putExtra("module", home.getModule());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+                // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
 
             }

@@ -130,6 +130,8 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
             public void valueChanged(Number minValue, Number maxValue) {
                 textMin1.setText(String.valueOf(minValue));
                 textMax1.setText(String.valueOf(maxValue));
+
+                Log.e("VALUEMX",""+textMax1.getText().toString());
             }
         });
 
@@ -665,11 +667,11 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 }
                  String finalvalue="";
                 if (strCat.equals("")){
-                     finalvalue =catId+"&subcatId="+"&priceRange="+textMin1.getText()+","+textMax1.getText()+subCat+"&brand="+brand+"&productType="+productType+"&color="+color+"&rating="+rating;
+                     finalvalue =catId+"&subcatId="+subCat+"&priceRange="+textMin1.getText().toString()+","+textMax1.getText().toString()+"&brand="+brand+"&productType="+productType+"&color="+color+"&rating="+rating;
 
                 }
                 else {
-                    finalvalue =strCat+"&subcatId="+"&priceRange="+textMin1+","+textMax1+subCat+"&brand="+brand+"&productType="+productType+"&color="+color+"&rating="+rating;
+                    finalvalue =strCat+"&subcatId="+subCat+"&priceRange="+textMin1.getText().toString()+","+textMax1.getText().toString()+"&brand="+brand+"&productType="+productType+"&color="+color+"&rating="+rating;
                 }
 
                 Log.e("RESULTSTRING",""+finalvalue);

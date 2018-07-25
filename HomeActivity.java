@@ -149,6 +149,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         pDialog.show();
 
+        Log.e("HOME_URL",""+Api.HOME_URL);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.HOME_URL, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
