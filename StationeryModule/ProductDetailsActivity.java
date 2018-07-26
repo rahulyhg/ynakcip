@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.prism.pickany247.CartActivity;
 import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
+import com.prism.pickany247.Response.GrocerySpinItem;
 import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.Response.ViewPagerItem;
 import com.prism.pickany247.Singleton.AppController;
@@ -38,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
@@ -107,7 +111,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void prepareProductDetailsData(String id,String module){
+    private void prepareProductDetailsData(String id, final String module){
      Log.e("PRODUCT_URL",""+Api.PRODUCT_DETAILS_URL+module+"&productId="+id);
          pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.PRODUCT_DETAILS_URL+module+"&productId="+id, new com.android.volley.Response.Listener<String>() {
@@ -139,9 +143,77 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     txtDescription=(TextView)findViewById(R.id.txtDescription);
 
                     txtName.setText(filteredProductsBean.getProduct_name());
-                    txtPrice.setText("\u20B9"+filteredProductsBean.getIncl_price());
+
                     ratingBar.setRating(Float.parseFloat(filteredProductsBean.getRating()));
                     txtDescription.setText("");
+
+
+                    // grocery items capacity
+
+                    if (module.equalsIgnoreCase("grocery")){
+
+                        ArrayList<GrocerySpinItem> grocerySpinItems =new ArrayList<>();
+
+                        List<String> list1 = new ArrayList<>();
+
+                        String capacity ="";
+                        String unitPrice ="";
+                        String itemid ="";
+
+                        String[] itemsCapacity = filteredProductsBean.getCapacity().split(",");
+                        for (String itemCap : itemsCapacity)
+                        {
+                            System.out.println("itemCap = " + itemCap);
+
+                            capacity=itemCap;
+                            grocerySpinItems.add(new GrocerySpinItem(capacity,unitPrice,itemid));
+
+                            list1.add(itemCap);
+                        }
+
+                        String[] itemsUnitPrice= filteredProductsBean.getCapacity().split(",");
+                        for (String itemUnit : itemsUnitPrice)
+                        {
+                            unitPrice=itemUnit;
+                            System.out.println("itemUnit = " + itemUnit);
+                            grocerySpinItems.add(new GrocerySpinItem(capacity,unitPrice,itemid));
+                        }
+
+                        String[] itemsId= filteredProductsBean.getCapacity().split(",");
+                        for (String itemsid : itemsId)
+                        {
+                            itemid=itemsid;
+                            System.out.println("itemsID = " + itemsid);
+                            grocerySpinItems.add(new GrocerySpinItem(capacity,unitPrice,itemid));
+                        }
+
+
+                        for (GrocerySpinItem grocerySpinItem:grocerySpinItems){
+                            Log.e("CAPACITY",""+grocerySpinItem.getCapacity());
+
+                        }
+
+
+
+                        Spinner spinner =(Spinner)findViewById(R.id.spinnerPrice);
+                        ArrayAdapter<String> adapter =new ArrayAdapter<String>(ProductDetailsActivity.this, android.R.layout.simple_spinner_item,list1);
+                        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        spinner.setAdapter(adapter);
+
+
+
+
+                       // txtPrice.setText("\u20B9"+firstPrice+"  ("+firstcapacity+")");
+
+                    }else {
+
+                        txtPrice.setText("\u20B9"+filteredProductsBean.getUnit_price_incl_tax());
+                    }
+
+
+
+
+
                     btnAddToCart=(Button)findViewById(R.id.btnAddtocart);
                     btnBuyNow=(Button)findViewById(R.id.btnbuynow);
 
@@ -150,8 +222,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         public void onClick(View v) {
 
                             String cart ="ADD TO CART";
-                          addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),"1",filteredProductsBean.getIncl_price(),
-                          "","","","","","","","","",cart);
+                          addtocartData(userid,filteredProductsBean.getProduct_id(),"",module,filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",filteredProductsBean.getUnit_price_incl_tax(),
+                          filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),filteredProductsBean.getHeart_shape()
+                                  ,filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),cart);
                         }
                     });
 
@@ -160,8 +233,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         public void onClick(View v) {
 
                             String cart ="BUY NOW";
-                            addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),"1",filteredProductsBean.getIncl_price(),
-                                    "","","","","","","","","",cart);
+                            addtocartData(userid,filteredProductsBean.getProduct_id(),"",module,filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",filteredProductsBean.getUnit_price_incl_tax(),
+                                    filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),filteredProductsBean.getHeart_shape()
+                                    ,filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),cart);
                         }
                     });
 
@@ -207,10 +281,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     // submit details
-    private void addtocartData(final String userid, final String itemid, final String requestCode, final String cartType
-    , final String quantity, final String unitPrice, final String txtAmount, final String discount, final String color, final String eggless,
+    private void addtocartData(final String userid, final String itemid, final String requestCode,final String module,
+                               final String cartType, final String quantity, final String unitPrice, final String tax_rate,
+                               final String discount, final String color, final String eggless,
                                final String egglessAmount, final String heartShape, final String heartShapeAmount,
                                final String flavour, final String message,final String btnValue){
+
+
 
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Api.ADD_TO_CART_URL,
@@ -260,12 +337,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 params.put("user_id", userid);
                 params.put("item_id", itemid);
                 params.put("request_code", requestCode);
-                params.put("category", "stationery");
+                params.put("category", module);
                 params.put("cart_type", cartType);
                 params.put("quantity", quantity);
                 params.put("unit_price_incl_tax", unitPrice);
-                params.put("tax_rate", "0");
-                params.put("tax_amt", txtAmount);
+                params.put("tax_rate", tax_rate);
                 params.put("discount", discount);
                 params.put("color", color);
                 params.put("eggless", eggless);
@@ -274,6 +350,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 params.put("heart_shape_amt", heartShapeAmount);
                 params.put("flavour", flavour);
                 params.put("message", message);
+
                 Log.e("RESPONSE_Parasms: ",""+params);
                 return params;
             }

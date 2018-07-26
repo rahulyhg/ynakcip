@@ -17,6 +17,7 @@ import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.StationeryModule.ProductDetailsActivity;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class StationeryHomeAdapter extends RecyclerView.Adapter<StationeryHomeAdapter.MyViewHolder>{
     private Context mContext;
@@ -60,7 +61,25 @@ public class StationeryHomeAdapter extends RecyclerView.Adapter<StationeryHomeAd
         // loading album cover using Glide library
         Glide.with(mContext).load(home.getImagePath()+home.getSingleImage()).into(holder.thumbnail);
         holder.txtName.setText(home.getProduct_name());
-        holder.txtPrice.setText("\u20B9"+home.getIncl_price());
+        String firstPrice="";
+        String firstcapacity="";
+        if(home.getUnit_price_incl_tax()!=null){
+            StringTokenizer stringTokenizer =new StringTokenizer(home.getUnit_price_incl_tax());
+            firstPrice = stringTokenizer.nextToken(",");
+        }else{
+            // null response or Exception occur
+        }
+
+        if (home.getCapacity()!=null){
+            StringTokenizer stringTokenizer1 =new StringTokenizer(home.getCapacity());
+            firstcapacity = stringTokenizer1.nextToken(",");
+        }
+
+
+
+
+        holder.txtPrice.setText("\u20B9"+firstPrice+"  ("+firstcapacity+")");
+       // holder.txtPrice.setText("\u20B9"+home.getIncl_price());
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

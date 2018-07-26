@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.GroceryCatAdapter;
 import com.prism.pickany247.Adapters.GroceryHomeAdapter;
+import com.prism.pickany247.Adapters.SationeryProductAadpter;
 import com.prism.pickany247.Adapters.StationeryCatAdapter;
 import com.prism.pickany247.Adapters.StationeryHomeAdapter;
 import com.prism.pickany247.Apis.Api;
@@ -86,10 +87,10 @@ public class GroceryHomeActivity extends AppCompatActivity{
     @BindView(R.id.simpleSwipeRefreshLayout)
     SwipeRefreshLayout simpleSwipeRefreshLayout;
 
-    private GroceryCatAdapter adapter;
-    private GroceryHomeAdapter stationeryHomeAdapter;
-    GroceryHomeResponse homeResponse = new GroceryHomeResponse();
-    GroceryProductResponse groceryProductResponse = new GroceryProductResponse();
+    private StationeryCatAdapter adapter;
+    private SationeryProductAadpter stationeryHomeAdapter;
+    StationeryCatResponse homeResponse = new StationeryCatResponse();
+    StationeryResponse stationeryResponse = new StationeryResponse();
     Gson gson;
 
     @Override
@@ -142,7 +143,7 @@ public class GroceryHomeActivity extends AppCompatActivity{
     private void prepareCatData() {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
-Log.e("CATURL",""+Api.GROCERY_HOME_URL);
+        Log.e("CATURL",""+Api.GROCERY_HOME_URL);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_HOME_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -151,9 +152,9 @@ Log.e("CATURL",""+Api.GROCERY_HOME_URL);
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                homeResponse = gson.fromJson(response, GroceryHomeResponse.class);
+                homeResponse = gson.fromJson(response, StationeryCatResponse.class);
 
-                for (GroceryHomeResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
+                for (StationeryCatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
 
                     if (mainCategoriesBean.getId().equals("14")){
 
@@ -188,7 +189,7 @@ Log.e("CATURL",""+Api.GROCERY_HOME_URL);
                 catRecycler.setLayoutManager(mLayoutManager);
                 catRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                adapter = new GroceryCatAdapter(getApplicationContext(), homeResponse.getCategories());
+                adapter = new StationeryCatAdapter(getApplicationContext(), homeResponse.getCategories());
                 catRecycler.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
@@ -197,7 +198,7 @@ Log.e("CATURL",""+Api.GROCERY_HOME_URL);
                 List<Banner> banners = new ArrayList<>();
                 banners.clear();
                 Log.e("BANNERS", "" + banners.size());
-                for (final GroceryHomeResponse.BannersBean homeBannersBean : homeResponse.getBanners()) {
+                for (final StationeryCatResponse.BannersBean homeBannersBean : homeResponse.getBanners()) {
 
                     banners.add(new RemoteBanner(homeBannersBean.getImage()));
 
@@ -239,14 +240,14 @@ Log.e("CATURL",""+Api.GROCERY_HOME_URL);
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                groceryProductResponse = gson.fromJson(response, GroceryProductResponse.class);
+                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
                 fruitsRecycler.setLayoutManager(mLayoutManager);
                 fruitsRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new GroceryHomeAdapter(getApplicationContext(), groceryProductResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 fruitsRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
@@ -293,14 +294,14 @@ Log.e("CATURL",""+Api.GROCERY_HOME_URL);
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                groceryProductResponse = gson.fromJson(response, GroceryProductResponse.class);
+                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
                 vegRecycler.setLayoutManager(mLayoutManager);
                 vegRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new GroceryHomeAdapter(getApplicationContext(), groceryProductResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 vegRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
@@ -348,14 +349,14 @@ Log.e("CATURL",""+Api.GROCERY_HOME_URL);
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                groceryProductResponse = gson.fromJson(response, GroceryProductResponse.class);
+                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
                 bevrageRecycler.setLayoutManager(mLayoutManager);
                 bevrageRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new GroceryHomeAdapter(getApplicationContext(), groceryProductResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 bevrageRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
@@ -402,14 +403,14 @@ Log.e("CATURL",""+Api.GROCERY_HOME_URL);
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                groceryProductResponse = gson.fromJson(response, GroceryProductResponse.class);
+                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
                 snacksRecycler.setLayoutManager(mLayoutManager);
                 snacksRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new GroceryHomeAdapter(getApplicationContext(), groceryProductResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 snacksRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
@@ -456,14 +457,14 @@ Log.e("CATURL",""+Api.GROCERY_HOME_URL);
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                groceryProductResponse = gson.fromJson(response, GroceryProductResponse.class);
+                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
                 readytoeatRecycler.setLayoutManager(mLayoutManager);
                 readytoeatRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new GroceryHomeAdapter(getApplicationContext(), groceryProductResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 readytoeatRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 

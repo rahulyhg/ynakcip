@@ -61,20 +61,25 @@ public class SationeryProductAadpter extends RecyclerView.Adapter<SationeryProdu
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final StationeryResponse.FilteredProductsBean home = homeList.get(position);
 
+        Log.e("CAPACITY0",""+home.getCapacity()+home.getUnit_price_incl_tax());
+
         // loading album cover using Glide library
         Glide.with(mContext).load(home.getImagePath()+home.getSingleImage()).into(holder.thumbnail);
         holder.txtName.setText(home.getProduct_name());
 
-        if ("".equalsIgnoreCase(home.getCapacity())){
 
-            holder.txtPrice.setText("\u20B9"+home.getIncl_price());
+
+        if ("".equalsIgnoreCase(home.getCapacity()) ){
+
+            holder.txtPrice.setText("\u20B9"+home.getUnit_price_incl_tax());
+            Log.e("CAPACITY",""+home.getUnit_price_incl_tax());
 
         }else{
 
             String firstPrice="";
             String firstcapacity="";
-            if(home.getIncl_price()!=null){
-                StringTokenizer stringTokenizer =new StringTokenizer(home.getIncl_price());
+            if(home.getUnit_price_incl_tax()!=null){
+                StringTokenizer stringTokenizer =new StringTokenizer(home.getUnit_price_incl_tax());
                 firstPrice = stringTokenizer.nextToken(",");
             }
 
@@ -83,6 +88,7 @@ public class SationeryProductAadpter extends RecyclerView.Adapter<SationeryProdu
                 firstcapacity = stringTokenizer1.nextToken(",");
             }
             holder.txtPrice.setText("\u20B9"+firstPrice+"  ("+firstcapacity+")");
+            Log.e("CAPACITY123",""+home.getUnit_price_incl_tax());
         }
 
 

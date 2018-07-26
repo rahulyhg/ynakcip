@@ -6,9 +6,9 @@ public class CartResponse {
 
 
     /**
-     * cart_items : [{"module":"stationery","id":"771","item_id":"37","product_name":"inter design","image":"http://pickany24x7.com/stationery/stationery/../images/product_images/PIKA205I6/inter-design-classico-wall-mount-magazine-rack-1.jpg","user_id":"9","request_code":"","category":"stationery","cart_type":"single","product_id":"PIKA205I6","quantity":"5","unit_price_incl_tax":"1950.00","unit_price_exld_tax":"1950.00","tax_rate":"0.00","tax_amt":"0.00","discount":"0.00","total_price":"9750.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"stationery","id":"929","item_id":"95","product_name":"Paint brush","image":"http://pickany24x7.com/stationery/stationery/../images/product_images/PIK0L446U/1.jpg","user_id":"9","request_code":"","category":"stationery","cart_type":"single","product_id":"PIK0L446U","quantity":"1","unit_price_incl_tax":"1199.00","unit_price_exld_tax":"1199.00","tax_rate":"0.00","tax_amt":"0.00","discount":"0.00","total_price":"1199.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"stationery","id":"1133","item_id":"109","product_name":"Crayons","image":"http://pickany24x7.com/stationery/stationery/../images/product_images/PIKM455SQ/1.jpg","user_id":"9","request_code":"","category":"stationery","cart_type":"stationery","product_id":"PIKM455SQ","quantity":"1","unit_price_incl_tax":"1080.00","unit_price_exld_tax":"1080.00","tax_rate":"0.00","tax_amt":"0.00","discount":"0.00","total_price":"1080.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
-     * total_bill : [{"priceInclTax":"12029.00","GST":"0.00","SubTotal":"12029.00","DeliveryCharges":"0","grandTotal":"12029.00"}]
-     * user_address : [{"id":"33","user_id":"9","name":"suresh","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"ishukatota,ramalayam street","set_as_default":"0","status":"1"},{"id":"36","user_id":"9","name":"mahesh","city":"vizag","state":"andrapradesh","zip":"530003","phone":"8919480920","address":"ramalayam Street, mvp ","set_as_default":"0","status":"1"}]
+     * cart_items : [{"module":"stationery","id":"432","item_id":"151","product_name":"PERMAMENT MARKERS","image":"http://pickany247.com/stationery/stationery/../images/product_images/PIKHID65L/1.jpg","user_id":"2","request_code":"46723916","category":"stationery","cart_type":"single","product_id":"PIKHID65L","quantity":"1","availability":"5","unit_price_incl_tax":"200.00","unit_price_exld_tax":"178.57","tax_rate":"12.00","tax_amt":"21.43","discount":"0.00","total_price":"200.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"grocery","id":"434","item_id":"2201","product_name":"Cheese","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKGC25950/1.jpg","user_id":"2","request_code":"46723916","category":"grocery","cart_type":"single","product_id":"2201","quantity":"5","availability":"11","unit_price_incl_tax":"263.20","unit_price_exld_tax":"235.00","tax_rate":"12.00","tax_amt":"28.20","discount":"0.00","total_price":"1316.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"grocery","id":"435","item_id":"411","product_name":"Cow ghee","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKG8591ON/1.jpg","user_id":"2","request_code":"15004608","category":"grocery","cart_type":"single","product_id":"411","quantity":"2","availability":"30","unit_price_incl_tax":"560.00","unit_price_exld_tax":"500.00","tax_rate":"12.00","tax_amt":"120.00","discount":"0.00","total_price":"1120.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
+     * total_bill : [{"priceInclTax":"2636.00","GST":"169.63","SubTotal":"2636.00","DeliveryCharges":"0","grandTotal":"2636.00"}]
+     * user_address : [{"id":"86","user_id":"2","name":"Sri Satya","city":"Vizianagaram","state":"Andhra Pradesh","zip":"565453","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"},{"id":"96","user_id":"2","name":"Sri Satya","city":"","state":"","zip":"565453","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"},{"id":"105","user_id":"2","name":"ADASd ASDSd","city":"Visakhapatnam","state":"Andhra Pradesh","zip":"530009","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"}]
      * message : List of items in cart
      */
 
@@ -52,22 +52,23 @@ public class CartResponse {
     public static class CartItemsBean {
         /**
          * module : stationery
-         * id : 771
-         * item_id : 37
-         * product_name : inter design
-         * image : http://pickany24x7.com/stationery/stationery/../images/product_images/PIKA205I6/inter-design-classico-wall-mount-magazine-rack-1.jpg
-         * user_id : 9
-         * request_code :
+         * id : 432
+         * item_id : 151
+         * product_name : PERMAMENT MARKERS
+         * image : http://pickany247.com/stationery/stationery/../images/product_images/PIKHID65L/1.jpg
+         * user_id : 2
+         * request_code : 46723916
          * category : stationery
          * cart_type : single
-         * product_id : PIKA205I6
-         * quantity : 5
-         * unit_price_incl_tax : 1950.00
-         * unit_price_exld_tax : 1950.00
-         * tax_rate : 0.00
-         * tax_amt : 0.00
+         * product_id : PIKHID65L
+         * quantity : 1
+         * availability : 5
+         * unit_price_incl_tax : 200.00
+         * unit_price_exld_tax : 178.57
+         * tax_rate : 12.00
+         * tax_amt : 21.43
          * discount : 0.00
-         * total_price : 9750.00
+         * total_price : 200.00
          * color :
          * eggless :
          * eggless_amt :
@@ -88,6 +89,7 @@ public class CartResponse {
         private String cart_type;
         private String product_id;
         private String quantity;
+        private String availability;
         private String unit_price_incl_tax;
         private String unit_price_exld_tax;
         private String tax_rate;
@@ -188,6 +190,14 @@ public class CartResponse {
 
         public void setQuantity(String quantity) {
             this.quantity = quantity;
+        }
+
+        public String getAvailability() {
+            return availability;
+        }
+
+        public void setAvailability(String availability) {
+            this.availability = availability;
         }
 
         public String getUnit_price_incl_tax() {
@@ -297,11 +307,11 @@ public class CartResponse {
 
     public static class TotalBillBean {
         /**
-         * priceInclTax : 12029.00
-         * GST : 0.00
-         * SubTotal : 12029.00
+         * priceInclTax : 2636.00
+         * GST : 169.63
+         * SubTotal : 2636.00
          * DeliveryCharges : 0
-         * grandTotal : 12029.00
+         * grandTotal : 2636.00
          */
 
         private String priceInclTax;
@@ -353,14 +363,14 @@ public class CartResponse {
 
     public static class UserAddressBean {
         /**
-         * id : 33
-         * user_id : 9
-         * name : suresh
-         * city : vizag
-         * state : andrapradesh
-         * zip : 532457
-         * phone : 8985018103
-         * address : ishukatota,ramalayam street
+         * id : 86
+         * user_id : 2
+         * name : Sri Satya
+         * city : Vizianagaram
+         * state : Andhra Pradesh
+         * zip : 565453
+         * phone : 9999999999
+         * address : Chennai,Tamil Nadu
          * set_as_default : 0
          * status : 1
          */

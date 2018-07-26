@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.prism.pickany247.Adapters.SationeryProductAadpter;
 import com.prism.pickany247.Adapters.StationeryHomeAdapter;
 import com.prism.pickany247.Adapters.StationeryCatAdapter;
 import com.prism.pickany247.Apis.Api;
@@ -83,7 +84,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
     SwipeRefreshLayout simpleSwipeRefreshLayout;
 
     private StationeryCatAdapter adapter;
-    private StationeryHomeAdapter stationeryHomeAdapter;
+    private SationeryProductAadpter stationeryHomeAdapter;
     StationeryCatResponse homeResponse = new StationeryCatResponse();
     StationeryResponse stationeryResponse = new StationeryResponse();
     Gson gson;
@@ -242,7 +243,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                 artRecycler.setLayoutManager(mLayoutManager);
                 artRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 artRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
@@ -296,7 +297,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                 deskRecycler.setLayoutManager(mLayoutManager);
                 deskRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 deskRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
@@ -351,7 +352,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                 officeRecycler.setLayoutManager(mLayoutManager);
                 officeRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 officeRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
@@ -405,7 +406,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                 schoolRecycler.setLayoutManager(mLayoutManager);
                 schoolRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 schoolRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
@@ -459,7 +460,7 @@ public class StationeryHomeActivity extends AppCompatActivity {
                 extraRecycler.setLayoutManager(mLayoutManager);
                 extraRecycler.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryHomeAdapter = new StationeryHomeAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                stationeryHomeAdapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
                 extraRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
