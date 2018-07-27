@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.StationeryCatResponse;
-import com.prism.pickany247.StationeryModule.ProductListActivity;
+import com.prism.pickany247.ProductListActivity;
 
 import java.util.List;
 

@@ -9,10 +9,9 @@ import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.prism.pickany247.R;
-import com.prism.pickany247.StationeryModule.ProductListActivity;
+import com.prism.pickany247.ProductListActivity;
 
 public class BottomSheet3DialogFragment extends BottomSheetDialogFragment {
 

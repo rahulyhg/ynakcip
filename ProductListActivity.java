@@ -1,4 +1,4 @@
-package com.prism.pickany247.StationeryModule;
+package com.prism.pickany247;
 
 import android.content.Intent;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +24,13 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.SationeryProductAadpter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.CartActivity;
-import com.prism.pickany247.FilterActivity;
 import com.prism.pickany247.Fragments.BottomSheet3DialogFragment;
+import com.prism.pickany247.GroceryModule.GroceryFilterActivity;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.StationeryResponse;
 import com.prism.pickany247.Singleton.AppController;
+import com.prism.pickany247.StationeryModule.StationeryFilterActivity;
 
 public class ProductListActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
@@ -63,13 +65,27 @@ public class ProductListActivity extends AppCompatActivity {
         filterLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(getApplicationContext(),FilterActivity.class);
-                intent.putExtra("catId", id);
-                intent.putExtra("title", title);
-                intent.putExtra("module",module);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                if (module.equalsIgnoreCase("grocery")){
+
+                    Intent intent = new Intent(getApplicationContext(), GroceryFilterActivity.class);
+                    intent.putExtra("catId", id);
+                    intent.putExtra("title", title);
+                    intent.putExtra("module", module);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                }else {
+
+                    Intent intent = new Intent(getApplicationContext(), StationeryFilterActivity.class);
+                    intent.putExtra("catId", id);
+                    intent.putExtra("title", title);
+                    intent.putExtra("module", module);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
             }
         });
 
@@ -125,13 +141,15 @@ public class ProductListActivity extends AppCompatActivity {
 
     }
 
-    private void prepareProductData(String id,String title,String module){
+    private void prepareProductData(final String id, String title, final String module){
 
         swipeRefreshLayout.setRefreshing(true);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.PRODUCTS_URL+module+"&maincatId="+id, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                Log.e("PRODUCTLISTURL",""+Api.PRODUCTS_URL+module+"&maincatId="+id);
 
                 swipeRefreshLayout.setRefreshing(false);
 

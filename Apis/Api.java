@@ -65,5 +65,7 @@ public class Api {
 
     public final static String GROCERY_PRODUCT_URL = BASE_URL+"products?module=grocery&limit=4&maincatId=";
 
+    public final static String GROCERY_FILTER_URL =BASE_URL+"filters?module=grocery&maincatId=";
+
 
 }

@@ -154,12 +154,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     txtName.setText(filteredProductsBean.getProduct_name());
 
                     ratingBar.setRating(Float.parseFloat(filteredProductsBean.getRating()));
-                    txtDescription.setText("");
+                    txtDescription.setText(filteredProductsBean.getMessage());
 
 
                     // grocery items capacity
 
                     if (module.equalsIgnoreCase("grocery")){
+
+                        spinnerLayout.setVisibility(View.VISIBLE);
 
                         final List<String> listCapacity = new ArrayList<>();
                         final List<String> listUnitPrice = new ArrayList<>();

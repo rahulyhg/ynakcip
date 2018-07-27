@@ -1,4 +1,4 @@
-package com.prism.pickany247;
+package com.prism.pickany247.StationeryModule;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,11 +23,12 @@ import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.MyCustomAdapter;
 import com.prism.pickany247.Apis.Api;
+import com.prism.pickany247.ProductListActivity;
+import com.prism.pickany247.R;
 import com.prism.pickany247.Response.CheckBoxItem;
 import com.prism.pickany247.Response.StationerFilterResponse;
 import com.prism.pickany247.Response.StationeryCatResponse;
 import com.prism.pickany247.Singleton.AppController;
-import com.prism.pickany247.StationeryModule.ProductListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FilterActivity extends AppCompatActivity implements View.OnClickListener {
+public class StationeryFilterActivity extends AppCompatActivity implements View.OnClickListener {
     List<CheckBoxItem> catItems = new ArrayList<>();
     List<CheckBoxItem> subCatItems = new ArrayList<>();
     List<CheckBoxItem> productTypeItems = new ArrayList<>();
@@ -177,7 +177,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, catItems);
+                myMyCustomAdapter = new MyCustomAdapter(StationeryFilterActivity.this, catItems);
                 // Assign adapter to ListView
                 catList.setAdapter(myMyCustomAdapter);
                 myMyCustomAdapter.notifyDataSetChanged();
@@ -207,7 +207,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                         if (catStr.length() > 0) {
                             strCat = catStr.substring(0, catStr.length() - 1);
                             Log.e("CHECKBOXES", "" + strCat);
-                            //  Toast.makeText(FilterActivity.this, strone, Toast.LENGTH_LONG).show();
+                            //  Toast.makeText(StationeryFilterActivity.this, strone, Toast.LENGTH_LONG).show();
                             prepareSubCatData(strCat);
                             prepareBrandData(strCat);
                             prepareColorData(strCat);
@@ -261,7 +261,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, subCatItems);
+                myMyCustomAdapter = new MyCustomAdapter(StationeryFilterActivity.this, subCatItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 subcatList.setAdapter(myMyCustomAdapter);
@@ -307,7 +307,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, brandItems);
+                myMyCustomAdapter = new MyCustomAdapter(StationeryFilterActivity.this, brandItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 brandList.setAdapter(myMyCustomAdapter);
@@ -353,7 +353,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, productTypeItems);
+                myMyCustomAdapter = new MyCustomAdapter(StationeryFilterActivity.this, productTypeItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 productTypecatList.setAdapter(myMyCustomAdapter);
@@ -399,7 +399,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, colorItems);
+                myMyCustomAdapter = new MyCustomAdapter(StationeryFilterActivity.this, colorItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 colorList.setAdapter(myMyCustomAdapter);
@@ -449,7 +449,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCustomAdapter = new MyCustomAdapter(FilterActivity.this, ratingItems);
+                myMyCustomAdapter = new MyCustomAdapter(StationeryFilterActivity.this, ratingItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 ratingsList.setAdapter(myMyCustomAdapter);
@@ -603,6 +603,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
                 // subcat data
                 String subCat = "";
+                String strSubCat="";
                 for (CheckBoxItem checkBox : subCatItems) {
 
                     if (checkBox.checked) {
@@ -610,12 +611,13 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
                 if (subCat.length() > 0) {
-                    String strSubCat = subCat.substring(0, subCat.length() - 1);
+                    strSubCat = subCat.substring(0, subCat.length() - 1);
                     Log.e("strSubCat", "" + strSubCat);
                 }
 
                 // brand data
                 String brand = "";
+                String strBrand="";
                 for (CheckBoxItem checkBox : brandItems) {
 
                     if (checkBox.checked) {
@@ -623,12 +625,13 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
                 if (brand.length() > 0) {
-                    String strBrand = brand.substring(0, brand.length() - 1);
+                     strBrand = brand.substring(0, brand.length() - 1);
                     Log.e("strBrand", "" + strBrand);
                 }
 
                 // product data
                 String productType = "";
+                String strProductType="";
                 for (CheckBoxItem checkBox : productTypeItems) {
 
                     if (checkBox.checked) {
@@ -636,12 +639,13 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
                 if (productType.length() > 0) {
-                    String strProductType = productType.substring(0, productType.length() - 1);
+                    strProductType = productType.substring(0, productType.length() - 1);
                     Log.e("strProductType", "" + strProductType);
                 }
 
                 // color data
                 String color = "";
+                String strColor="";
                 for (CheckBoxItem checkBox : colorItems) {
 
                     if (checkBox.checked) {
@@ -649,13 +653,14 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
                 if (color.length() > 0) {
-                    String strColor = color.substring(0, color.length() - 1);
+                    strColor = color.substring(0, color.length() - 1);
                     Log.e("strColor", "" + strColor);
                 }
 
 
                 // rating data
                 String rating = "";
+                String strRating="";
                 for (CheckBoxItem checkBox : ratingItems) {
 
                     if (checkBox.checked) {
@@ -663,16 +668,17 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
                 if (rating.length() > 0) {
-                    String strRating = rating.substring(0, rating.length() - 1);
+                    strRating = rating.substring(0, rating.length() - 1);
                     Log.e("strRating", "" + strRating);
                 }
+
                  String finalvalue="";
                 if (strCat.equals("")){
-                     finalvalue =catId+"&subcatId="+subCat+"&priceRange="+textMin1.getText().toString()+","+textMax1.getText().toString()+"&brand="+brand+"&productType="+productType+"&color="+color+"&rating="+rating;
+                     finalvalue =catId+"&subcatId="+strSubCat+"&priceRange="+textMin1.getText().toString()+","+textMax1.getText().toString()+"&brand="+strBrand+"&productType="+strProductType+"&color="+strColor+"&rating="+strRating;
 
                 }
                 else {
-                    finalvalue =strCat+"&subcatId="+subCat+"&priceRange="+textMin1.getText().toString()+","+textMax1.getText().toString()+"&brand="+brand+"&productType="+productType+"&color="+color+"&rating="+rating;
+                    finalvalue =strCat+"&subcatId="+strSubCat+"&priceRange="+textMin1.getText().toString()+","+textMax1.getText().toString()+"&brand="+strBrand+"&productType="+strProductType+"&color="+strColor+"&rating="+strRating;
                 }
 
                 Log.e("RESULTSTRING",""+finalvalue);
