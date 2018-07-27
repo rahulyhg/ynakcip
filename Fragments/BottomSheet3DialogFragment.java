@@ -39,6 +39,7 @@ public class BottomSheet3DialogFragment extends BottomSheetDialogFragment {
 
         final String id = getActivity().getIntent().getStringExtra("catId");
         final String title =getActivity().getIntent().getStringExtra("title");
+        final String module =getActivity().getIntent().getStringExtra("module");
 
 
         final RadioGroup radioGroup=(RadioGroup)contentView.findViewById(R.id.radioGroup);
@@ -62,6 +63,7 @@ public class BottomSheet3DialogFragment extends BottomSheetDialogFragment {
                 Intent intent =new Intent(getContext(),ProductListActivity.class);
                 intent.putExtra("catId", sortValue);
                 intent.putExtra("title", title);
+                intent.putExtra("module",module);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

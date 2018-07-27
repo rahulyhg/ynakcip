@@ -50,7 +50,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
     Gson gson;
     String strCat="";
 
-    String catId, title;
+    String catId, title,module;
     @BindView(R.id.rbPrice)
     RadioButton rbPrice;
     @BindView(R.id.rbCat)
@@ -114,6 +114,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
 
         catId = getIntent().getStringExtra("catId");
         title = getIntent().getStringExtra("title");
+        module =getIntent().getStringExtra("module");
 
 
         // price range
@@ -679,6 +680,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent =new Intent(getApplicationContext(),ProductListActivity.class);
                 intent.putExtra("catId", finalvalue);
                 intent.putExtra("title", title);
+                intent.putExtra("module",module);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

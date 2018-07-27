@@ -6,8 +6,8 @@ public class CartResponse {
 
 
     /**
-     * cart_items : [{"module":"stationery","id":"432","item_id":"151","product_name":"PERMAMENT MARKERS","image":"http://pickany247.com/stationery/stationery/../images/product_images/PIKHID65L/1.jpg","user_id":"2","request_code":"46723916","category":"stationery","cart_type":"single","product_id":"PIKHID65L","quantity":"1","availability":"5","unit_price_incl_tax":"200.00","unit_price_exld_tax":"178.57","tax_rate":"12.00","tax_amt":"21.43","discount":"0.00","total_price":"200.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"grocery","id":"434","item_id":"2201","product_name":"Cheese","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKGC25950/1.jpg","user_id":"2","request_code":"46723916","category":"grocery","cart_type":"single","product_id":"2201","quantity":"5","availability":"11","unit_price_incl_tax":"263.20","unit_price_exld_tax":"235.00","tax_rate":"12.00","tax_amt":"28.20","discount":"0.00","total_price":"1316.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"grocery","id":"435","item_id":"411","product_name":"Cow ghee","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKG8591ON/1.jpg","user_id":"2","request_code":"15004608","category":"grocery","cart_type":"single","product_id":"411","quantity":"2","availability":"30","unit_price_incl_tax":"560.00","unit_price_exld_tax":"500.00","tax_rate":"12.00","tax_amt":"120.00","discount":"0.00","total_price":"1120.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
-     * total_bill : [{"priceInclTax":"2636.00","GST":"169.63","SubTotal":"2636.00","DeliveryCharges":"0","grandTotal":"2636.00"}]
+     * cart_items : [{"module":"grocery","id":"445","item_id":"397","product_name":"Baby hair oil","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKG66E366/1.jpg","user_id":"2","request_code":"57680745","category":"grocery","cart_type":"single","product_id":"397","quantity":"1","availability":"6","unit_price_incl_tax":"74.34","unit_price_exld_tax":"63.00","tax_rate":"18.00","tax_amt":"11.34","discount":"0.00","total_price":"74.34","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"grocery","id":"446","item_id":"433","product_name":"Avocado Oil","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKGMN1360/2.1530775880.jpg","user_id":"2","request_code":"57680745","category":"grocery","cart_type":"single","product_id":"433","quantity":"1","availability":"8","unit_price_incl_tax":"118.00","unit_price_exld_tax":"100.00","tax_rate":"18.00","tax_amt":"18.00","discount":"0.00","total_price":"118.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
+     * total_bill : [{"priceInclTax":"192.34","GST":"29.34","SubTotal":"192.34","DeliveryCharges":"0","grandTotal":"192.34"}]
      * user_address : [{"id":"86","user_id":"2","name":"Sri Satya","city":"Vizianagaram","state":"Andhra Pradesh","zip":"565453","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"},{"id":"96","user_id":"2","name":"Sri Satya","city":"","state":"","zip":"565453","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"},{"id":"105","user_id":"2","name":"ADASd ASDSd","city":"Visakhapatnam","state":"Andhra Pradesh","zip":"530009","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"}]
      * message : List of items in cart
      */
@@ -51,24 +51,24 @@ public class CartResponse {
 
     public static class CartItemsBean {
         /**
-         * module : stationery
-         * id : 432
-         * item_id : 151
-         * product_name : PERMAMENT MARKERS
-         * image : http://pickany247.com/stationery/stationery/../images/product_images/PIKHID65L/1.jpg
+         * module : grocery
+         * id : 445
+         * item_id : 397
+         * product_name : Baby hair oil
+         * image : http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKG66E366/1.jpg
          * user_id : 2
-         * request_code : 46723916
-         * category : stationery
+         * request_code : 57680745
+         * category : grocery
          * cart_type : single
-         * product_id : PIKHID65L
+         * product_id : 397
          * quantity : 1
-         * availability : 5
-         * unit_price_incl_tax : 200.00
-         * unit_price_exld_tax : 178.57
-         * tax_rate : 12.00
-         * tax_amt : 21.43
+         * availability : 6
+         * unit_price_incl_tax : 74.34
+         * unit_price_exld_tax : 63.00
+         * tax_rate : 18.00
+         * tax_amt : 11.34
          * discount : 0.00
-         * total_price : 200.00
+         * total_price : 74.34
          * color :
          * eggless :
          * eggless_amt :
@@ -307,11 +307,11 @@ public class CartResponse {
 
     public static class TotalBillBean {
         /**
-         * priceInclTax : 2636.00
-         * GST : 169.63
-         * SubTotal : 2636.00
+         * priceInclTax : 192.34
+         * GST : 29.34
+         * SubTotal : 192.34
          * DeliveryCharges : 0
-         * grandTotal : 2636.00
+         * grandTotal : 192.34
          */
 
         private String priceInclTax;

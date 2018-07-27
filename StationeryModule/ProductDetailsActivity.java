@@ -1,5 +1,6 @@
 package com.prism.pickany247.StationeryModule;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -10,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.prism.pickany247.Adapters.SpinnerAdapter;
 import com.prism.pickany247.Adapters.ViewPagerAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.CartActivity;
@@ -54,6 +58,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
     Button btnAddToCart,btnBuyNow;
     private PrefManager pref;
     String userid;
+    String selectedPrice,selectedItemId;
+    LinearLayout spinnerLayout;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // Displaying user information from shared preferences
         HashMap<String, String> profile = pref.getUserDetails();
         userid =profile.get("id");
+
+        spinnerLayout=(LinearLayout)findViewById(R.id.spinnerLayout);
 
         if (appController.isConnection()) {
 
@@ -115,6 +123,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
      Log.e("PRODUCT_URL",""+Api.PRODUCT_DETAILS_URL+module+"&productId="+id);
          pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.PRODUCT_DETAILS_URL+module+"&productId="+id, new com.android.volley.Response.Listener<String>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(String response) {
 
@@ -152,62 +161,61 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                     if (module.equalsIgnoreCase("grocery")){
 
-                        ArrayList<GrocerySpinItem> grocerySpinItems =new ArrayList<>();
+                        final List<String> listCapacity = new ArrayList<>();
+                        final List<String> listUnitPrice = new ArrayList<>();
+                        final List<String> listItemId = new ArrayList<>();
 
-                        List<String> list1 = new ArrayList<>();
-
-                        String capacity ="";
-                        String unitPrice ="";
-                        String itemid ="";
-
+                       // capacity
                         String[] itemsCapacity = filteredProductsBean.getCapacity().split(",");
                         for (String itemCap : itemsCapacity)
                         {
                             System.out.println("itemCap = " + itemCap);
-
-                            capacity=itemCap;
-                            grocerySpinItems.add(new GrocerySpinItem(capacity,unitPrice,itemid));
-
-                            list1.add(itemCap);
+                            listCapacity.add(itemCap);
                         }
 
-                        String[] itemsUnitPrice= filteredProductsBean.getCapacity().split(",");
+                        // unit price
+                        String[] itemsUnitPrice= filteredProductsBean.getUnit_price_incl_tax().split(",");
                         for (String itemUnit : itemsUnitPrice)
                         {
-                            unitPrice=itemUnit;
                             System.out.println("itemUnit = " + itemUnit);
-                            grocerySpinItems.add(new GrocerySpinItem(capacity,unitPrice,itemid));
+                            listUnitPrice.add(itemUnit);
                         }
 
-                        String[] itemsId= filteredProductsBean.getCapacity().split(",");
+                        // itemsid
+                        String[] itemsId= filteredProductsBean.getItem_id().split(",");
                         for (String itemsid : itemsId)
                         {
-                            itemid=itemsid;
                             System.out.println("itemsID = " + itemsid);
-                            grocerySpinItems.add(new GrocerySpinItem(capacity,unitPrice,itemid));
+                            listItemId.add(itemsid);
                         }
-
-
-                        for (GrocerySpinItem grocerySpinItem:grocerySpinItems){
-                            Log.e("CAPACITY",""+grocerySpinItem.getCapacity());
-
-                        }
-
 
 
                         Spinner spinner =(Spinner)findViewById(R.id.spinnerPrice);
-                        ArrayAdapter<String> adapter =new ArrayAdapter<String>(ProductDetailsActivity.this, android.R.layout.simple_spinner_item,list1);
-                        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        SpinnerAdapter adapter =new SpinnerAdapter(ProductDetailsActivity.this,listCapacity,listUnitPrice,listItemId);
+                       // adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                         spinner.setAdapter(adapter);
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                                  selectedPrice = listUnitPrice.get(position);
+                                  selectedItemId = listItemId.get(position);
 
+                                  txtPrice.setText("\u20B9"+selectedPrice);
 
+                                  // Toast.makeText(getApplicationContext(),""+price+"---"+itemId,Toast.LENGTH_SHORT).show();
+                            }
 
-                       // txtPrice.setText("\u20B9"+firstPrice+"  ("+firstcapacity+")");
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
 
                     }else {
 
                         txtPrice.setText("\u20B9"+filteredProductsBean.getUnit_price_incl_tax());
+                        spinnerLayout.setVisibility(View.GONE);
                     }
 
 
@@ -221,10 +229,21 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
 
-                            String cart ="ADD TO CART";
-                          addtocartData(userid,filteredProductsBean.getProduct_id(),"",module,filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",filteredProductsBean.getUnit_price_incl_tax(),
-                          filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),filteredProductsBean.getHeart_shape()
-                                  ,filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),cart);
+                            String cart = "ADD TO CART";
+
+
+                            if (module.equalsIgnoreCase("grocery")) {
+                                addtocartData(userid,selectedItemId,"",filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",
+                                        filteredProductsBean.getUnit_price_incl_tax(),filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),
+                                        filteredProductsBean.getHeart_shape(),filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),filteredProductsBean.getMessage(),cart);
+
+                            }
+                            else {
+                                addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",
+                                        filteredProductsBean.getUnit_price_incl_tax(),filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),
+                                        filteredProductsBean.getHeart_shape(),filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),filteredProductsBean.getMessage(),cart);
+
+                            }
                         }
                     });
 
@@ -232,10 +251,19 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
 
-                            String cart ="BUY NOW";
-                            addtocartData(userid,filteredProductsBean.getProduct_id(),"",module,filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",filteredProductsBean.getUnit_price_incl_tax(),
-                                    filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),filteredProductsBean.getHeart_shape()
-                                    ,filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),cart);
+                            String cart = "BUY NOW";
+                            if (module.equalsIgnoreCase("grocery")) {
+                                addtocartData(userid,selectedItemId,"",filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",
+                                        filteredProductsBean.getUnit_price_incl_tax(),filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),
+                                        filteredProductsBean.getHeart_shape(),filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),filteredProductsBean.getMessage(),cart);
+
+                            }
+                            else {
+                                addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",
+                                        filteredProductsBean.getUnit_price_incl_tax(),filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),
+                                        filteredProductsBean.getHeart_shape(),filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),filteredProductsBean.getMessage(),cart);
+
+                            }
                         }
                     });
 
@@ -308,7 +336,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             }else {
                                 btnAddToCart.setText("GO TO CART");
-                                Toast.makeText(getApplicationContext(),"CheckBoxItem Added to cart",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Item Added to cart",Toast.LENGTH_SHORT).show();
                             }
                         }
                         else if (btnValue.equalsIgnoreCase("BUY NOW"))

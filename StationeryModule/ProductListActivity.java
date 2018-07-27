@@ -66,6 +66,7 @@ public class ProductListActivity extends AppCompatActivity {
                 Intent intent =new Intent(getApplicationContext(),FilterActivity.class);
                 intent.putExtra("catId", id);
                 intent.putExtra("title", title);
+                intent.putExtra("module",module);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
