@@ -14,12 +14,12 @@ import com.prism.pickany247.Response.CheckBoxItem;
 
 import java.util.List;
 
-public class MyCustomAdapter extends BaseAdapter {
+public class MyCheckBoxAdapter extends BaseAdapter {
 
     private Context context;
     private List<CheckBoxItem> list;
 
-    public MyCustomAdapter(Context c, List<CheckBoxItem> l) {
+    public MyCheckBoxAdapter(Context c, List<CheckBoxItem> l) {
         context = c;
         list = l;
     }

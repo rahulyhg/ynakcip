@@ -2,7 +2,7 @@ package com.prism.pickany247.Response;
 
 import java.util.List;
 
-public class StationeryCatResponse {
+public class CatResponse {
 
 
     /**

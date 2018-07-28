@@ -11,16 +11,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.GroceryHomeResponse;
+import com.prism.pickany247.Response.CatResponse;
 import com.prism.pickany247.ProductListActivity;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class GroceryCatAdapter extends RecyclerView.Adapter<GroceryCatAdapter.MyViewHolder>{
+public class CatageoryAdapter extends RecyclerView.Adapter<CatageoryAdapter.MyViewHolder>{
     private Context mContext;
-    private List<GroceryHomeResponse.CategoriesBean> homeList;
+    private List<CatResponse.CategoriesBean> homeList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView thumbnail;
@@ -39,22 +39,22 @@ public class GroceryCatAdapter extends RecyclerView.Adapter<GroceryCatAdapter.My
         }
     }
 
-    public GroceryCatAdapter(Context mContext, List<GroceryHomeResponse.CategoriesBean> homekitchenList) {
+    public CatageoryAdapter(Context mContext, List<CatResponse.CategoriesBean> homekitchenList) {
         this.mContext = mContext;
         this.homeList = homekitchenList;
     }
 
     @Override
-    public GroceryCatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.stationery_home_card, parent, false);
 
-        return new GroceryCatAdapter.MyViewHolder(itemView);
+        return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final GroceryHomeResponse.CategoriesBean home = homeList.get(position);
+        final CatResponse.CategoriesBean home = homeList.get(position);
 
         // loading album cover using Glide library
         Glide.with(mContext).load(home.getImage()).into(holder.thumbnail);
@@ -65,13 +65,13 @@ public class GroceryCatAdapter extends RecyclerView.Adapter<GroceryCatAdapter.My
             public void onClick(View v) {
 
 //                    Activity activity = (Activity) mContext;
-                Intent intent = new Intent(mContext, ProductListActivity.class);
-                intent.putExtra("catId", home.getId());
-                intent.putExtra("title", home.getCategory_name());
-                intent.putExtra("module", home.getModule());
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-                // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    Intent intent = new Intent(mContext, ProductListActivity.class);
+                    intent.putExtra("catId", home.getId());
+                    intent.putExtra("title", home.getCategory_name());
+                    intent.putExtra("module", home.getModule());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
 
             }

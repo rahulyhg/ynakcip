@@ -21,24 +21,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.prism.pickany247.Adapters.SationeryProductAadpter;
+import com.prism.pickany247.Adapters.ProductAadpter;
 import com.prism.pickany247.Apis.Api;
-import com.prism.pickany247.CartActivity;
 import com.prism.pickany247.Fragments.BottomSheet3DialogFragment;
-import com.prism.pickany247.GroceryModule.GroceryFilterActivity;
-import com.prism.pickany247.HomeActivity;
-import com.prism.pickany247.R;
-import com.prism.pickany247.Response.StationeryResponse;
+import com.prism.pickany247.Modules.GroceryModule.GroceryFilterActivity;
+import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Singleton.AppController;
-import com.prism.pickany247.StationeryModule.StationeryFilterActivity;
+import com.prism.pickany247.Modules.StationeryModule.StationeryFilterActivity;
 
 public class ProductListActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     AppController appController;
-    private SationeryProductAadpter adapter;
+    private ProductAadpter adapter;
     private RecyclerView rcProduct;
     Gson gson;
-    StationeryResponse stationeryResponse =new StationeryResponse();
+    ProductResponse productResponse =new ProductResponse();
     LinearLayout sortLinear,filterLinear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,14 +151,14 @@ public class ProductListActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
+                productResponse = gson.fromJson(response, ProductResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
                 rcProduct.setLayoutManager(mLayoutManager);
                 rcProduct.setItemAnimator(new DefaultItemAnimator());
 
-                adapter = new SationeryProductAadpter(getApplicationContext(), stationeryResponse.getFiltered_products());
+                adapter = new ProductAadpter(getApplicationContext(), productResponse.getFiltered_products());
                 rcProduct.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 

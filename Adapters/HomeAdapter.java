@@ -1,6 +1,5 @@
 package com.prism.pickany247.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,16 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.prism.pickany247.GroceryModule.GroceryHomeActivity;
-import com.prism.pickany247.MobilesModule.MobileHomeActivity;
+import com.prism.pickany247.Modules.GroceryModule.GroceryHomeActivity;
+import com.prism.pickany247.Modules.MobilesModule.MobileHomeActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.HomeResponse;
-import com.prism.pickany247.Singleton.AppController;
-import com.prism.pickany247.StationeryModule.StationeryHomeActivity;
+import com.prism.pickany247.Modules.StationeryModule.StationeryHomeActivity;
 
 
 import java.util.List;
@@ -37,8 +33,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
         public MyViewHolder(View view) {
             super(view);
 
-            thumbNail = (ImageView) view
-                    .findViewById(R.id.thumbnail);
+            thumbNail = (ImageView) view.findViewById(R.id.thumbnail);
             txtTitle=(TextView)view.findViewById(R.id.txtTitle);
 
 

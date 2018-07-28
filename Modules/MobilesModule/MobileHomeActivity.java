@@ -1,4 +1,4 @@
-package com.prism.pickany247.MobilesModule;
+package com.prism.pickany247.Modules.MobilesModule;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 
 import com.google.gson.Gson;
-import com.prism.pickany247.Adapters.StationeryCatAdapter;
+import com.prism.pickany247.Adapters.CatageoryAdapter;
 import com.prism.pickany247.HomeActivity;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.StationeryResponse;
+import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Singleton.AppController;
 
 import butterknife.BindView;
@@ -24,7 +24,7 @@ import butterknife.OnClick;
 public class MobileHomeActivity extends AppCompatActivity {
     AppController appController;
     Gson gson;
-    StationeryResponse stationeryResponse =new StationeryResponse();
+    ProductResponse productResponse =new ProductResponse();
 
     @BindView(R.id.txtNewMobile)
     TextView txtNewMobile;
@@ -53,7 +53,7 @@ public class MobileHomeActivity extends AppCompatActivity {
     @BindView(R.id.simpleSwipeRefreshLayout)
     SwipeRefreshLayout simpleSwipeRefreshLayout;
 
-    StationeryCatAdapter stationeryCatAdapter;
+    CatageoryAdapter catageoryAdapter;
 
 
 
@@ -116,9 +116,9 @@ public class MobileHomeActivity extends AppCompatActivity {
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                StationeryCatResponse stationeryhomeResponse = gson.fromJson(response, StationeryCatResponse.class);
+                CatResponse stationeryhomeResponse = gson.fromJson(response, CatResponse.class);
 
-                for (StationeryCatResponse.MainCategoriesBean mainCategoriesBean:stationeryhomeResponse.getMainCategories()){
+                for (CatResponse.MainCategoriesBean mainCategoriesBean:stationeryhomeResponse.getMainCategories()){
 
                     if (mainCategoriesBean.getId().equals("1")){
 
@@ -175,16 +175,16 @@ public class MobileHomeActivity extends AppCompatActivity {
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
+                productResponse = gson.fromJson(response, ProductResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                 recyclerNew.setLayoutManager(mLayoutManager);
                 recyclerNew.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryCatAdapter = new GroceryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                recyclerNew.setAdapter(stationeryCatAdapter);
-                stationeryCatAdapter.notifyDataSetChanged();
+                catageoryAdapter = new GroceryCatAdapter(getApplicationContext(), productResponse.getFiltered_products());
+                recyclerNew.setAdapter(catageoryAdapter);
+                catageoryAdapter.notifyDataSetChanged();
 
                 txtNewView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -230,16 +230,16 @@ public class MobileHomeActivity extends AppCompatActivity {
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
+                productResponse = gson.fromJson(response, ProductResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                 recyclerUsed.setLayoutManager(mLayoutManager);
                 recyclerUsed.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryCatAdapter = new GroceryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                recyclerUsed.setAdapter(stationeryCatAdapter);
-                stationeryCatAdapter.notifyDataSetChanged();
+                catageoryAdapter = new GroceryCatAdapter(getApplicationContext(), productResponse.getFiltered_products());
+                recyclerUsed.setAdapter(catageoryAdapter);
+                catageoryAdapter.notifyDataSetChanged();
 
                 txtUsedView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -282,16 +282,16 @@ public class MobileHomeActivity extends AppCompatActivity {
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
+                productResponse = gson.fromJson(response, ProductResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                 recyclerTablet.setLayoutManager(mLayoutManager);
                 recyclerTablet.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryCatAdapter = new GroceryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                recyclerTablet.setAdapter(stationeryCatAdapter);
-                stationeryCatAdapter.notifyDataSetChanged();
+                catageoryAdapter = new GroceryCatAdapter(getApplicationContext(), productResponse.getFiltered_products());
+                recyclerTablet.setAdapter(catageoryAdapter);
+                catageoryAdapter.notifyDataSetChanged();
 
 
                 txtTabletView.setOnClickListener(new View.OnClickListener() {
@@ -335,16 +335,16 @@ public class MobileHomeActivity extends AppCompatActivity {
                 simpleSwipeRefreshLayout.setRefreshing(false);
 
                 gson = new Gson();
-                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
+                productResponse = gson.fromJson(response, ProductResponse.class);
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                 recyclerAccessories.setLayoutManager(mLayoutManager);
                 recyclerAccessories.setItemAnimator(new DefaultItemAnimator());
 
-                stationeryCatAdapter = new GroceryCatAdapter(getApplicationContext(), stationeryResponse.getFiltered_products());
-                recyclerAccessories.setAdapter(stationeryCatAdapter);
-                stationeryCatAdapter.notifyDataSetChanged();
+                catageoryAdapter = new GroceryCatAdapter(getApplicationContext(), productResponse.getFiltered_products());
+                recyclerAccessories.setAdapter(catageoryAdapter);
+                catageoryAdapter.notifyDataSetChanged();
 
                 txtAccessoriesView.setOnClickListener(new View.OnClickListener() {
                     @Override

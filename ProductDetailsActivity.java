@@ -1,4 +1,4 @@
-package com.prism.pickany247.StationeryModule;
+package com.prism.pickany247;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -31,12 +30,8 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.SpinnerAdapter;
 import com.prism.pickany247.Adapters.ViewPagerAdapter;
 import com.prism.pickany247.Apis.Api;
-import com.prism.pickany247.CartActivity;
 import com.prism.pickany247.Helper.PrefManager;
-import com.prism.pickany247.HomeActivity;
-import com.prism.pickany247.R;
-import com.prism.pickany247.Response.GrocerySpinItem;
-import com.prism.pickany247.Response.StationeryResponse;
+import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Response.ViewPagerItem;
 import com.prism.pickany247.Singleton.AppController;
 import com.rd.PageIndicatorView;
@@ -45,13 +40,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     AppController appController;
     Gson gson;
-    StationeryResponse stationeryResponse =new StationeryResponse();
+    ProductResponse productResponse =new ProductResponse();
     List<ViewPagerItem> viewPagerItemslist=new ArrayList<>();
     TextView txtName,txtPrice,txtDescription;
     RatingBar ratingBar;
@@ -130,9 +124,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 pDialog.dismiss();
 
                 gson = new Gson();
-                stationeryResponse = gson.fromJson(response, StationeryResponse.class);
+                productResponse = gson.fromJson(response, ProductResponse.class);
 
-                for (final StationeryResponse.FilteredProductsBean filteredProductsBean:stationeryResponse.getFiltered_products()){
+                for (final ProductResponse.FilteredProductsBean filteredProductsBean: productResponse.getFiltered_products()){
 
                     String allImages =filteredProductsBean.getAllImages();
 

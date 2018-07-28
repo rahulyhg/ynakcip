@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-
-import com.prism.pickany247.StationeryModule.StationeryHomeActivity;
 
 public class SplashActivity extends Activity {
     int SPLASH_TIME_OUT = 2000;

@@ -2,11 +2,11 @@ package com.prism.pickany247.Response;
 
 import java.util.List;
 
-public class GroceryProductResponse {
+public class ProductResponse {
 
 
     /**
-     * filtered_products : [{"id":"57","Module":"grocery","main_category_id":"12","main_category_name":"Pickles and Crunches","sub_category_id":"52","sub_category_name":"Pickles ","product_id":"PIKG68FJP3","product_name":"Amla Pickle","ImagePath":"http://pickany247.com/grocery/grocery/","SingleImage":"../../image/grocery/product_images/PIKG68FJP3/priya-amla-pickle-without-garlic.jpg","AllImages":"../../image/grocery/product_images/PIKG68FJP3/priya-amla-pickle-without-garlic.jpg","brand_id":"91","product_type":"19","color":"","capacity":"300 gms","incl_price":"75.00","rating":"0"},{"id":"59","Module":"grocery","main_category_id":"12","main_category_name":"Pickles and Crunches","sub_category_id":"52","sub_category_name":"Pickles ","product_id":"PIKG81738G","product_name":"Bitter Gourd Pickle","ImagePath":"http://pickany247.com/grocery/grocery/","SingleImage":"../../image/grocery/product_images/PIKG81738G/0785018012275-bitter-gourd-karela-pickle-front.jpg","AllImages":"../../image/grocery/product_images/PIKG81738G/0785018012275-bitter-gourd-karela-pickle-front.jpg,../../image/grocery/product_images/PIKG81738G/priya_bitter_gourd_pickle.jpg","brand_id":"91","product_type":"19","color":"","capacity":"300 gms","incl_price":"75.00","rating":"0"},{"id":"68","Module":"grocery","main_category_id":"12","main_category_name":"Pickles and Crunches","sub_category_id":"53","sub_category_name":"Crunches","product_id":"PIKG7Y4K0X","product_name":"Chana Papad","ImagePath":"http://pickany247.com/grocery/grocery/","SingleImage":"../../image/grocery/product_images/PIKG7Y4K0X/haldiram-chana-papad.jpg","AllImages":"../../image/grocery/product_images/PIKG7Y4K0X/haldiram-chana-papad.jpg","brand_id":"131","product_type":"21","color":"","capacity":"200 gms","incl_price":"60.90","rating":"0"},{"id":"60","Module":"grocery","main_category_id":"12","main_category_name":"Pickles and Crunches","sub_category_id":"52","sub_category_name":"Pickles ","product_id":"PIKG35QX95","product_name":"Gongura Pickle","ImagePath":"http://pickany247.com/grocery/grocery/","SingleImage":"../../image/grocery/product_images/PIKG35QX95/priya_s_gongura_pickle.jpg","AllImages":"../../image/grocery/product_images/PIKG35QX95/priya_s_gongura_pickle.jpg","brand_id":"91","product_type":"19","color":"","capacity":"300 gms","incl_price":"75.00","rating":"0"}]
+     * filtered_products : [{"id":"119","Module":"grocery","main_category_id":"14","main_category_name":"Fruits","sub_category_id":"89","sub_category_name":"Fruits","product_id":"PIKG38562N","product_name":"Apple","ImagePath":"http://pickany247.com/grocery/grocery/","SingleImage":"../../image/grocery/product_images/PIKG38562N/4.jpg","AllImages":"../../image/grocery/product_images/PIKG38562N/4.jpg,../../image/grocery/product_images/PIKG38562N/5.jpg","brand_id":"124","product_type":"72","color":"","cart_type":"single","tax_rate":"0.00","item_id":"2028,2038","availability":"19,30","capacity":"500 gms,1 kgs","unit_price_incl_tax":"50.00,100.00","rating":"5.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
      * message : Get Filtered Products
      */
 
@@ -31,23 +31,34 @@ public class GroceryProductResponse {
 
     public static class FilteredProductsBean {
         /**
-         * id : 57
+         * id : 119
          * Module : grocery
-         * main_category_id : 12
-         * main_category_name : Pickles and Crunches
-         * sub_category_id : 52
-         * sub_category_name : Pickles
-         * product_id : PIKG68FJP3
-         * product_name : Amla Pickle
+         * main_category_id : 14
+         * main_category_name : Fruits
+         * sub_category_id : 89
+         * sub_category_name : Fruits
+         * product_id : PIKG38562N
+         * product_name : Apple
          * ImagePath : http://pickany247.com/grocery/grocery/
-         * SingleImage : ../../image/grocery/product_images/PIKG68FJP3/priya-amla-pickle-without-garlic.jpg
-         * AllImages : ../../image/grocery/product_images/PIKG68FJP3/priya-amla-pickle-without-garlic.jpg
-         * brand_id : 91
-         * product_type : 19
+         * SingleImage : ../../image/grocery/product_images/PIKG38562N/4.jpg
+         * AllImages : ../../image/grocery/product_images/PIKG38562N/4.jpg,../../image/grocery/product_images/PIKG38562N/5.jpg
+         * brand_id : 124
+         * product_type : 72
          * color :
-         * capacity : 300 gms
-         * incl_price : 75.00
-         * rating : 0
+         * cart_type : single
+         * tax_rate : 0.00
+         * item_id : 2028,2038
+         * availability : 19,30
+         * capacity : 500 gms,1 kgs
+         * unit_price_incl_tax : 50.00,100.00
+         * rating : 5.0
+         * discount :
+         * eggless :
+         * eggless_amt :
+         * heart_shape :
+         * heart_shape_amt :
+         * flavour :
+         * message :
          */
 
         private String id;
@@ -64,9 +75,20 @@ public class GroceryProductResponse {
         private String brand_id;
         private String product_type;
         private String color;
+        private String cart_type;
+        private String tax_rate;
+        private String item_id;
+        private String availability;
         private String capacity;
-        private String incl_price;
+        private String unit_price_incl_tax;
         private String rating;
+        private String discount;
+        private String eggless;
+        private String eggless_amt;
+        private String heart_shape;
+        private String heart_shape_amt;
+        private String flavour;
+        private String message;
 
         public String getId() {
             return id;
@@ -180,6 +202,38 @@ public class GroceryProductResponse {
             this.color = color;
         }
 
+        public String getCart_type() {
+            return cart_type;
+        }
+
+        public void setCart_type(String cart_type) {
+            this.cart_type = cart_type;
+        }
+
+        public String getTax_rate() {
+            return tax_rate;
+        }
+
+        public void setTax_rate(String tax_rate) {
+            this.tax_rate = tax_rate;
+        }
+
+        public String getItem_id() {
+            return item_id;
+        }
+
+        public void setItem_id(String item_id) {
+            this.item_id = item_id;
+        }
+
+        public String getAvailability() {
+            return availability;
+        }
+
+        public void setAvailability(String availability) {
+            this.availability = availability;
+        }
+
         public String getCapacity() {
             return capacity;
         }
@@ -188,12 +242,12 @@ public class GroceryProductResponse {
             this.capacity = capacity;
         }
 
-        public String getIncl_price() {
-            return incl_price;
+        public String getUnit_price_incl_tax() {
+            return unit_price_incl_tax;
         }
 
-        public void setIncl_price(String incl_price) {
-            this.incl_price = incl_price;
+        public void setUnit_price_incl_tax(String unit_price_incl_tax) {
+            this.unit_price_incl_tax = unit_price_incl_tax;
         }
 
         public String getRating() {
@@ -202,6 +256,62 @@ public class GroceryProductResponse {
 
         public void setRating(String rating) {
             this.rating = rating;
+        }
+
+        public String getDiscount() {
+            return discount;
+        }
+
+        public void setDiscount(String discount) {
+            this.discount = discount;
+        }
+
+        public String getEggless() {
+            return eggless;
+        }
+
+        public void setEggless(String eggless) {
+            this.eggless = eggless;
+        }
+
+        public String getEggless_amt() {
+            return eggless_amt;
+        }
+
+        public void setEggless_amt(String eggless_amt) {
+            this.eggless_amt = eggless_amt;
+        }
+
+        public String getHeart_shape() {
+            return heart_shape;
+        }
+
+        public void setHeart_shape(String heart_shape) {
+            this.heart_shape = heart_shape;
+        }
+
+        public String getHeart_shape_amt() {
+            return heart_shape_amt;
+        }
+
+        public void setHeart_shape_amt(String heart_shape_amt) {
+            this.heart_shape_amt = heart_shape_amt;
+        }
+
+        public String getFlavour() {
+            return flavour;
+        }
+
+        public void setFlavour(String flavour) {
+            this.flavour = flavour;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
         }
     }
 }
