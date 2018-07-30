@@ -9,22 +9,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.MyCheckBoxAdapter;
 import com.prism.pickany247.Apis.Api;
+import com.prism.pickany247.ProductListActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.CatResponse;
 import com.prism.pickany247.Response.CheckBoxItem;
 import com.prism.pickany247.Response.GroceryFilterResponse;
 import com.prism.pickany247.Singleton.AppController;
-import com.prism.pickany247.ProductListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +95,8 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
     LinearLayout ratingsLayout;
     @BindView(R.id.btnApply)
     Button btnApply;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
 
     @Override
@@ -107,15 +117,14 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
     private void prepareCatData() {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_HOME_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("CAT_RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
-
+                progressBar.setVisibility(View.GONE);
                 gson = new Gson();
                 homeResponse = gson.fromJson(response, CatResponse.class);
 
@@ -183,7 +192,19 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -196,14 +217,14 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
     private void prepareSubCatData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("SUB_CAT_RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
@@ -229,8 +250,19 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
-            }
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }}
         });
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(stringRequest);
@@ -242,14 +274,14 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
     private void prepareBrandData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
@@ -275,8 +307,19 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
-            }
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }}
         });
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(stringRequest);
@@ -288,14 +331,14 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
     private void prepareProductTypeData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
@@ -321,7 +364,19 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -334,15 +389,14 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
     private void prepareColorData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
-
+                progressBar.setVisibility(View.GONE);
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
                 colorItems = new ArrayList<>();
@@ -367,7 +421,20 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -380,15 +447,13 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
     private void prepareRatingData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
-
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
-
+                progressBar.setVisibility(View.GONE);
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
                 ratingItems = new ArrayList<>();
@@ -417,7 +482,20 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue

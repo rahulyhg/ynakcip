@@ -15,9 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -123,7 +128,7 @@ public class CartActivity extends AppCompatActivity {
                 for (CartResponse.CartItemsBean cartItemsBean : cartResponse.getCart_items()) {
 
                     productArrayList.add(new Product(cartItemsBean.getProduct_name(), Integer.parseInt(cartItemsBean.getQuantity()), Double.parseDouble(cartItemsBean.getUnit_price_incl_tax()), cartItemsBean.getImage(),
-                            cartItemsBean.getModule(),cartItemsBean.getUser_id(),cartItemsBean.getItem_id(),cartItemsBean.getId(),cartItemsBean.getProduct_id()));
+                            cartItemsBean.getModule(),cartItemsBean.getUser_id(),cartItemsBean.getItem_id(),cartItemsBean.getId(),cartItemsBean.getProduct_id(), cartItemsBean.getAvailability()));
 
                     products = new Products(productArrayList);
 
@@ -182,8 +187,18 @@ public class CartActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 hidePDialog();
 
-                //  Toast.makeText(getApplicationContext(),"toast",Toast.LENGTH_SHORT).show();
-
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(CartActivity.this);
@@ -261,9 +276,9 @@ public class CartActivity extends AppCompatActivity {
                 throw new IndexOutOfBoundsException();
             }
 
-            if (product.quantity > 1) {
+            if (product.quantity > 1 ) {
 
-                Product updatedProduct = new Product(product.name, (product.quantity - 1), product.price, product.thumbnail,product.module,product.user_id,product.item_id,product.cartId,product.productId);
+                Product updatedProduct = new Product(product.name, (product.quantity - 1), product.price, product.thumbnail,product.module,product.user_id,product.item_id,product.cartId,product.productId, product.availability);
                 productList.remove(product);
                 productList.add(i, updatedProduct);
 
@@ -279,13 +294,19 @@ public class CartActivity extends AppCompatActivity {
             if (i == -1) {
                 throw new IndexOutOfBoundsException();
             }
-            Product updatedProduct = new Product(product.name, (product.quantity + 1), product.price, product.thumbnail,product.module,product.user_id,product.item_id,product.cartId,product.productId);
-            productList.remove(product);
-            productList.add(i, updatedProduct);
+            if (product.getAvailability().equalsIgnoreCase(String.valueOf(product.quantity))){
+                Log.e("QUNATITYADD",""+"reached");
+                Toast.makeText(getApplicationContext(),"You Reached Maximum Availability",Toast.LENGTH_SHORT).show();
+            }else {
 
-            Log.e("QUNATITY",""+updatedProduct.quantity);
+                Product updatedProduct = new Product(product.name, (product.quantity + 1), product.price, product.thumbnail,product.module,product.user_id,product.item_id,product.cartId,product.productId, product.availability);
+                productList.remove(product);
+                productList.add(i, updatedProduct);
 
-            updateQuantity(updatedProduct);
+                Log.e("QUNATITY",""+updatedProduct.quantity);
+                updateQuantity(updatedProduct);
+            }
+
 
             calculateMealTotal();
         }
@@ -404,8 +425,18 @@ public class CartActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.e("RESPONSE_ERROR: ",""+error);
                         //hideDialog();
-                        // Toast.makeText(AddAddsActivity.this,"Email Already Exist",Toast.LENGTH_LONG).show();
-                    }
+                        if (error instanceof NetworkError) {
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof AuthFailureError) {
+                            Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ParseError) {
+                            Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof NoConnectionError) {
+                            Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof TimeoutError) {
+                            Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                        }                    }
                 }){
             @Override
             protected Map<String,String> getParams() throws AuthFailureError {
@@ -450,7 +481,18 @@ public class CartActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.e("RESPONSE_ERROR: ",""+error);
                         //hideDialog();
-                        // Toast.makeText(AddAddsActivity.this,"Email Already Exist",Toast.LENGTH_LONG).show();
+                        if (error instanceof NetworkError) {
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof AuthFailureError) {
+                            Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ParseError) {
+                            Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof NoConnectionError) {
+                            Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof TimeoutError) {
+                            Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }){
             @Override

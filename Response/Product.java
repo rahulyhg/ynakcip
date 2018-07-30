@@ -10,8 +10,9 @@ public class Product {
     public final String item_id;
     public final String cartId;
     public final String productId;
+    public final String availability;
 
-    public Product(String name, int quantity, double price, String thumbnail, String module, String user_id, String item_id, String cartId, String productId) {
+    public Product(String name, int quantity, double price, String thumbnail, String module, String user_id, String item_id, String cartId, String productId, String availability) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
@@ -21,6 +22,7 @@ public class Product {
         this.item_id = item_id;
         this.cartId = cartId;
         this.productId = productId;
+        this.availability = availability;
     }
 
     public String getName() {
@@ -57,5 +59,9 @@ public class Product {
 
     public String getProductId() {
         return productId;
+    }
+
+    public String getAvailability() {
+        return availability;
     }
 }

@@ -9,12 +9,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
@@ -48,9 +56,9 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
     CatResponse homeResponse = new CatResponse();
     StationerFilterResponse filterResponse = new StationerFilterResponse();
     Gson gson;
-    String strCat="";
+    String strCat = "";
 
-    String catId, title,module;
+    String catId, title, module;
     @BindView(R.id.rbPrice)
     RadioButton rbPrice;
     @BindView(R.id.rbCat)
@@ -67,6 +75,8 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
     RadioButton rbRatings;
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
     @BindView(R.id.rangeSeekbar3)
     CrystalRangeSeekbar rangeSeekbar3;
     @BindView(R.id.textMin1)
@@ -114,7 +124,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
         catId = getIntent().getStringExtra("catId");
         title = getIntent().getStringExtra("title");
-        module =getIntent().getStringExtra("module");
+        module = getIntent().getStringExtra("module");
 
 
         // price range
@@ -132,7 +142,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
                 textMin1.setText(String.valueOf(minValue));
                 textMax1.setText(String.valueOf(maxValue));
 
-                Log.e("VALUEMX",""+textMax1.getText().toString());
+                Log.e("VALUEMX", "" + textMax1.getText().toString());
             }
         });
 
@@ -148,7 +158,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
     private void prepareCatData() {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_HOME_URL, new Response.Listener<String>() {
             @Override
@@ -156,6 +166,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
                 Log.e("CAT_RESPONSE", "" + response);
                 //  simpleSwipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
 
                 gson = new Gson();
                 homeResponse = gson.fromJson(response, CatResponse.class);
@@ -181,7 +192,6 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
                 // Assign adapter to ListView
                 catList.setAdapter(myMyCheckBoxAdapter);
                 myMyCheckBoxAdapter.notifyDataSetChanged();
-
 
 
                 rbSubCat.setOnClickListener(new View.OnClickListener() {
@@ -221,12 +231,24 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
                 });
 
 
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -239,14 +261,14 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
     private void prepareSubCatData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("SUB_CAT_RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
+                 progressBar.setVisibility(View.GONE);
 
                 gson = new Gson();
                 StationerFilterResponse homeResponse = gson.fromJson(response, StationerFilterResponse.class);
@@ -272,7 +294,19 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -285,15 +319,14 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
     private void prepareBrandData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
-
+                progressBar.setVisibility(View.GONE);
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
                 brandItems = new ArrayList<>();
@@ -318,7 +351,19 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -331,15 +376,14 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
     private void prepareProductTypeData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
-
+                progressBar.setVisibility(View.GONE);
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
                 productTypeItems = new ArrayList<>();
@@ -364,7 +408,19 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -377,15 +433,14 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
     private void prepareColorData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
-
+                progressBar.setVisibility(View.GONE);
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
                 colorItems = new ArrayList<>();
@@ -410,7 +465,19 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -423,14 +490,14 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
     private void prepareRatingData(String catId) {
 
-        //  simpleSwipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
-                //  simpleSwipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
 
                 gson = new Gson();
                 filterResponse = gson.fromJson(response, StationerFilterResponse.class);
@@ -460,7 +527,19 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // simpleSwipeRefreshLayout.setRefreshing(true);
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 // Adding request to request queue
@@ -486,8 +565,6 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
     }
 
 
-
-
     @OnClick({R.id.rbPrice, R.id.rbCat, R.id.rbSubCat, R.id.rbBrand, R.id.rbProductType, R.id.rbColor, R.id.rbRatings, R.id.btnApply})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -506,7 +583,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
                 break;
             case R.id.rbCat:
 
-                 prepareCatData();
+                prepareCatData();
                 priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.VISIBLE);
                 subcatLayout.setVisibility(View.GONE);
@@ -603,7 +680,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
                 // subcat data
                 String subCat = "";
-                String strSubCat="";
+                String strSubCat = "";
                 for (CheckBoxItem checkBox : subCatItems) {
 
                     if (checkBox.checked) {
@@ -617,7 +694,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
                 // brand data
                 String brand = "";
-                String strBrand="";
+                String strBrand = "";
                 for (CheckBoxItem checkBox : brandItems) {
 
                     if (checkBox.checked) {
@@ -625,13 +702,13 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
                     }
                 }
                 if (brand.length() > 0) {
-                     strBrand = brand.substring(0, brand.length() - 1);
+                    strBrand = brand.substring(0, brand.length() - 1);
                     Log.e("strBrand", "" + strBrand);
                 }
 
                 // product data
                 String productType = "";
-                String strProductType="";
+                String strProductType = "";
                 for (CheckBoxItem checkBox : productTypeItems) {
 
                     if (checkBox.checked) {
@@ -645,7 +722,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
                 // color data
                 String color = "";
-                String strColor="";
+                String strColor = "";
                 for (CheckBoxItem checkBox : colorItems) {
 
                     if (checkBox.checked) {
@@ -660,7 +737,7 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
 
                 // rating data
                 String rating = "";
-                String strRating="";
+                String strRating = "";
                 for (CheckBoxItem checkBox : ratingItems) {
 
                     if (checkBox.checked) {
@@ -672,22 +749,21 @@ public class StationeryFilterActivity extends AppCompatActivity implements View.
                     Log.e("strRating", "" + strRating);
                 }
 
-                 String finalvalue="";
-                if (strCat.equals("")){
-                     finalvalue =catId+"&subcatId="+strSubCat+"&priceRange="+textMin1.getText().toString()+","+textMax1.getText().toString()+"&brand="+strBrand+"&productType="+strProductType+"&color="+strColor+"&rating="+strRating;
+                String finalvalue = "";
+                if (strCat.equals("")) {
+                    finalvalue = catId + "&subcatId=" + strSubCat + "&priceRange=" + textMin1.getText().toString() + "," + textMax1.getText().toString() + "&brand=" + strBrand + "&productType=" + strProductType + "&color=" + strColor + "&rating=" + strRating;
 
+                } else {
+                    finalvalue = strCat + "&subcatId=" + strSubCat + "&priceRange=" + textMin1.getText().toString() + "," + textMax1.getText().toString() + "&brand=" + strBrand + "&productType=" + strProductType + "&color=" + strColor + "&rating=" + strRating;
                 }
-                else {
-                    finalvalue =strCat+"&subcatId="+strSubCat+"&priceRange="+textMin1.getText().toString()+","+textMax1.getText().toString()+"&brand="+strBrand+"&productType="+strProductType+"&color="+strColor+"&rating="+strRating;
-                }
 
-                Log.e("RESULTSTRING",""+finalvalue);
+                Log.e("RESULTSTRING", "" + finalvalue);
 
-                Intent intent =new Intent(getApplicationContext(),ProductListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ProductListActivity.class);
                 intent.putExtra("catId", finalvalue);
                 intent.putExtra("title", title);
-                intent.putExtra("module",module);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("module", module);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
