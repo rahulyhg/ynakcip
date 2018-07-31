@@ -6,9 +6,9 @@ public class CartResponse {
 
 
     /**
-     * cart_items : [{"module":"grocery","id":"445","item_id":"397","product_name":"Baby hair oil","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKG66E366/1.jpg","user_id":"2","request_code":"57680745","category":"grocery","cart_type":"single","product_id":"397","quantity":"1","availability":"6","unit_price_incl_tax":"74.34","unit_price_exld_tax":"63.00","tax_rate":"18.00","tax_amt":"11.34","discount":"0.00","total_price":"74.34","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"grocery","id":"446","item_id":"433","product_name":"Avocado Oil","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKGMN1360/2.1530775880.jpg","user_id":"2","request_code":"57680745","category":"grocery","cart_type":"single","product_id":"433","quantity":"1","availability":"8","unit_price_incl_tax":"118.00","unit_price_exld_tax":"100.00","tax_rate":"18.00","tax_amt":"18.00","discount":"0.00","total_price":"118.00","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
-     * total_bill : [{"priceInclTax":"192.34","GST":"29.34","SubTotal":"192.34","DeliveryCharges":"0","grandTotal":"192.34"}]
-     * user_address : [{"id":"86","user_id":"2","name":"Sri Satya","city":"Vizianagaram","state":"Andhra Pradesh","zip":"565453","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"},{"id":"96","user_id":"2","name":"Sri Satya","city":"","state":"","zip":"565453","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"},{"id":"105","user_id":"2","name":"ADASd ASDSd","city":"Visakhapatnam","state":"Andhra Pradesh","zip":"530009","phone":"9999999999","address":"Chennai,Tamil Nadu","set_as_default":"0","status":"1"}]
+     * cart_items : [{"module":"stationery","id":"4666","item_id":"79","product_name":"Art Glue","image":"http://pickany247.com/stationery/stationery/../images/product_images/PIK202IX3/1.jpg","user_id":"23","request_code":"","category":"stationery","cart_type":"single","product_id":"PIK202IX3","quantity":"1","availability":"70","unit_price_incl_tax":"789.00","unit_price_exld_tax":"668.64","tax_rate":"18.00","tax_amt":"120.36","discount":"0.00","total_price":"789.00","storage":"","ram":"","color":"White","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"grocery","id":"4665","item_id":"172","product_name":"Horse Gram (Ulavalu)","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKGR40535/Horse-Gram-(Ulavalu).jpg","user_id":"23","request_code":"","category":"grocery","cart_type":"single","product_id":"172","quantity":"1","availability":"20","unit_price_incl_tax":"50.40","unit_price_exld_tax":"48.00","tax_rate":"5.00","tax_amt":"2.40","discount":"0.00","total_price":"50.40","storage":"","ram":"","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
+     * total_bill : [{"priceInclTax":"839.40","GST":"122.76","SubTotal":"839.40","DeliveryCharges":"0","grandTotal":"839.40"}]
+     * user_address : [{"id":"58","user_id":"23","name":"Vizagkumar","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"vizag","set_as_default":"0","status":"1"},{"id":"52","user_id":"23","name":"mahesh","city":"vizag","state":"apup","zip":"532457","phone":"8790299482","address":"mvp","set_as_default":"1","status":"1"},{"id":"51","user_id":"23","name":"sureshkumar","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8790299482","address":"ishukatota","set_as_default":"1","status":"1"},{"id":"56","user_id":"23","name":"Test123","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"vizag","set_as_default":"0","status":"1"},{"id":"57","user_id":"23","name":"santhosh","city":"vizag","state":"ap","zip":"432457","phone":"1234567890","address":"vizag","set_as_default":"0","status":"1"}]
      * message : List of items in cart
      */
 
@@ -51,25 +51,27 @@ public class CartResponse {
 
     public static class CartItemsBean {
         /**
-         * module : grocery
-         * id : 445
-         * item_id : 397
-         * product_name : Baby hair oil
-         * image : http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKG66E366/1.jpg
-         * user_id : 2
-         * request_code : 57680745
-         * category : grocery
+         * module : stationery
+         * id : 4666
+         * item_id : 79
+         * product_name : Art Glue
+         * image : http://pickany247.com/stationery/stationery/../images/product_images/PIK202IX3/1.jpg
+         * user_id : 23
+         * request_code :
+         * category : stationery
          * cart_type : single
-         * product_id : 397
+         * product_id : PIK202IX3
          * quantity : 1
-         * availability : 6
-         * unit_price_incl_tax : 74.34
-         * unit_price_exld_tax : 63.00
+         * availability : 70
+         * unit_price_incl_tax : 789.00
+         * unit_price_exld_tax : 668.64
          * tax_rate : 18.00
-         * tax_amt : 11.34
+         * tax_amt : 120.36
          * discount : 0.00
-         * total_price : 74.34
-         * color :
+         * total_price : 789.00
+         * storage :
+         * ram :
+         * color : White
          * eggless :
          * eggless_amt :
          * heart_shape :
@@ -96,6 +98,8 @@ public class CartResponse {
         private String tax_amt;
         private String discount;
         private String total_price;
+        private String storage;
+        private String ram;
         private String color;
         private String eggless;
         private String eggless_amt;
@@ -248,6 +252,22 @@ public class CartResponse {
             this.total_price = total_price;
         }
 
+        public String getStorage() {
+            return storage;
+        }
+
+        public void setStorage(String storage) {
+            this.storage = storage;
+        }
+
+        public String getRam() {
+            return ram;
+        }
+
+        public void setRam(String ram) {
+            this.ram = ram;
+        }
+
         public String getColor() {
             return color;
         }
@@ -307,11 +327,11 @@ public class CartResponse {
 
     public static class TotalBillBean {
         /**
-         * priceInclTax : 192.34
-         * GST : 29.34
-         * SubTotal : 192.34
+         * priceInclTax : 839.40
+         * GST : 122.76
+         * SubTotal : 839.40
          * DeliveryCharges : 0
-         * grandTotal : 192.34
+         * grandTotal : 839.40
          */
 
         private String priceInclTax;
@@ -363,14 +383,14 @@ public class CartResponse {
 
     public static class UserAddressBean {
         /**
-         * id : 86
-         * user_id : 2
-         * name : Sri Satya
-         * city : Vizianagaram
-         * state : Andhra Pradesh
-         * zip : 565453
-         * phone : 9999999999
-         * address : Chennai,Tamil Nadu
+         * id : 58
+         * user_id : 23
+         * name : Vizagkumar
+         * city : vizag
+         * state : andrapradesh
+         * zip : 532457
+         * phone : 8985018103
+         * address : vizag
          * set_as_default : 0
          * status : 1
          */

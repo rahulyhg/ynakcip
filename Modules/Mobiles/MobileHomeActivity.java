@@ -1,4 +1,4 @@
-package com.prism.pickany247.Modules.StationeryModule;
+package com.prism.pickany247.Modules.Mobiles;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,46 +49,39 @@ import ss.com.bannerslider.banners.Banner;
 import ss.com.bannerslider.banners.RemoteBanner;
 import ss.com.bannerslider.views.BannerSlider;
 
-public class StationeryHomeActivity extends AppCompatActivity {
-
-
+public class MobileHomeActivity extends AppCompatActivity {
     AppController appController;
     @BindView(R.id.catRecycler)
     RecyclerView catRecycler;
     @BindView(R.id.banner_slider1)
     BannerSlider bannerSlider1;
-    @BindView(R.id.txtArtTitle)
-    TextView txtArtTitle;
-    @BindView(R.id.artViewAll)
-    TextView artViewAll;
-    @BindView(R.id.artRecycler)
-    RecyclerView artRecycler;
-    @BindView(R.id.txtDeskTitle)
-    TextView txtDeskTitle;
-    @BindView(R.id.deskViewAll)
-    TextView deskViewAll;
-    @BindView(R.id.deskRecycler)
-    RecyclerView deskRecycler;
-    @BindView(R.id.txtOfficeTitle)
-    TextView txtOfficeTitle;
-    @BindView(R.id.officeViewAll)
-    TextView officeViewAll;
-    @BindView(R.id.officeRecycler)
-    RecyclerView officeRecycler;
-    @BindView(R.id.txtSchoolTitle)
-    TextView txtSchoolTitle;
-    @BindView(R.id.schoolViewAll)
-    TextView schoolViewAll;
-    @BindView(R.id.schoolRecycler)
-    RecyclerView schoolRecycler;
-    @BindView(R.id.txtExtraTitle)
-    TextView txtExtraTitle;
-    @BindView(R.id.extraViewAll)
-    TextView extraViewAll;
-    @BindView(R.id.extraRecycler)
-    RecyclerView extraRecycler;
+    @BindView(R.id.txtNew)
+    TextView txtNew;
+    @BindView(R.id.newViewAll)
+    TextView newViewAll;
+    @BindView(R.id.newMobileRecycler)
+    RecyclerView newMobileRecycler;
+    @BindView(R.id.txtUsedMobiles)
+    TextView txtUsedMobiles;
+    @BindView(R.id.usedViewAll)
+    TextView usedViewAll;
+    @BindView(R.id.usedRecycler)
+    RecyclerView usedRecycler;
+    @BindView(R.id.txtTabletTitle)
+    TextView txtTabletTitle;
+    @BindView(R.id.tabletViewAll)
+    TextView tabletViewAll;
+    @BindView(R.id.tabletRecycler)
+    RecyclerView tabletRecycler;
+    @BindView(R.id.txtAccessoriesTitle)
+    TextView txtAccessoriesTitle;
+    @BindView(R.id.accessoriesViewAll)
+    TextView accessoriesViewAll;
+    @BindView(R.id.accessoriesRecycler)
+    RecyclerView accessoriesRecycler;
     @BindView(R.id.simpleSwipeRefreshLayout)
     SwipeRefreshLayout simpleSwipeRefreshLayout;
+
 
     private CatageoryAdapter adapter;
     private ProductAadpter stationeryHomeAdapter;
@@ -96,35 +89,37 @@ public class StationeryHomeActivity extends AppCompatActivity {
     ProductResponse productResponse = new ProductResponse();
     Gson gson;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stationery_home);
+        setContentView(R.layout.activity_mbile_home);
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Stationery");
+        getSupportActionBar().setTitle("Mobiles");
 
         appController = (AppController) getApplication();
 
+
         simpleSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorBlue, R.color.colorPrimary);
-        appController = (AppController) getApplicationContext();
+
         if (appController.isConnection()) {
 
-            prepareHomeData();
-
+            prepareCatData();
 
             simpleSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    prepareHomeData();
-
+                    prepareCatData();
                     simpleSwipeRefreshLayout.setRefreshing(false);
                 }
             });
 
+
         } else {
 
             setContentView(R.layout.internet);
+
             Button tryButton = (Button) findViewById(R.id.btnTryagain);
             tryButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,17 +132,18 @@ public class StationeryHomeActivity extends AppCompatActivity {
                 }
             });
 
+            // app.internetDilogue(KitchenitemListActivity.this);
 
         }
 
 
     }
 
-    private void prepareHomeData() {
+    private void prepareCatData() {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_HOME_URL, new Response.Listener<String>() {
+        Log.e("CATURL", "" + Api.MOBILE_HOME_URL);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.MOBILE_HOME_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -159,31 +155,27 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
                 for (CatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
 
-                    if (mainCategoriesBean.getId().equals("1")){
+                    if (mainCategoriesBean.getId().equals("1")) {
 
-                        prepareArtData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
+                        prepareNewMobileData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 
-                        }
-                    else if (mainCategoriesBean.getId().equals("2")){
+                    } else if (mainCategoriesBean.getId().equals("2")) {
 
-                        prepareDeskData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
+                        prepareUsedMobileData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 
-                    }
-                    else if (mainCategoriesBean.getId().equals("3")){
+                    } else if (mainCategoriesBean.getId().equals("3")) {
 
-                        prepareOfficeData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
+                        prepareTabletsData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 
-                    }
-                    else if (mainCategoriesBean.getId().equals("4")){
+                    } else if (mainCategoriesBean.getId().equals("4")) {
 
-                        prepareSchoolData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
+                        prepareAccessioriesData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 
-                    }
-                    else if (mainCategoriesBean.getId().equals("5")){
+                    } /*else if (mainCategoriesBean.getId().equals("15")) {
 
-                        prepareExtraData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
+                        prepareReadyData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 
-                    }
+                    }*/
 
                 }
 
@@ -243,11 +235,13 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareArtData(final String id, final String catname,final String module) {
+
+
+    private void prepareNewMobileData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.MOBILE_PRODUCT_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -259,16 +253,16 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                artRecycler.setLayoutManager(mLayoutManager);
-                artRecycler.setItemAnimator(new DefaultItemAnimator());
+                newMobileRecycler.setLayoutManager(mLayoutManager);
+                newMobileRecycler.setItemAnimator(new DefaultItemAnimator());
 
                 stationeryHomeAdapter = new ProductAadpter(getApplicationContext(), productResponse.getFiltered_products());
-                artRecycler.setAdapter(stationeryHomeAdapter);
+                newMobileRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
                 // textview
-                txtArtTitle.setText(catname);
-                artViewAll.setOnClickListener(new View.OnClickListener() {
+                txtNew.setText(catname);
+                newViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -309,11 +303,11 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareDeskData(final String id, final String catname,final String module) {
+    private void prepareUsedMobileData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(false);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.MOBILE_PRODUCT_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -325,17 +319,17 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                deskRecycler.setLayoutManager(mLayoutManager);
-                deskRecycler.setItemAnimator(new DefaultItemAnimator());
+                usedRecycler.setLayoutManager(mLayoutManager);
+                usedRecycler.setItemAnimator(new DefaultItemAnimator());
 
                 stationeryHomeAdapter = new ProductAadpter(getApplicationContext(), productResponse.getFiltered_products());
-                deskRecycler.setAdapter(stationeryHomeAdapter);
+                usedRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
 
                 // textview
-                txtDeskTitle.setText(catname);
-                deskViewAll.setOnClickListener(new View.OnClickListener() {
+                txtUsedMobiles.setText(catname);
+                usedViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -376,11 +370,11 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareOfficeData(final String id, final String catname,final String module) {
+    private void prepareTabletsData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.MOBILE_PRODUCT_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -392,16 +386,16 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                officeRecycler.setLayoutManager(mLayoutManager);
-                officeRecycler.setItemAnimator(new DefaultItemAnimator());
+                tabletRecycler.setLayoutManager(mLayoutManager);
+                tabletRecycler.setItemAnimator(new DefaultItemAnimator());
 
                 stationeryHomeAdapter = new ProductAadpter(getApplicationContext(), productResponse.getFiltered_products());
-                officeRecycler.setAdapter(stationeryHomeAdapter);
+                tabletRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
                 // textview
-                txtOfficeTitle.setText(catname);
-                officeViewAll.setOnClickListener(new View.OnClickListener() {
+                txtTabletTitle.setText(catname);
+                tabletViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -442,11 +436,11 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareSchoolData(final String id, final String catname,final String module) {
+    private void prepareAccessioriesData(final String id, final String catname,final String module) {
 
         simpleSwipeRefreshLayout.setRefreshing(true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.MOBILE_PRODUCT_URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -458,16 +452,16 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
                 // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                schoolRecycler.setLayoutManager(mLayoutManager);
-                schoolRecycler.setItemAnimator(new DefaultItemAnimator());
+                accessoriesRecycler.setLayoutManager(mLayoutManager);
+                accessoriesRecycler.setItemAnimator(new DefaultItemAnimator());
 
                 stationeryHomeAdapter = new ProductAadpter(getApplicationContext(), productResponse.getFiltered_products());
-                schoolRecycler.setAdapter(stationeryHomeAdapter);
+                accessoriesRecycler.setAdapter(stationeryHomeAdapter);
                 stationeryHomeAdapter.notifyDataSetChanged();
 
                 // textview
-                txtSchoolTitle.setText(catname);
-                schoolViewAll.setOnClickListener(new View.OnClickListener() {
+                txtAccessoriesTitle.setText(catname);
+                accessoriesViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -508,79 +502,14 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
-    private void prepareExtraData(final String id, final String catname,final String module) {
 
-        simpleSwipeRefreshLayout.setRefreshing(true);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_URL + id, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                Log.e("RESPONSE", "" + response);
-                simpleSwipeRefreshLayout.setRefreshing(false);
-
-                gson = new Gson();
-                productResponse = gson.fromJson(response, ProductResponse.class);
-
-                // homeKitchen Adapter
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                extraRecycler.setLayoutManager(mLayoutManager);
-                extraRecycler.setItemAnimator(new DefaultItemAnimator());
-
-                stationeryHomeAdapter = new ProductAadpter(getApplicationContext(), productResponse.getFiltered_products());
-                extraRecycler.setAdapter(stationeryHomeAdapter);
-                stationeryHomeAdapter.notifyDataSetChanged();
-
-                // textview
-                txtExtraTitle.setText(catname);
-                extraViewAll.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent intent1 = new Intent(getApplicationContext(), ProductListActivity.class);
-                        intent1.putExtra("catId", id);
-                        intent1.putExtra("title", catname);
-                        intent1.putExtra("module", module);
-                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent1);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                    }
-                });
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                simpleSwipeRefreshLayout.setRefreshing(false);
-                if (error instanceof NetworkError) {
-                } else if (error instanceof ServerError) {
-                    Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
-                } else if (error instanceof AuthFailureError) {
-                    Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
-                } else if (error instanceof ParseError) {
-                    Toast.makeText(getApplicationContext(), "Oops. Parse error!", Toast.LENGTH_LONG).show();
-                } else if (error instanceof NoConnectionError) {
-                    Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
-                } else if (error instanceof TimeoutError) {
-                    Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(stringRequest);
-
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        return true;
     }
 
-///
-@Override
-public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-    return true;
-}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -604,8 +533,6 @@ public boolean onCreateOptionsMenu(Menu menu) {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 }
+
+

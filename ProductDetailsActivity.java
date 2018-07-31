@@ -239,6 +239,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                         filteredProductsBean.getHeart_shape(),filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),filteredProductsBean.getMessage(),cart);
 
                             }
+                            else if (module.equalsIgnoreCase("mobiles")){
+
+                                Log.e("SUREH_ID",""+filteredProductsBean.getItem_id());
+
+                                addtocartData(userid,filteredProductsBean.getItem_id(),"",filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",
+                                        filteredProductsBean.getUnit_price_incl_tax(),filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),
+                                        filteredProductsBean.getHeart_shape(),filteredProductsBean.getHeart_shape_amt(),filteredProductsBean.getFlavour(),filteredProductsBean.getMessage(),cart);
+
+                            }
                             else {
                                 addtocartData(userid,filteredProductsBean.getProduct_id(),"",filteredProductsBean.getModule(),filteredProductsBean.getCart_type(),"1",
                                         filteredProductsBean.getUnit_price_incl_tax(),filteredProductsBean.getTax_rate(),filteredProductsBean.getDiscount(),filteredProductsBean.getColor(),filteredProductsBean.getEggless(),filteredProductsBean.getEggless_amt(),

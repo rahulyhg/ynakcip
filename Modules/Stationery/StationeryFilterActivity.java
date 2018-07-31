@@ -1,4 +1,4 @@
-package com.prism.pickany247.Modules.GroceryModule;
+package com.prism.pickany247.Modules.Stationery;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,6 +25,9 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.MyCheckBoxAdapter;
 import com.prism.pickany247.Apis.Api;
@@ -31,7 +35,7 @@ import com.prism.pickany247.ProductListActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.CatResponse;
 import com.prism.pickany247.Response.CheckBoxItem;
-import com.prism.pickany247.Response.GroceryFilterResponse;
+import com.prism.pickany247.Response.StationerFilterResponse;
 import com.prism.pickany247.Singleton.AppController;
 
 import java.util.ArrayList;
@@ -41,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GroceryFilterActivity extends AppCompatActivity implements View.OnClickListener {
+public class StationeryFilterActivity extends AppCompatActivity implements View.OnClickListener {
     List<CheckBoxItem> catItems = new ArrayList<>();
     List<CheckBoxItem> subCatItems = new ArrayList<>();
     List<CheckBoxItem> productTypeItems = new ArrayList<>();
@@ -50,11 +54,13 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
     List<CheckBoxItem> ratingItems = new ArrayList<>();
     MyCheckBoxAdapter myMyCheckBoxAdapter;
     CatResponse homeResponse = new CatResponse();
-    GroceryFilterResponse filterResponse = new GroceryFilterResponse();
+    StationerFilterResponse filterResponse = new StationerFilterResponse();
     Gson gson;
     String strCat = "";
 
     String catId, title, module;
+    @BindView(R.id.rbPrice)
+    RadioButton rbPrice;
     @BindView(R.id.rbCat)
     RadioButton rbCat;
     @BindView(R.id.rbSubCat)
@@ -69,6 +75,16 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
     RadioButton rbRatings;
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.rangeSeekbar3)
+    CrystalRangeSeekbar rangeSeekbar3;
+    @BindView(R.id.textMin1)
+    TextView textMin1;
+    @BindView(R.id.textMax1)
+    TextView textMax1;
+    @BindView(R.id.priceLayout)
+    LinearLayout priceLayout;
     @BindView(R.id.catList)
     ListView catList;
     @BindView(R.id.catLayout)
@@ -95,23 +111,48 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
     LinearLayout ratingsLayout;
     @BindView(R.id.btnApply)
     Button btnApply;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grocery_filter);
+        setContentView(R.layout.activity_filter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Filter");
+
         ButterKnife.bind(this);
 
         catId = getIntent().getStringExtra("catId");
         title = getIntent().getStringExtra("title");
         module = getIntent().getStringExtra("module");
 
-        prepareCatData();
+
+        // price range
+        priceRange();
+
+
+    }
+
+    private void priceRange() {
+
+        // set listener
+        rangeSeekbar3.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                textMin1.setText(String.valueOf(minValue));
+                textMax1.setText(String.valueOf(maxValue));
+
+                Log.e("VALUEMX", "" + textMax1.getText().toString());
+            }
+        });
+
+        // set final value listener
+        rangeSeekbar3.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+            }
+        });
 
     }
 
@@ -119,12 +160,14 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
         progressBar.setVisibility(View.VISIBLE);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_HOME_URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_HOME_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("CAT_RESPONSE", "" + response);
+                //  simpleSwipeRefreshLayout.setRefreshing(false);
                 progressBar.setVisibility(View.GONE);
+
                 gson = new Gson();
                 homeResponse = gson.fromJson(response, CatResponse.class);
 
@@ -145,7 +188,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCheckBoxAdapter = new MyCheckBoxAdapter(GroceryFilterActivity.this, catItems);
+                myMyCheckBoxAdapter = new MyCheckBoxAdapter(StationeryFilterActivity.this, catItems);
                 // Assign adapter to ListView
                 catList.setAdapter(myMyCheckBoxAdapter);
                 myMyCheckBoxAdapter.notifyDataSetChanged();
@@ -155,7 +198,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onClick(View v) {
 
-
+                        priceLayout.setVisibility(View.GONE);
                         catLayout.setVisibility(View.GONE);
                         subcatLayout.setVisibility(View.VISIBLE);
                         brandLayout.setVisibility(View.GONE);
@@ -192,6 +235,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                // simpleSwipeRefreshLayout.setRefreshing(true);
                 progressBar.setVisibility(View.GONE);
                 if (error instanceof NetworkError) {
                 } else if (error instanceof ServerError) {
@@ -219,27 +263,27 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
         progressBar.setVisibility(View.VISIBLE);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("SUB_CAT_RESPONSE", "" + response);
-                progressBar.setVisibility(View.GONE);
+                 progressBar.setVisibility(View.GONE);
 
                 gson = new Gson();
-                filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
+                StationerFilterResponse homeResponse = gson.fromJson(response, StationerFilterResponse.class);
 
                 subCatItems.clear();
                 boolean value;
 
-                for (GroceryFilterResponse.SubCategoryBean subCatListBean : filterResponse.getSub_Category()) {
+                for (StationerFilterResponse.SubCategoryBean subCatListBean : homeResponse.getSub_Category()) {
 
                     subCatItems.add(new CheckBoxItem(false, subCatListBean.getSub_category_id(), subCatListBean.getSub_category_name()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCheckBoxAdapter = new MyCheckBoxAdapter(GroceryFilterActivity.this, subCatItems);
+                myMyCheckBoxAdapter = new MyCheckBoxAdapter(StationeryFilterActivity.this, subCatItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 subcatList.setAdapter(myMyCheckBoxAdapter);
@@ -262,7 +306,8 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
                     Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
                 } else if (error instanceof TimeoutError) {
                     Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
-                }}
+                }
+            }
         });
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(stringRequest);
@@ -276,27 +321,26 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
         progressBar.setVisibility(View.VISIBLE);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
                 progressBar.setVisibility(View.GONE);
-
                 gson = new Gson();
-                filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
+                filterResponse = gson.fromJson(response, StationerFilterResponse.class);
                 brandItems = new ArrayList<>();
                 brandItems.clear();
                 boolean value;
 
-                for (GroceryFilterResponse.BrandsBean brandsBean : filterResponse.getBrands()) {
+                for (StationerFilterResponse.BrandsBean brandsBean : filterResponse.getBrands()) {
 
-                    brandItems.add(new CheckBoxItem(false, brandsBean.getBrand_id(), brandsBean.getName()));
+                    brandItems.add(new CheckBoxItem(false, brandsBean.getId(), brandsBean.getBrand_name()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCheckBoxAdapter = new MyCheckBoxAdapter(GroceryFilterActivity.this, brandItems);
+                myMyCheckBoxAdapter = new MyCheckBoxAdapter(StationeryFilterActivity.this, brandItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 brandList.setAdapter(myMyCheckBoxAdapter);
@@ -319,7 +363,8 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
                     Toast.makeText(getApplicationContext(), "Oops. Connection error!", Toast.LENGTH_LONG).show();
                 } else if (error instanceof TimeoutError) {
                     Toast.makeText(getApplicationContext(), "Oops. Timeout error!", Toast.LENGTH_LONG).show();
-                }}
+                }
+            }
         });
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(stringRequest);
@@ -333,27 +378,26 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
         progressBar.setVisibility(View.VISIBLE);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
                 progressBar.setVisibility(View.GONE);
-
                 gson = new Gson();
-                filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
+                filterResponse = gson.fromJson(response, StationerFilterResponse.class);
                 productTypeItems = new ArrayList<>();
                 productTypeItems.clear();
                 boolean value;
 
-                for (GroceryFilterResponse.ProductTypesBean productTypesBean : filterResponse.getProduct_Types()) {
+                for (StationerFilterResponse.ProductTypesBean productTypesBean : filterResponse.getProduct_Types()) {
 
                     productTypeItems.add(new CheckBoxItem(false, "", productTypesBean.getProduct_type()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCheckBoxAdapter = new MyCheckBoxAdapter(GroceryFilterActivity.this, productTypeItems);
+                myMyCheckBoxAdapter = new MyCheckBoxAdapter(StationeryFilterActivity.this, productTypeItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 productTypecatList.setAdapter(myMyCheckBoxAdapter);
@@ -391,26 +435,26 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
         progressBar.setVisibility(View.VISIBLE);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
                 progressBar.setVisibility(View.GONE);
                 gson = new Gson();
-                filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
+                filterResponse = gson.fromJson(response, StationerFilterResponse.class);
                 colorItems = new ArrayList<>();
                 colorItems.clear();
                 boolean value;
 
-                for (GroceryFilterResponse.MeasurementsBean colorsBean : filterResponse.getMeasurements()) {
+                for (StationerFilterResponse.ColorsBean colorsBean : filterResponse.getColors()) {
 
-                    colorItems.add(new CheckBoxItem(false, colorsBean.getId(), colorsBean.getCapacity()));
+                    colorItems.add(new CheckBoxItem(false, colorsBean.getId(), colorsBean.getName()));
 
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCheckBoxAdapter = new MyCheckBoxAdapter(GroceryFilterActivity.this, colorItems);
+                myMyCheckBoxAdapter = new MyCheckBoxAdapter(StationeryFilterActivity.this, colorItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 colorList.setAdapter(myMyCheckBoxAdapter);
@@ -422,7 +466,6 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
-
                 if (error instanceof NetworkError) {
                 } else if (error instanceof ServerError) {
                     Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
@@ -448,19 +491,21 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
     private void prepareRatingData(String catId) {
 
         progressBar.setVisibility(View.VISIBLE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.GROCERY_FILTER_URL + catId, new Response.Listener<String>() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.STATIONERY_FILTER_URL + catId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.e("RESPONSE", "" + response);
                 progressBar.setVisibility(View.GONE);
+
                 gson = new Gson();
-                filterResponse = gson.fromJson(response, GroceryFilterResponse.class);
+                filterResponse = gson.fromJson(response, StationerFilterResponse.class);
                 ratingItems = new ArrayList<>();
                 catItems.clear();
 
 
-                for (GroceryFilterResponse.RatingBean ratingBean : filterResponse.getRating()) {
+                for (StationerFilterResponse.RatingBean ratingBean : filterResponse.getRating()) {
 
                     ratingItems.add(new CheckBoxItem(false, "1", "1.0 & above  (" + ratingBean.getRating1() + " )"));
                     ratingItems.add(new CheckBoxItem(false, "2", "2.0 & above  (" + ratingBean.getRating2() + " )"));
@@ -471,7 +516,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
                 }
 
                 //create an ArrayAdaptar from the String Array
-                myMyCheckBoxAdapter = new MyCheckBoxAdapter(GroceryFilterActivity.this, ratingItems);
+                myMyCheckBoxAdapter = new MyCheckBoxAdapter(StationeryFilterActivity.this, ratingItems);
                 // ListView listView = (ListView) findViewById(R.id.catList);
                 // Assign adapter to ListView
                 ratingsList.setAdapter(myMyCheckBoxAdapter);
@@ -483,7 +528,6 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
-
                 if (error instanceof NetworkError) {
                 } else if (error instanceof ServerError) {
                     Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
@@ -521,14 +565,26 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    @OnClick({R.id.rbCat, R.id.rbSubCat, R.id.rbBrand, R.id.rbProductType, R.id.rbColor, R.id.rbRatings, R.id.btnApply})
+    @OnClick({R.id.rbPrice, R.id.rbCat, R.id.rbSubCat, R.id.rbBrand, R.id.rbProductType, R.id.rbColor, R.id.rbRatings, R.id.btnApply})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rbPrice:
 
+                priceRange();
+                priceLayout.setVisibility(View.VISIBLE);
+                catLayout.setVisibility(View.GONE);
+                subcatLayout.setVisibility(View.GONE);
+                brandLayout.setVisibility(View.GONE);
+                productTypeLayout.setVisibility(View.GONE);
+                colorLayout.setVisibility(View.GONE);
+                ratingsLayout.setVisibility(View.GONE);
+
+
+                break;
             case R.id.rbCat:
 
                 prepareCatData();
-
+                priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.VISIBLE);
                 subcatLayout.setVisibility(View.GONE);
                 brandLayout.setVisibility(View.GONE);
@@ -551,7 +607,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
             case R.id.rbBrand:
 
                 // prepareBrandData();
-
+                priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
                 brandLayout.setVisibility(View.VISIBLE);
@@ -563,7 +619,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
             case R.id.rbProductType:
 
                 //  prepareProductTypeData();
-
+                priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
                 brandLayout.setVisibility(View.GONE);
@@ -575,7 +631,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
             case R.id.rbColor:
 
                 //  prepareColorData();
-
+                priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
                 brandLayout.setVisibility(View.GONE);
@@ -588,7 +644,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
             case R.id.rbRatings:
 
                 //  prepareRatingData();
-
+                priceLayout.setVisibility(View.GONE);
                 catLayout.setVisibility(View.GONE);
                 subcatLayout.setVisibility(View.GONE);
                 brandLayout.setVisibility(View.GONE);
@@ -599,6 +655,25 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
                 break;
             case R.id.btnApply:
+
+                // cat data
+               /* String catStr = "";
+
+                for (int i = 0; i < catItems.size(); i++) {
+                    if (catItems.get(i).isChecked()) {
+                        catStr += catItems.get(i).getId() + ",";
+
+                    }
+                }
+
+                if (catStr.length() > 0) {
+                    String strone = catStr.substring(0, catStr.length() - 1);
+                    Log.e("CHECKBOXESONE", "" + strone);
+
+
+                } else {
+                    System.out.println(catStr);
+                }*/
 
                 Log.e("CHECKBOXESONE", "" + strCat);
 
@@ -637,7 +712,7 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
                 for (CheckBoxItem checkBox : productTypeItems) {
 
                     if (checkBox.checked) {
-                        productType += checkBox.getId() + ",";
+                        productType += checkBox.getItemString() + ",";
                     }
                 }
                 if (productType.length() > 0) {
@@ -645,18 +720,18 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
                     Log.e("strProductType", "" + strProductType);
                 }
 
-                // capacity data
-                String capacity = "";
-                String strcapacity = "";
+                // color data
+                String color = "";
+                String strColor = "";
                 for (CheckBoxItem checkBox : colorItems) {
 
                     if (checkBox.checked) {
-                        capacity += checkBox.getItemString() + ",";
+                        color += checkBox.getItemString() + ",";
                     }
                 }
-                if (capacity.length() > 0) {
-                    strcapacity = capacity.substring(0, capacity.length() - 1);
-                    Log.e("strColor", "" + strcapacity);
+                if (color.length() > 0) {
+                    strColor = color.substring(0, color.length() - 1);
+                    Log.e("strColor", "" + strColor);
                 }
 
 
@@ -676,10 +751,10 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
 
                 String finalvalue = "";
                 if (strCat.equals("")) {
-                    finalvalue = catId + "&subcatId=" + strSubCat + "&brand=" + strBrand + "&productType=" + strProductType + "&capacity=" + strcapacity + "&rating=" + strRating;
+                    finalvalue = catId + "&subcatId=" + strSubCat + "&priceRange=" + textMin1.getText().toString() + "," + textMax1.getText().toString() + "&brand=" + strBrand + "&productType=" + strProductType + "&color=" + strColor + "&rating=" + strRating;
 
                 } else {
-                    finalvalue = strCat + "&subcatId=" + strSubCat + "&brand=" + strBrand + "&productType=" + strProductType + "&capacity=" + strcapacity + "&rating=" + strRating;
+                    finalvalue = strCat + "&subcatId=" + strSubCat + "&priceRange=" + textMin1.getText().toString() + "," + textMax1.getText().toString() + "&brand=" + strBrand + "&productType=" + strProductType + "&color=" + strColor + "&rating=" + strRating;
                 }
 
                 Log.e("RESULTSTRING", "" + finalvalue);
@@ -691,6 +766,8 @@ public class GroceryFilterActivity extends AppCompatActivity implements View.OnC
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                break;
         }
     }
 }

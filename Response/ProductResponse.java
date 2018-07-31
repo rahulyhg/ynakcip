@@ -6,7 +6,7 @@ public class ProductResponse {
 
 
     /**
-     * filtered_products : [{"id":"119","Module":"grocery","main_category_id":"14","main_category_name":"Fruits","sub_category_id":"89","sub_category_name":"Fruits","product_id":"PIKG38562N","product_name":"Apple","ImagePath":"http://pickany247.com/grocery/grocery/","SingleImage":"../../image/grocery/product_images/PIKG38562N/4.jpg","AllImages":"../../image/grocery/product_images/PIKG38562N/4.jpg,../../image/grocery/product_images/PIKG38562N/5.jpg","brand_id":"124","product_type":"72","color":"","cart_type":"single","tax_rate":"0.00","item_id":"2028,2038","availability":"19,30","capacity":"500 gms,1 kgs","unit_price_incl_tax":"50.00,100.00","rating":"5.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
+     * filtered_products : [{"id":"16","Module":"mobiles","main_category_id":"1","main_category_name":"New","sub_category_id":"","sub_category_name":"","product_id":"PIKM128879","product_name":"LG G4 Dual","ImagePath":"http://pickany247.com/mobiles/mobiles/","SingleImage":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg","AllImages":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-side.jpg","brand_id":"15","product_type":"New","os":"Andriod","color":"White","storage":"3 GB","ram":"32 GB","cart_type":"single","tax_rate":"12%","item_id":"16","availability":"10","capacity":"","unit_price_incl_tax":"10080.00","rating":"3.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"id":"14","Module":"mobiles","main_category_id":"1","main_category_name":"New","sub_category_id":"","sub_category_name":"","product_id":"PIKM128879","product_name":"LG G4 Dual","ImagePath":"http://pickany247.com/mobiles/mobiles/","SingleImage":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-gold-back.jpg","AllImages":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-gold-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-gold-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-gold-side.jpg","brand_id":"15","product_type":"New","os":"Andriod","color":"Gold","storage":"3 GB","ram":"32 GB","cart_type":"single","tax_rate":"12%","item_id":"14","availability":"13","capacity":"","unit_price_incl_tax":"10080.00","rating":"3.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"id":"15","Module":"mobiles","main_category_id":"1","main_category_name":"New","sub_category_id":"","sub_category_name":"","product_id":"PIKM128879","product_name":"LG G4 Dual","ImagePath":"http://pickany247.com/mobiles/mobiles/","SingleImage":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-back.jpg","AllImages":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-side.jpg","brand_id":"15","product_type":"New","os":"Andriod","color":"Grey","storage":"3 GB","ram":"32 GB","cart_type":"single","tax_rate":"12%","item_id":"15","availability":"13","capacity":"","unit_price_incl_tax":"10080.00","rating":"3.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
      * message : Get Filtered Products
      */
 
@@ -31,27 +31,30 @@ public class ProductResponse {
 
     public static class FilteredProductsBean {
         /**
-         * id : 119
-         * Module : grocery
-         * main_category_id : 14
-         * main_category_name : Fruits
-         * sub_category_id : 89
-         * sub_category_name : Fruits
-         * product_id : PIKG38562N
-         * product_name : Apple
-         * ImagePath : http://pickany247.com/grocery/grocery/
-         * SingleImage : ../../image/grocery/product_images/PIKG38562N/4.jpg
-         * AllImages : ../../image/grocery/product_images/PIKG38562N/4.jpg,../../image/grocery/product_images/PIKG38562N/5.jpg
-         * brand_id : 124
-         * product_type : 72
-         * color :
+         * id : 16
+         * Module : mobiles
+         * main_category_id : 1
+         * main_category_name : New
+         * sub_category_id :
+         * sub_category_name :
+         * product_id : PIKM128879
+         * product_name : LG G4 Dual
+         * ImagePath : http://pickany247.com/mobiles/mobiles/
+         * SingleImage : ../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg
+         * AllImages : ../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-side.jpg
+         * brand_id : 15
+         * product_type : New
+         * os : Andriod
+         * color : White
+         * storage : 3 GB
+         * ram : 32 GB
          * cart_type : single
-         * tax_rate : 0.00
-         * item_id : 2028,2038
-         * availability : 19,30
-         * capacity : 500 gms,1 kgs
-         * unit_price_incl_tax : 50.00,100.00
-         * rating : 5.0
+         * tax_rate : 12%
+         * item_id : 16
+         * availability : 10
+         * capacity :
+         * unit_price_incl_tax : 10080.00
+         * rating : 3.0
          * discount :
          * eggless :
          * eggless_amt :
@@ -74,7 +77,10 @@ public class ProductResponse {
         private String AllImages;
         private String brand_id;
         private String product_type;
+        private String os;
         private String color;
+        private String storage;
+        private String ram;
         private String cart_type;
         private String tax_rate;
         private String item_id;
@@ -194,12 +200,36 @@ public class ProductResponse {
             this.product_type = product_type;
         }
 
+        public String getOs() {
+            return os;
+        }
+
+        public void setOs(String os) {
+            this.os = os;
+        }
+
         public String getColor() {
             return color;
         }
 
         public void setColor(String color) {
             this.color = color;
+        }
+
+        public String getStorage() {
+            return storage;
+        }
+
+        public void setStorage(String storage) {
+            this.storage = storage;
+        }
+
+        public String getRam() {
+            return ram;
+        }
+
+        public void setRam(String ram) {
+            this.ram = ram;
         }
 
         public String getCart_type() {

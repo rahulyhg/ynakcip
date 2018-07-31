@@ -4,7 +4,7 @@ import android.widget.BaseAdapter;
 
 public class Api {
 
-    public final static String LOCAL_URL ="http://192.168.0.101/LatestUpdate-2018-05-24/APIS/index.php/Api/";
+    public final static String LOCAL_URL ="http://192.168.0.105/LatestUpdate-2018-05-24/APIS/index.php/Api/";
 
     public final static String BASE_URL ="https://pickany247.com/APIS/index.php/Api/";
 
@@ -57,7 +57,11 @@ public class Api {
 
     // mobile url
 
-    public final static String MOBILE_HOME_URL =BASE_URL+"maincategories?module=mobile";
+    public final static String MOBILE_HOME_URL =BASE_URL+"banners_categories?module=mobiles";
+
+    public final static String MOBILE_PRODUCT_URL = BASE_URL+"products?module=mobiles&limit=4&maincatId=";
+
+    public final static String MOBILE_FILTER_URL =BASE_URL+"filters?module=mobiles&maincatId=";
 
 
     // grocery Url

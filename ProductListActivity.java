@@ -31,10 +31,11 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.ProductAadpter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Fragments.BottomSheet3DialogFragment;
-import com.prism.pickany247.Modules.GroceryModule.GroceryFilterActivity;
+import com.prism.pickany247.Modules.Grocery.GroceryFilterActivity;
+import com.prism.pickany247.Modules.Mobiles.MobileFilterActivity;
 import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Singleton.AppController;
-import com.prism.pickany247.Modules.StationeryModule.StationeryFilterActivity;
+import com.prism.pickany247.Modules.Stationery.StationeryFilterActivity;
 
 public class ProductListActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
@@ -80,7 +81,19 @@ public class ProductListActivity extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                }else {
+                }
+                else if (module.equalsIgnoreCase("mobiles")){
+
+                    Intent intent = new Intent(getApplicationContext(), MobileFilterActivity.class);
+                    intent.putExtra("catId", id);
+                    intent.putExtra("title", title);
+                    intent.putExtra("module", module);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
+                else {
 
                     Intent intent = new Intent(getApplicationContext(), StationeryFilterActivity.class);
                     intent.putExtra("catId", id);

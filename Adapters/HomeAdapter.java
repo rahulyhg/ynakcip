@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.prism.pickany247.Modules.GroceryModule.GroceryHomeActivity;
-import com.prism.pickany247.Modules.MobilesModule.MobileHomeActivity;
+import com.prism.pickany247.Modules.Grocery.GroceryHomeActivity;
+import com.prism.pickany247.Modules.Mobiles.MobileHomeActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.HomeResponse;
-import com.prism.pickany247.Modules.StationeryModule.StationeryHomeActivity;
+import com.prism.pickany247.Modules.Stationery.StationeryHomeActivity;
 
 
 import java.util.List;
