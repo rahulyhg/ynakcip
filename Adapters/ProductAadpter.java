@@ -97,8 +97,17 @@ public class ProductAadpter extends RecyclerView.Adapter<ProductAadpter.MyViewHo
             public void onClick(View v) {
 
      //                    Activity activity = (Activity) mContext;
+
+
                 Intent intent = new Intent(mContext, ProductDetailsActivity.class);
-                intent.putExtra("productId",home.getProduct_id());
+
+                if (home.getModule().equalsIgnoreCase("mobiles")){
+                    intent.putExtra("productId",home.getProduct_id()+"&itemId="+home.getItem_id());
+                }
+                else {
+                    intent.putExtra("productId",home.getProduct_id());
+                }
+
                 intent.putExtra("productName",home.getProduct_name());
                 intent.putExtra("module",home.getModule());
                 Log.e("MODULE",""+home.getModule());

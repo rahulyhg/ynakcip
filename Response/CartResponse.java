@@ -6,8 +6,8 @@ public class CartResponse {
 
 
     /**
-     * cart_items : [{"module":"stationery","id":"4666","item_id":"79","product_name":"Art Glue","image":"http://pickany247.com/stationery/stationery/../images/product_images/PIK202IX3/1.jpg","user_id":"23","request_code":"","category":"stationery","cart_type":"single","product_id":"PIK202IX3","quantity":"1","availability":"70","unit_price_incl_tax":"789.00","unit_price_exld_tax":"668.64","tax_rate":"18.00","tax_amt":"120.36","discount":"0.00","total_price":"789.00","storage":"","ram":"","color":"White","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"module":"grocery","id":"4665","item_id":"172","product_name":"Horse Gram (Ulavalu)","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKGR40535/Horse-Gram-(Ulavalu).jpg","user_id":"23","request_code":"","category":"grocery","cart_type":"single","product_id":"172","quantity":"1","availability":"20","unit_price_incl_tax":"50.40","unit_price_exld_tax":"48.00","tax_rate":"5.00","tax_amt":"2.40","discount":"0.00","total_price":"50.40","storage":"","ram":"","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
-     * total_bill : [{"priceInclTax":"839.40","GST":"122.76","SubTotal":"839.40","DeliveryCharges":"0","grandTotal":"839.40"}]
+     * cart_items : [{"module":"stationery","id":"4666","item_id":"79","product_name":"Art Glue","image":"http://pickany247.com/stationery/stationery/../images/product_images/PIK202IX3/1.jpg","user_id":"23","request_code":"","category":"stationery","cart_type":"single","product_id":"PIK202IX3","quantity":"1","availability":"70","unit_price_incl_tax":"789.00","unit_price_exld_tax":"668.64","tax_rate":"18.00","tax_amt":"120.36","discount":"0.00","total_price":"789.00","storage":"","ram":"","color":"White","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","features":""},{"module":"grocery","id":"4665","item_id":"172","product_name":"Horse Gram (Ulavalu)","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKGR40535/Horse-Gram-(Ulavalu).jpg","user_id":"23","request_code":"","category":"grocery","cart_type":"single","product_id":"172","quantity":"1","availability":"20","unit_price_incl_tax":"50.40","unit_price_exld_tax":"48.00","tax_rate":"5.00","tax_amt":"2.40","discount":"0.00","total_price":"50.40","storage":"","ram":"","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","features":""},{"module":"mobiles","id":"4729","item_id":"15","product_name":"LG G4 Dual","image":"http://pickany247.com/mobile/mobile/../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-back.jpg","user_id":"23","request_code":"","category":"mobiles","cart_type":"single","product_id":"15","quantity":"1","availability":"13","unit_price_incl_tax":"10080.00","unit_price_exld_tax":"9000.00","tax_rate":"12.00","tax_amt":"1080.00","discount":"0.00","total_price":"10080.00","storage":"3 GB","ram":"32 GB","color":"Grey","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":"","screen":"5.5 - 5.9 inch","processor":"Hexa Core","camera":"16 - 20.9 MP","battery":"3000-3999mAh","features":"<p>Sim Type: Dual Sim<\/p>\r\n\r\n<p>Touch Type: Yes<\/p>\r\n"}]
+     * total_bill : [{"priceInclTax":"21439.40","GST":"2349.88","SubTotal":"21439.40","DeliveryCharges":"0","grandTotal":"21439.40"}]
      * user_address : [{"id":"58","user_id":"23","name":"Vizagkumar","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"vizag","set_as_default":"0","status":"1"},{"id":"52","user_id":"23","name":"mahesh","city":"vizag","state":"apup","zip":"532457","phone":"8790299482","address":"mvp","set_as_default":"1","status":"1"},{"id":"51","user_id":"23","name":"sureshkumar","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8790299482","address":"ishukatota","set_as_default":"1","status":"1"},{"id":"56","user_id":"23","name":"Test123","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"vizag","set_as_default":"0","status":"1"},{"id":"57","user_id":"23","name":"santhosh","city":"vizag","state":"ap","zip":"432457","phone":"1234567890","address":"vizag","set_as_default":"0","status":"1"}]
      * message : List of items in cart
      */
@@ -78,6 +78,11 @@ public class CartResponse {
          * heart_shape_amt :
          * flavour :
          * message :
+         * screen :
+         * processor :
+         * camera :
+         * battery :
+         * features :
          */
 
         private String module;
@@ -107,6 +112,11 @@ public class CartResponse {
         private String heart_shape_amt;
         private String flavour;
         private String message;
+        private String screen;
+        private String processor;
+        private String camera;
+        private String battery;
+        private String features;
 
         public String getModule() {
             return module;
@@ -323,15 +333,55 @@ public class CartResponse {
         public void setMessage(String message) {
             this.message = message;
         }
+
+        public String getScreen() {
+            return screen;
+        }
+
+        public void setScreen(String screen) {
+            this.screen = screen;
+        }
+
+        public String getProcessor() {
+            return processor;
+        }
+
+        public void setProcessor(String processor) {
+            this.processor = processor;
+        }
+
+        public String getCamera() {
+            return camera;
+        }
+
+        public void setCamera(String camera) {
+            this.camera = camera;
+        }
+
+        public String getBattery() {
+            return battery;
+        }
+
+        public void setBattery(String battery) {
+            this.battery = battery;
+        }
+
+        public String getFeatures() {
+            return features;
+        }
+
+        public void setFeatures(String features) {
+            this.features = features;
+        }
     }
 
     public static class TotalBillBean {
         /**
-         * priceInclTax : 839.40
-         * GST : 122.76
-         * SubTotal : 839.40
+         * priceInclTax : 21439.40
+         * GST : 2349.88
+         * SubTotal : 21439.40
          * DeliveryCharges : 0
-         * grandTotal : 839.40
+         * grandTotal : 21439.40
          */
 
         private String priceInclTax;

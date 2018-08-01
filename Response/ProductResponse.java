@@ -6,7 +6,7 @@ public class ProductResponse {
 
 
     /**
-     * filtered_products : [{"id":"16","Module":"mobiles","main_category_id":"1","main_category_name":"New","sub_category_id":"","sub_category_name":"","product_id":"PIKM128879","product_name":"LG G4 Dual","ImagePath":"http://pickany247.com/mobiles/mobiles/","SingleImage":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg","AllImages":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-side.jpg","brand_id":"15","product_type":"New","os":"Andriod","color":"White","storage":"3 GB","ram":"32 GB","cart_type":"single","tax_rate":"12%","item_id":"16","availability":"10","capacity":"","unit_price_incl_tax":"10080.00","rating":"3.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"id":"14","Module":"mobiles","main_category_id":"1","main_category_name":"New","sub_category_id":"","sub_category_name":"","product_id":"PIKM128879","product_name":"LG G4 Dual","ImagePath":"http://pickany247.com/mobiles/mobiles/","SingleImage":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-gold-back.jpg","AllImages":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-gold-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-gold-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-gold-side.jpg","brand_id":"15","product_type":"New","os":"Andriod","color":"Gold","storage":"3 GB","ram":"32 GB","cart_type":"single","tax_rate":"12%","item_id":"14","availability":"13","capacity":"","unit_price_incl_tax":"10080.00","rating":"3.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""},{"id":"15","Module":"mobiles","main_category_id":"1","main_category_name":"New","sub_category_id":"","sub_category_name":"","product_id":"PIKM128879","product_name":"LG G4 Dual","ImagePath":"http://pickany247.com/mobiles/mobiles/","SingleImage":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-back.jpg","AllImages":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-side.jpg","brand_id":"15","product_type":"New","os":"Andriod","color":"Grey","storage":"3 GB","ram":"32 GB","cart_type":"single","tax_rate":"12%","item_id":"15","availability":"13","capacity":"","unit_price_incl_tax":"10080.00","rating":"3.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":""}]
+     * filtered_products : [{"id":"16","Module":"mobiles","main_category_id":"1","main_category_name":"New","sub_category_id":"","sub_category_name":"","product_id":"PIKM128879","product_name":"LG G4 Dual","ImagePath":"http://pickany247.com/mobiles/mobiles/","SingleImage":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg","AllImages":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-side.jpg","brand_id":"15","product_type":"New","os":"Andriod","color":"White","storage":"3 GB","ram":"32 GB","cart_type":"single","tax_rate":"12%","item_id":"16","availability":"10","capacity":"","unit_price_incl_tax":"10080.00","rating":"0.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":"","screen":"5.5 - 5.9 inch","processor":"Hexa Core","camera":"16 - 20.9 MP","battery":"3000-3999mAh","features":"<p>Sim Type: Dual Sim<\/p>\r\n\r\n<p>Touch Type: Yes<\/p>\r\n"}]
      * message : Get Filtered Products
      */
 
@@ -40,8 +40,8 @@ public class ProductResponse {
          * product_id : PIKM128879
          * product_name : LG G4 Dual
          * ImagePath : http://pickany247.com/mobiles/mobiles/
-         * SingleImage : ../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg
-         * AllImages : ../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-side.jpg
+         * SingleImage : ../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg
+         * AllImages : ../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-side.jpg
          * brand_id : 15
          * product_type : New
          * os : Andriod
@@ -54,7 +54,7 @@ public class ProductResponse {
          * availability : 10
          * capacity :
          * unit_price_incl_tax : 10080.00
-         * rating : 3.0
+         * rating : 0.0
          * discount :
          * eggless :
          * eggless_amt :
@@ -62,6 +62,14 @@ public class ProductResponse {
          * heart_shape_amt :
          * flavour :
          * message :
+         * screen : 5.5 - 5.9 inch
+         * processor : Hexa Core
+         * camera : 16 - 20.9 MP
+         * battery : 3000-3999mAh
+         * features : <p>Sim Type: Dual Sim</p>
+
+         <p>Touch Type: Yes</p>
+
          */
 
         private String id;
@@ -95,6 +103,11 @@ public class ProductResponse {
         private String heart_shape_amt;
         private String flavour;
         private String message;
+        private String screen;
+        private String processor;
+        private String camera;
+        private String battery;
+        private String features;
 
         public String getId() {
             return id;
@@ -342,6 +355,46 @@ public class ProductResponse {
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public String getScreen() {
+            return screen;
+        }
+
+        public void setScreen(String screen) {
+            this.screen = screen;
+        }
+
+        public String getProcessor() {
+            return processor;
+        }
+
+        public void setProcessor(String processor) {
+            this.processor = processor;
+        }
+
+        public String getCamera() {
+            return camera;
+        }
+
+        public void setCamera(String camera) {
+            this.camera = camera;
+        }
+
+        public String getBattery() {
+            return battery;
+        }
+
+        public void setBattery(String battery) {
+            this.battery = battery;
+        }
+
+        public String getFeatures() {
+            return features;
+        }
+
+        public void setFeatures(String features) {
+            this.features = features;
         }
     }
 }

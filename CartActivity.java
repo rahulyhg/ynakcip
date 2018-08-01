@@ -190,6 +190,18 @@ public class CartActivity extends AppCompatActivity {
                 if (error instanceof NetworkError) {
                 } else if (error instanceof ServerError) {
                     Toast.makeText(getApplicationContext(), "Oops. Server error!", Toast.LENGTH_LONG).show();
+                    setContentView(R.layout.emptycart);
+                    Button btnGotohome =(Button)findViewById(R.id.btnGotohome);
+                    btnGotohome.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent intent =new Intent(CartActivity.this,HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);}
+                    });
+
                 } else if (error instanceof AuthFailureError) {
                     Toast.makeText(getApplicationContext(), "Oops. AuthFailure error!", Toast.LENGTH_LONG).show();
                 } else if (error instanceof ParseError) {
