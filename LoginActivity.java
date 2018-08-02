@@ -1,16 +1,9 @@
 package com.prism.pickany247;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -35,7 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Helper.PrefManager;
-import com.prism.pickany247.Response.LoginItem;
+import com.prism.pickany247.Response.LoginResponse;
 import com.prism.pickany247.Singleton.AppController;
 
 import java.util.HashMap;
@@ -44,7 +37,7 @@ import java.util.Map;
 public class LoginActivity extends Activity implements View.OnClickListener {
     AppController appController;
     PrefManager session;
-    LoginItem loginItem =new LoginItem();
+    LoginResponse loginResponse =new LoginResponse();
     Gson gson;
     private ProgressDialog pDialog;
     TextView txtForgotPass,txtSignUp;
@@ -146,14 +139,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         pDialog.hide();
 
                         gson = new Gson();
-                        loginItem = gson.fromJson(response, LoginItem.class);
+                        loginResponse = gson.fromJson(response, LoginResponse.class);
 
                         String id ="";
                         String reg_user_name ="";
                         String reg_mobile_number ="";
                         String reg_email ="";
 
-                        for (LoginItem.UserDetailsBean userLoginBean:loginItem.getUserDetails()){
+                        for (LoginResponse.UserDetailsBean userLoginBean: loginResponse.getUserDetails()){
 
                             id=userLoginBean.getId();
                             reg_user_name=userLoginBean.getUsername();
@@ -162,7 +155,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                         }
 
-                        if (loginItem.getMessage().equalsIgnoreCase("Login Successfull")){
+                        if (loginResponse.getMessage().equalsIgnoreCase("Login Successfull")){
 
                             Intent intent =new Intent(LoginActivity.this,HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);

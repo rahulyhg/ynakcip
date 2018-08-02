@@ -18,7 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.WishlistItem;
+import com.prism.pickany247.Response.WishlistResponse;
 
 
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<WishlistItem.WishListBean> cartListBeanList;
+    private List<WishlistResponse.WishListBean> cartListBeanList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtItemName,txtPrice,btnDecrement;
@@ -44,7 +44,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.MyView
     }
 
 
-    public WishListAdapter(Context mContext, List<WishlistItem.WishListBean> cartListBeanList) {
+    public WishListAdapter(Context mContext, List<WishlistResponse.WishListBean> cartListBeanList) {
         this.mContext = mContext;
         this.cartListBeanList = cartListBeanList;
     }
@@ -59,7 +59,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.MyView
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final WishlistItem.WishListBean cartListBean = cartListBeanList.get(position);
+        final WishlistResponse.WishListBean cartListBean = cartListBeanList.get(position);
 
         holder.txtItemName.setText(cartListBean.getProduct_name());
         holder.txtPrice.setText("\u20B9"+cartListBean.getUnit_price());

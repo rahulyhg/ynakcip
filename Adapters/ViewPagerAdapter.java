@@ -1,8 +1,6 @@
 package com.prism.pickany247.Adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +9,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.ViewPagerItem;
+import com.prism.pickany247.Model.ViewPagerItem;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.v4.view.PagerAdapter.POSITION_NONE;
 
 public class ViewPagerAdapter extends PagerAdapter {
     private List<ViewPagerItem> images;

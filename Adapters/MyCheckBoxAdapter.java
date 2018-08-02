@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.CheckBoxItem;
+import com.prism.pickany247.Model.CheckBoxItem;
 
 import java.util.List;
 

@@ -44,7 +44,7 @@ import com.prism.pickany247.Adapters.ViewPagerAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.Response.ProductResponse;
-import com.prism.pickany247.Response.ViewPagerItem;
+import com.prism.pickany247.Model.ViewPagerItem;
 import com.prism.pickany247.Singleton.AppController;
 import com.rd.PageIndicatorView;
 

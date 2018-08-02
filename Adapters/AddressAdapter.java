@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.AddressItem;
+import com.prism.pickany247.Response.AddressResponse;
 import com.prism.pickany247.UpdateAddressActivity;
 
 import java.util.List;
@@ -20,9 +20,9 @@ public class AddressAdapter extends BaseAdapter{
 
     int selectedIndex = -1;
     private Context mContext;
-    private List<AddressItem.ModulesBean> cartListBeanList;
+    private List<AddressResponse.ModulesBean> cartListBeanList;
 
-    public AddressAdapter(Context mContext, List<AddressItem.ModulesBean> cartListBeanList) {
+    public AddressAdapter(Context mContext, List<AddressResponse.ModulesBean> cartListBeanList) {
         this.mContext = mContext;
         this.cartListBeanList = cartListBeanList;
     }
@@ -46,7 +46,7 @@ public class AddressAdapter extends BaseAdapter{
     public View getView(int i, View view, ViewGroup viewGroup) {
         View view1 = View.inflate(mContext,R.layout.address_card,null);
 
-        final AddressItem.ModulesBean cartListBean = cartListBeanList.get(i);
+        final AddressResponse.ModulesBean cartListBean = cartListBeanList.get(i);
 
          TextView txtName,txtAddress,txtMobile,btnEdit;
          RadioButton radioButton;

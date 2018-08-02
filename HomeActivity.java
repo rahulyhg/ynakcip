@@ -3,17 +3,17 @@ package com.prism.pickany247;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -33,12 +33,10 @@ import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -47,14 +45,12 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.prism.pickany247.Adapters.HomeAdapter;
-import com.prism.pickany247.Adapters.ViewPagerAdapter;
 import com.prism.pickany247.Apis.Api;
-import com.prism.pickany247.Helper.MySpanSizeLookup;
+import com.prism.pickany247.DataBase.SampleSQLiteDBHelper;
 import com.prism.pickany247.Helper.PrefManager;
+import com.prism.pickany247.Model.HomeItem;
 import com.prism.pickany247.Response.HomeResponse;
-import com.prism.pickany247.Response.ViewPagerItem;
 import com.prism.pickany247.Singleton.AppController;
-import com.rd.PageIndicatorView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,6 +70,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private HomeAdapter adapter;
     HomeResponse homeResponse =new HomeResponse();
     Gson gson;
+    List<HomeItem> homeItemList =new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +115,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             pDialog.setContentView(R.layout.my_progress);
 
             prepareHomeData();
+            requestStoragePermission();
 
 
         } else {
@@ -160,14 +158,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 gson = new Gson();
                 homeResponse = gson.fromJson(response, HomeResponse.class);
 
-                // homeKitchen Adapter
+              /*  // homeKitchen Adapter
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
 
                 adapter = new HomeAdapter(getApplicationContext(), homeResponse.getModules());
                 recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();*/
+
+                for(HomeResponse.ModulesBean modulesBean:homeResponse.getModules()){
+
+                    saveToDB(modulesBean.getId(),modulesBean.getTitle(),modulesBean.getImage(),modulesBean.getCategory());
+                }
 
 
                  // home banners
@@ -212,6 +215,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
        /* RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);*/
        }
+
+    private void saveToDB(String id,String title,String image,String cat) {
+        SQLiteDatabase database = new SampleSQLiteDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(SampleSQLiteDBHelper.PERSON_COLUMN_ID, id);
+        values.put(SampleSQLiteDBHelper.PERSON_COLUMN_CATEGOERY, cat);
+        values.put(SampleSQLiteDBHelper.PERSON_COLUMN_IMAGE, image);
+        values.put(SampleSQLiteDBHelper.PERSON_COLUMN_TITLE, title);
+        long newRowId = database.insert(SampleSQLiteDBHelper.PERSON_TABLE_NAME, null, values);
+
+      //  Toast.makeText(this, "The new Row Id is " + newRowId, Toast.LENGTH_LONG).show();
+        Log.e("LOCAL",""+values.getAsString(SampleSQLiteDBHelper.PERSON_COLUMN_CATEGOERY));
+
+        // homeKitchen Adapter
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        homeItemList.add(new HomeItem(id,values.getAsString(SampleSQLiteDBHelper.PERSON_COLUMN_IMAGE),values.getAsString(SampleSQLiteDBHelper.PERSON_COLUMN_CATEGOERY),"","",values.getAsString(SampleSQLiteDBHelper.PERSON_COLUMN_TITLE)));
+
+        for (HomeItem homeItem:homeItemList){
+
+            Log.e("Log",""+homeItem.getId());
+        }
+        adapter = new HomeAdapter(getApplicationContext(), homeItemList);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onDestroy() {

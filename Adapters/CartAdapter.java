@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.prism.pickany247.Interface.CartProductClickListener;
 import com.prism.pickany247.Interface.CartDataSet;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.Product;
+import com.prism.pickany247.Model.Product;
 
 public class CartAdapter extends BaseAdapter {
 

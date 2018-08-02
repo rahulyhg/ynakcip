@@ -28,11 +28,10 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.WishListAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Helper.PrefManager;
-import com.prism.pickany247.Response.WishlistItem;
+import com.prism.pickany247.Response.WishlistResponse;
 import com.prism.pickany247.Singleton.AppController;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class WishListActivity extends AppCompatActivity {
     AppController appController;
@@ -41,7 +40,7 @@ public class WishListActivity extends AppCompatActivity {
     private WishListAdapter wishListAdapter;
     private PrefManager pref;
     private RecyclerView recyclerViewCart;
-    WishlistItem wishlistItem = new WishlistItem();
+    WishlistResponse wishlistResponse = new WishlistResponse();
     Gson gson;
     String userId;
 
@@ -106,7 +105,7 @@ public class WishListActivity extends AppCompatActivity {
 
                 hidePDialog();
                 gson = new Gson();
-                wishlistItem = gson.fromJson(response, WishlistItem.class);
+                wishlistResponse = gson.fromJson(response, WishlistResponse.class);
 
 
                 // wishlist Adapter
@@ -114,7 +113,7 @@ public class WishListActivity extends AppCompatActivity {
                 recyclerViewCart.setLayoutManager(mLayoutManager);
                 recyclerViewCart.setItemAnimator(new DefaultItemAnimator());
 
-                wishListAdapter = new WishListAdapter(WishListActivity.this, wishlistItem.getWishList());
+                wishListAdapter = new WishListAdapter(WishListActivity.this, wishlistResponse.getWishList());
                 recyclerViewCart.setAdapter(wishListAdapter);
                 wishListAdapter.notifyDataSetChanged();
 

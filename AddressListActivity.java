@@ -29,7 +29,7 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.AddressAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Helper.PrefManager;
-import com.prism.pickany247.Response.AddressItem;
+import com.prism.pickany247.Response.AddressResponse;
 import com.prism.pickany247.Singleton.AppController;
 
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class AddressListActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private AddressAdapter cartAdapter;
     private ListView recyclerViewCart;
-    AddressItem cartItem = new AddressItem();
+    AddressResponse cartItem = new AddressResponse();
     Gson gson;
     Button btnDelivery,btnAddAddress;
     String userId,itemslength;
@@ -106,7 +106,7 @@ public class AddressListActivity extends AppCompatActivity {
                 Log.e("Response",""+response+""+Api.ADDRESS_LIST_URL+userId);
                 hidePDialog();
                 gson = new Gson();
-                cartItem = gson.fromJson(response, AddressItem.class);
+                cartItem = gson.fromJson(response, AddressResponse.class);
 
                 cartAdapter = new AddressAdapter(AddressListActivity.this, cartItem.getModules());
                 recyclerViewCart.setAdapter(cartAdapter);
@@ -119,7 +119,7 @@ public class AddressListActivity extends AppCompatActivity {
                         cartAdapter.setSelectedIndex(i);
                         cartAdapter.notifyDataSetChanged();
 
-                        final AddressItem.ModulesBean addressItem=(AddressItem.ModulesBean)cartAdapter.getItem(i);
+                        final AddressResponse.ModulesBean addressItem=(AddressResponse.ModulesBean)cartAdapter.getItem(i);
                         //  Toast.makeText(AddressListActivity.this,"cl"+addressItem.getCustmerId().toString(),Toast.LENGTH_SHORT).show();
 
                         btnDelivery.setVisibility(View.VISIBLE);

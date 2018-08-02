@@ -1,4 +1,4 @@
-package com.prism.pickany247.Response;
+package com.prism.pickany247.Model;
 
 public class ViewPagerItem {
     String image;

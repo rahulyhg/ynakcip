@@ -34,7 +34,7 @@ import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.ProductListActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.CatResponse;
-import com.prism.pickany247.Response.CheckBoxItem;
+import com.prism.pickany247.Model.CheckBoxItem;
 import com.prism.pickany247.Response.StationerFilterResponse;
 import com.prism.pickany247.Singleton.AppController;
 

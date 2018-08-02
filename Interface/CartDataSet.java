@@ -1,6 +1,6 @@
 package com.prism.pickany247.Interface;
 
-import com.prism.pickany247.Response.Product;
+import com.prism.pickany247.Model.Product;
 
 public interface CartDataSet {
 

@@ -14,7 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.prism.pickany247.Modules.Grocery.GroceryHomeActivity;
 import com.prism.pickany247.Modules.Mobiles.MobileHomeActivity;
 import com.prism.pickany247.R;
-import com.prism.pickany247.Response.HomeResponse;
+import com.prism.pickany247.Model.HomeItem;
 import com.prism.pickany247.Modules.Stationery.StationeryHomeActivity;
 
 
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
     private Context mContext;
-    private List<HomeResponse.ModulesBean> homeList;
+    private List<HomeItem> homeList;
     // ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -36,11 +36,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
             thumbNail = (ImageView) view.findViewById(R.id.thumbnail);
             txtTitle=(TextView)view.findViewById(R.id.txtTitle);
 
-
-        }
+            }
     }
 
-    public HomeAdapter(Context mContext, List<HomeResponse.ModulesBean> homekitchenList) {
+    public HomeAdapter(Context mContext, List<HomeItem> homekitchenList) {
         this.mContext = mContext;
         this.homeList = homekitchenList;
     }
@@ -55,7 +54,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final HomeResponse.ModulesBean home = homeList.get(position);
+        final HomeItem home = homeList.get(position);
 
         holder.txtTitle.setText(home.getTitle());
         try{

@@ -2,7 +2,7 @@ package com.prism.pickany247.Response;
 
 import java.util.List;
 
-public class LoginItem {
+public class LoginResponse {
 
 
     /**

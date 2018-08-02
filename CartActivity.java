@@ -33,7 +33,7 @@ import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.Interface.CartProductClickListener;
 import com.prism.pickany247.Interface.CartDataSet;
 import com.prism.pickany247.Response.CartResponse;
-import com.prism.pickany247.Response.Product;
+import com.prism.pickany247.Model.Product;
 import com.prism.pickany247.Singleton.AppController;
 
 import java.util.ArrayList;
