@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             pDialog.setContentView(R.layout.my_progress);
 
             prepareHomeData();
-            requestStoragePermission();
+           // requestStoragePermission();
 
 
         } else {
@@ -219,7 +219,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void saveToDB(String id,String title,String image,String cat) {
         SQLiteDatabase database = new SampleSQLiteDBHelper(this).getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SampleSQLiteDBHelper.PERSON_COLUMN_ID, id);
+        values.put(SampleSQLiteDBHelper.PERSON_ID, id);
         values.put(SampleSQLiteDBHelper.PERSON_COLUMN_CATEGOERY, cat);
         values.put(SampleSQLiteDBHelper.PERSON_COLUMN_IMAGE, image);
         values.put(SampleSQLiteDBHelper.PERSON_COLUMN_TITLE, title);

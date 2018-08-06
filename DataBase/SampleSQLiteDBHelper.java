@@ -9,6 +9,7 @@ public class SampleSQLiteDBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "modules_database";
     public static final String PERSON_TABLE_NAME = "modules";
     public static final String PERSON_COLUMN_ID = "_id";
+    public static final String PERSON_ID = "id";
     public static final String PERSON_COLUMN_CATEGOERY = "catName";
     public static final String PERSON_COLUMN_IMAGE = "image";
     public static final String PERSON_COLUMN_TITLE = "title";
@@ -29,8 +30,9 @@ public class SampleSQLiteDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + PERSON_TABLE_NAME + " (" +
                 PERSON_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                PERSON_ID + " TEXT, " +
                 PERSON_COLUMN_CATEGOERY + " TEXT, " +
-                PERSON_COLUMN_IMAGE + " INT UNSIGNED, " +
+                PERSON_COLUMN_IMAGE + " TEXT, " +
                 PERSON_COLUMN_TITLE + " TEXT" + ")");
     }
 

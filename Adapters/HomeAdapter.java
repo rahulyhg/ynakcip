@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.prism.pickany247.Modules.Celebrations.CelebrationsHomeActivity;
 import com.prism.pickany247.Modules.Grocery.GroceryHomeActivity;
+import com.prism.pickany247.Modules.HomeKitchen.KitchenHomeActivity;
 import com.prism.pickany247.Modules.Mobiles.MobileHomeActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Model.HomeItem;
@@ -71,7 +73,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
             @Override
             public void onClick(View v) {
 
-                if (home.getId().equalsIgnoreCase("9")) {
+                //stationery
+                if (home.getId().equalsIgnoreCase("9") || home.getTitle().equalsIgnoreCase("Stationery")) {
 
 //                    Activity activity = (Activity) mContext;
                     Intent intent = new Intent(mContext, StationeryHomeActivity.class);
@@ -79,7 +82,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
                     mContext.startActivity(intent);
                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
-                else  if (home.getId().equalsIgnoreCase("6")) {
+                // mobiles
+                else  if (home.getId().equalsIgnoreCase("6")|| home.getTitle().equalsIgnoreCase("Mobiles")) {
 
 //                    Activity activity = (Activity) mContext;
                     Intent intent = new Intent(mContext, MobileHomeActivity.class);
@@ -88,12 +92,83 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
                     // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
 
-                else  if (home.getId().equalsIgnoreCase("58")) {
+                // grocery
+                else  if (home.getId().equalsIgnoreCase("58")|| home.getTitle().equalsIgnoreCase("Grocery")) {
 
 //                    Activity activity = (Activity) mContext;
                     Intent intent = new Intent(mContext, GroceryHomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
+                // celebrations
+                else  if (home.getId().equalsIgnoreCase("8")|| home.getTitle().equalsIgnoreCase("Celebrations")) {
+
+//                    Activity activity = (Activity) mContext;
+                    Intent intent = new Intent(mContext, CelebrationsHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
+                // home Kitchen
+                else  if (home.getId().equalsIgnoreCase("5")|| home.getTitle().equalsIgnoreCase("Home Kitchen")) {
+
+//                    Activity activity = (Activity) mContext;
+                    Intent intent = new Intent(mContext, KitchenHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
+                // car & Bike rentals
+                else  if (home.getId().equalsIgnoreCase("7")|| home.getTitle().equalsIgnoreCase("Car & Bike Rentals")) {
+
+//                    Activity activity = (Activity) mContext;
+                    Intent intent = new Intent(mContext, KitchenHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                   // mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
+                // Bath & Body
+                else  if (home.getId().equalsIgnoreCase("54")|| home.getTitle().equalsIgnoreCase("Bath & Body")) {
+
+//                    Activity activity = (Activity) mContext;
+                    Intent intent = new Intent(mContext, KitchenHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
+                // Services
+                else  if (home.getId().equalsIgnoreCase("55")|| home.getTitle().equalsIgnoreCase("Services")) {
+
+//                    Activity activity = (Activity) mContext;
+                    Intent intent = new Intent(mContext, KitchenHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
+                // Hotels
+                else  if (home.getId().equalsIgnoreCase("56")|| home.getTitle().equalsIgnoreCase("Hotels")) {
+
+//                    Activity activity = (Activity) mContext;
+                    Intent intent = new Intent(mContext, KitchenHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // mContext.startActivity(intent);
+                    // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
+                // Electronic Accessories
+                else  if (home.getId().equalsIgnoreCase("57")|| home.getTitle().equalsIgnoreCase("Electronic Accessories")) {
+
+//                    Activity activity = (Activity) mContext;
+                    Intent intent = new Intent(mContext, KitchenHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // mContext.startActivity(intent);
                     // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
 

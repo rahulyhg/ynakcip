@@ -6,7 +6,7 @@ public class ProductResponse {
 
 
     /**
-     * filtered_products : [{"id":"16","Module":"mobiles","main_category_id":"1","main_category_name":"New","sub_category_id":"","sub_category_name":"","product_id":"PIKM128879","product_name":"LG G4 Dual","ImagePath":"http://pickany247.com/mobiles/mobiles/","SingleImage":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg","AllImages":"../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-side.jpg","brand_id":"15","product_type":"New","os":"Andriod","color":"White","storage":"3 GB","ram":"32 GB","cart_type":"single","tax_rate":"12%","item_id":"16","availability":"10","capacity":"","unit_price_incl_tax":"10080.00","rating":"0.0","discount":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":"","screen":"5.5 - 5.9 inch","processor":"Hexa Core","camera":"16 - 20.9 MP","battery":"3000-3999mAh","features":"<p>Sim Type: Dual Sim<\/p>\r\n\r\n<p>Touch Type: Yes<\/p>\r\n"}]
+     * filtered_products : [{"id":"331","Module":"celebrations","main_category_id":"1","main_category_name":"Cakes","sub_category_id":"","sub_category_name":"","product_id":"PIKO48425","product_name":"Ferraro-Almond","ImagePath":"http://pickany247.com/celebrations/celebrations/","SingleImage":"../images/uploaded/2018-03-29-12-24-35ferraro-almond.jpg","AllImages":"","brand_id":"","product_type":"","os":"","color":"","storage":"","ram":"","cart_type":"single","tax_rate":"18.00","item_id":"404,405","unit_price_incl_tax":"650.00,925.00","capacity":"0.5,1","heart_shape":"0,1","eggless":"","eggless_amt":"75.00","heart_shape_amt":"100.00","availability":"10","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","rating":"","discount":"","features":"","delivery_time":"10 AM to 2 PM,2 PM to 6 PM,6 PM to 10 PM,10 PM to 11.59 PM"}]
      * message : Get Filtered Products
      */
 
@@ -31,45 +31,43 @@ public class ProductResponse {
 
     public static class FilteredProductsBean {
         /**
-         * id : 16
-         * Module : mobiles
+         * id : 331
+         * Module : celebrations
          * main_category_id : 1
-         * main_category_name : New
+         * main_category_name : Cakes
          * sub_category_id :
          * sub_category_name :
-         * product_id : PIKM128879
-         * product_name : LG G4 Dual
-         * ImagePath : http://pickany247.com/mobiles/mobiles/
-         * SingleImage : ../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg
-         * AllImages : ../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-front.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-back.jpg,../../image/mobiles/product_images/PIKM128879/lg-g4dual-white-side.jpg
-         * brand_id : 15
-         * product_type : New
-         * os : Andriod
-         * color : White
-         * storage : 3 GB
-         * ram : 32 GB
+         * product_id : PIKO48425
+         * product_name : Ferraro-Almond
+         * ImagePath : http://pickany247.com/celebrations/celebrations/
+         * SingleImage : ../images/uploaded/2018-03-29-12-24-35ferraro-almond.jpg
+         * AllImages :
+         * brand_id :
+         * product_type :
+         * os :
+         * color :
+         * storage :
+         * ram :
          * cart_type : single
-         * tax_rate : 12%
-         * item_id : 16
-         * availability : 10
-         * capacity :
-         * unit_price_incl_tax : 10080.00
-         * rating : 0.0
-         * discount :
+         * tax_rate : 18.00
+         * item_id : 404,405
+         * unit_price_incl_tax : 650.00,925.00
+         * capacity : 0.5,1
+         * heart_shape : 0,1
          * eggless :
-         * eggless_amt :
-         * heart_shape :
-         * heart_shape_amt :
+         * eggless_amt : 75.00
+         * heart_shape_amt : 100.00
+         * availability : 10
          * flavour :
          * message :
-         * screen : 5.5 - 5.9 inch
-         * processor : Hexa Core
-         * camera : 16 - 20.9 MP
-         * battery : 3000-3999mAh
-         * features : <p>Sim Type: Dual Sim</p>
-
-         <p>Touch Type: Yes</p>
-
+         * screen :
+         * processor :
+         * camera :
+         * battery :
+         * rating :
+         * discount :
+         * features :
+         * delivery_time : 10 AM to 2 PM,2 PM to 6 PM,6 PM to 10 PM,10 PM to 11.59 PM
          */
 
         private String id;
@@ -92,22 +90,23 @@ public class ProductResponse {
         private String cart_type;
         private String tax_rate;
         private String item_id;
-        private String availability;
-        private String capacity;
         private String unit_price_incl_tax;
-        private String rating;
-        private String discount;
+        private String capacity;
+        private String heart_shape;
         private String eggless;
         private String eggless_amt;
-        private String heart_shape;
         private String heart_shape_amt;
+        private String availability;
         private String flavour;
         private String message;
         private String screen;
         private String processor;
         private String camera;
         private String battery;
+        private String rating;
+        private String discount;
         private String features;
+        private String delivery_time;
 
         public String getId() {
             return id;
@@ -269,12 +268,12 @@ public class ProductResponse {
             this.item_id = item_id;
         }
 
-        public String getAvailability() {
-            return availability;
+        public String getUnit_price_incl_tax() {
+            return unit_price_incl_tax;
         }
 
-        public void setAvailability(String availability) {
-            this.availability = availability;
+        public void setUnit_price_incl_tax(String unit_price_incl_tax) {
+            this.unit_price_incl_tax = unit_price_incl_tax;
         }
 
         public String getCapacity() {
@@ -285,28 +284,12 @@ public class ProductResponse {
             this.capacity = capacity;
         }
 
-        public String getUnit_price_incl_tax() {
-            return unit_price_incl_tax;
+        public String getHeart_shape() {
+            return heart_shape;
         }
 
-        public void setUnit_price_incl_tax(String unit_price_incl_tax) {
-            this.unit_price_incl_tax = unit_price_incl_tax;
-        }
-
-        public String getRating() {
-            return rating;
-        }
-
-        public void setRating(String rating) {
-            this.rating = rating;
-        }
-
-        public String getDiscount() {
-            return discount;
-        }
-
-        public void setDiscount(String discount) {
-            this.discount = discount;
+        public void setHeart_shape(String heart_shape) {
+            this.heart_shape = heart_shape;
         }
 
         public String getEggless() {
@@ -325,20 +308,20 @@ public class ProductResponse {
             this.eggless_amt = eggless_amt;
         }
 
-        public String getHeart_shape() {
-            return heart_shape;
-        }
-
-        public void setHeart_shape(String heart_shape) {
-            this.heart_shape = heart_shape;
-        }
-
         public String getHeart_shape_amt() {
             return heart_shape_amt;
         }
 
         public void setHeart_shape_amt(String heart_shape_amt) {
             this.heart_shape_amt = heart_shape_amt;
+        }
+
+        public String getAvailability() {
+            return availability;
+        }
+
+        public void setAvailability(String availability) {
+            this.availability = availability;
         }
 
         public String getFlavour() {
@@ -389,12 +372,36 @@ public class ProductResponse {
             this.battery = battery;
         }
 
+        public String getRating() {
+            return rating;
+        }
+
+        public void setRating(String rating) {
+            this.rating = rating;
+        }
+
+        public String getDiscount() {
+            return discount;
+        }
+
+        public void setDiscount(String discount) {
+            this.discount = discount;
+        }
+
         public String getFeatures() {
             return features;
         }
 
         public void setFeatures(String features) {
             this.features = features;
+        }
+
+        public String getDelivery_time() {
+            return delivery_time;
+        }
+
+        public void setDelivery_time(String delivery_time) {
+            this.delivery_time = delivery_time;
         }
     }
 }

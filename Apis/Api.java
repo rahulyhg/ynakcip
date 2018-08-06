@@ -4,7 +4,7 @@ import android.widget.BaseAdapter;
 
 public class Api {
 
-    public final static String LOCAL_URL ="http://192.168.0.105/LatestUpdate-2018-05-24/APIS/index.php/Api/";
+    public final static String LOCAL_URL ="http://192.168.0.124/LatestUpdate-2018-05-24/APIS/index.php/Api/";
 
     public final static String BASE_URL ="https://pickany247.com/APIS/index.php/Api/";
 
@@ -38,24 +38,24 @@ public class Api {
     // checkout
     public final static String CHECKOUT_URL =BASE_URL+"checkout";
 
+    // product List
+    public final static String PRODUCTS_URL =LOCAL_URL+"products?module=";
+
+    // product details url
+  //  public final static String PRODUCT_DETAILS_URL =BASE_URL+"products?module=";
 
 
-    // Stationery url
+
+                                              // Stationery url
 
     public final static String STATIONERY_HOME_URL =BASE_URL+"banners_categories?module=stationery";
 
     public final static String STATIONERY_URL =BASE_URL+"products?module=stationery&limit=4&maincatId=";
 
-    public final static String PRODUCTS_URL =BASE_URL+"products?module=";
-
-    public final static String PRODUCT_DETAILS_URL =BASE_URL+"products?module=";
-
-    public final static String STATIONERY_SUB_CATEGORIES_URL =BASE_URL+"fsubcat?catId=";
-
     public final static String STATIONERY_FILTER_URL =BASE_URL+"filters?module=stationery&maincatId=";
 
 
-    // mobile url
+                                                 // mobile url
 
     public final static String MOBILE_HOME_URL =BASE_URL+"banners_categories?module=mobiles";
 
@@ -64,12 +64,23 @@ public class Api {
     public final static String MOBILE_FILTER_URL =BASE_URL+"filters?module=mobiles&maincatId=";
 
 
-    // grocery Url
+                                                 // grocery Url
+
     public final static String GROCERY_HOME_URL =BASE_URL+"banners_categories?module=grocery";
 
     public final static String GROCERY_PRODUCT_URL = BASE_URL+"products?module=grocery&limit=4&maincatId=";
 
     public final static String GROCERY_FILTER_URL =BASE_URL+"filters?module=grocery&maincatId=";
+
+
+                                                 // celebrations Url
+
+    public final static String CELEBRATIONS_HOME_URL =LOCAL_URL+"banners_categories?module=celebrations";
+
+    public final static String CELEBRATIONS_PRODUCT_URL = LOCAL_URL+"products?module=celebrations&limit=4&maincatId=";
+
+    public final static String CELEBRATIONS_FILTER_URL =BASE_URL+"filters?module=celebrations&maincatId=";
+
 
 
 }

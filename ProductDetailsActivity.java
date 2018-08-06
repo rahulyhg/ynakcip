@@ -17,7 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -43,11 +45,13 @@ import com.prism.pickany247.Adapters.SpinnerAdapter;
 import com.prism.pickany247.Adapters.ViewPagerAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Helper.PrefManager;
-import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Model.ViewPagerItem;
+import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Singleton.AppController;
 import com.rd.PageIndicatorView;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +69,32 @@ public class ProductDetailsActivity extends AppCompatActivity {
     TextView txtBullets;
     @BindView(R.id.mobileLayout)
     LinearLayout mobileLayout;
+    @BindView(R.id.spinnerPrice)
+    Spinner spinnerPrice;
+    @BindView(R.id.spinnerLayout)
+    LinearLayout spinnerLayout;
+    @BindView(R.id.spinCelebWeight)
+    Spinner spinCelebWeight;
+    @BindView(R.id.spinnerCelebWeightLayout)
+    LinearLayout spinnerCelebWeightLayout;
+    @BindView(R.id.eggless)
+    CheckBox eggless;
+    @BindView(R.id.heartShape)
+    CheckBox heartShape;
+    @BindView(R.id.spinCelebTime)
+    Spinner spinCelebTime;
+    @BindView(R.id.spinnerCelebTimeLayout)
+    LinearLayout spinnerCelebTimeLayout;
+    @BindView(R.id.spinCelebFlavour)
+    Spinner spinCelebFlavour;
+    @BindView(R.id.spinnerCelebFlavourLayout)
+    LinearLayout spinnerCelebFlavourLayout;
+    @BindView(R.id.celebrationLayout)
+    LinearLayout celebrationLayout;
+    @BindView(R.id.addtoCombo)
+    Button addtoCombo;
+    @BindView(R.id.txtPriceSymbol)
+    TextView txtPriceSymbol;
     private ProgressDialog pDialog;
     AppController appController;
     Gson gson;
@@ -76,7 +106,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private PrefManager pref;
     String userid;
     String selectedPrice, selectedItemId;
-    LinearLayout spinnerLayout;
+
 
     @Override
 
@@ -100,7 +130,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         HashMap<String, String> profile = pref.getUserDetails();
         userid = profile.get("id");
 
-        spinnerLayout = (LinearLayout) findViewById(R.id.spinnerLayout);
 
         if (appController.isConnection()) {
 
@@ -139,9 +168,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     private void prepareProductDetailsData(final String id, final String module) {
-        Log.e("PRODUCT_URL", "" + Api.PRODUCT_DETAILS_URL + module + "&productId=" + id);
+        Log.e("PRODUCT_URL", "" + Api.PRODUCTS_URL + module + "&productId=" + id);
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.PRODUCT_DETAILS_URL + module + "&productId=" + id, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.PRODUCTS_URL + module + "&productId=" + id, new Response.Listener<String>() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(String response) {
@@ -151,19 +180,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 gson = new Gson();
                 productResponse = gson.fromJson(response, ProductResponse.class);
 
+                String allImages = "";
+                String imagePath = "";
                 for (final ProductResponse.FilteredProductsBean filteredProductsBean : productResponse.getFiltered_products()) {
 
-                    String allImages = filteredProductsBean.getAllImages();
+                    allImages = filteredProductsBean.getAllImages();
 
-                    String[] namesList = allImages.split(",");
-
-                    for (String name : namesList) {
-
-                        System.out.println(name);
-
-                        viewPagerItemslist.add(new ViewPagerItem(filteredProductsBean.getImagePath() + name));
-                    }
-
+                    imagePath = filteredProductsBean.getImagePath();
+                    Log.e("IMAGEPATH", "" + imagePath + allImages);
 
                     txtName = (TextView) findViewById(R.id.txtProductName);
                     txtPrice = (TextView) findViewById(R.id.txtPrice);
@@ -172,7 +196,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                     txtName.setText(filteredProductsBean.getProduct_name());
 
-                    ratingBar.setRating(Float.parseFloat(filteredProductsBean.getRating()));
+                    if (filteredProductsBean.getRating().equalsIgnoreCase("")) {
+                        ratingBar.setRating(Float.parseFloat("0"));
+                    } else {
+                        ratingBar.setRating(Float.parseFloat(filteredProductsBean.getRating()));
+                    }
+
                     txtDescription.setText(filteredProductsBean.getMessage());
 
 
@@ -210,7 +239,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                         Spinner spinner = (Spinner) findViewById(R.id.spinnerPrice);
                         SpinnerAdapter adapter = new SpinnerAdapter(ProductDetailsActivity.this, listCapacity, listUnitPrice, listItemId);
-                        // adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                         spinner.setAdapter(adapter);
                         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
@@ -297,6 +325,209 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             }
                         });
 
+                        // CELEBARATIONS
+                    } else if (module.equalsIgnoreCase("celebrations")) {
+
+                        addtoCombo.setVisibility(View.VISIBLE);
+                        txtPriceSymbol.setVisibility(View.VISIBLE);
+
+
+                        if (filteredProductsBean.getMain_category_name().equalsIgnoreCase("Cakes")) {
+
+                            celebrationLayout.setVisibility(View.VISIBLE);
+
+                            final List<String> listCapacity = new ArrayList<>();
+                            final List<String> listUnitPrice = new ArrayList<>();
+                            final List<String> listItemId = new ArrayList<>();
+                            final List<String> listFlavour = new ArrayList<>();
+                            final List<String> listTimeslot = new ArrayList<>();
+
+                            if (filteredProductsBean.getFlavour().equalsIgnoreCase("")) {
+                                spinnerCelebFlavourLayout.setVisibility(View.GONE);
+
+                            }
+
+                            // capacity
+                            final String[] itemsCapacity = filteredProductsBean.getCapacity().split(",");
+                            for (String itemCap : itemsCapacity) {
+                                System.out.println("itemCap = " + itemCap);
+                                listCapacity.add(itemCap);
+                            }
+
+                            // unit price
+                            String[] itemsUnitPrice = filteredProductsBean.getUnit_price_incl_tax().split(",");
+                            for (String itemUnit : itemsUnitPrice) {
+                                System.out.println("itemUnit = " + itemUnit);
+                                listUnitPrice.add(itemUnit);
+                            }
+
+                            // itemsid
+                            String[] itemsId = filteredProductsBean.getItem_id().split(",");
+                            for (String itemsid : itemsId) {
+                                System.out.println("itemsID = " + itemsid);
+                                listItemId.add(itemsid);
+                            }
+
+                            // flavour
+                            String[] flavour = filteredProductsBean.getFlavour().split(",");
+                            for (String flav : flavour) {
+                                System.out.println("flav = " + flav);
+                                listFlavour.add(flav);
+                            }
+
+                            // timeslot
+                            String[] timeslot = filteredProductsBean.getDelivery_time().split(",");
+                            for (String time : timeslot) {
+                                System.out.println("time = " + time);
+                                listTimeslot.add(time);
+                            }
+
+
+                            // spin Weight
+                            SpinnerAdapter adapter = new SpinnerAdapter(ProductDetailsActivity.this, listCapacity, listUnitPrice, listItemId);
+                            spinCelebWeight.setAdapter(adapter);
+                            spinCelebWeight.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                    selectedPrice = listUnitPrice.get(position);
+                                    selectedItemId = listItemId.get(position);
+
+                                    txtPrice.setText("" + selectedPrice);
+
+                                    heartShape.setChecked(false);
+                                    eggless.setChecked(false);
+
+
+                                    if (listCapacity.get(position).equals("0.5")) {
+
+                                        heartShape.setVisibility(View.GONE);
+                                    } else {
+                                        heartShape.setVisibility(View.VISIBLE);
+                                    }
+
+                                    // Toast.makeText(getApplicationContext(),""+price+"---"+itemId,Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
+
+                            // spin flavour
+
+                            ArrayAdapter<String> flavourAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, listFlavour);
+                            flavourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinCelebFlavour.setAdapter(flavourAdapter);
+                            spinCelebFlavour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                    // txtPrice.setText("\u20B9" + selectedPrice);
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
+
+                            // spin timeslot
+
+                            ArrayAdapter<String> timeslotAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, listTimeslot);
+                            timeslotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinCelebTime.setAdapter(timeslotAdapter);
+                            spinCelebTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                    // txtPrice.setText("\u20B9" + selectedPrice);
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
+
+                            // eggless checkbox
+                            eggless.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+                                    if (isChecked) {
+
+                                        NumberFormat nf = NumberFormat.getInstance();
+                                        try {
+                                            double number = nf.parse(txtPrice.getText().toString()).doubleValue();
+                                            double number2 = nf.parse(filteredProductsBean.getEggless_amt()).doubleValue();
+                                            double sum = number + number2;
+                                            txtPrice.setText("" + sum);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    } else {
+
+                                        NumberFormat nf = NumberFormat.getInstance();
+                                        try {
+                                            double number = nf.parse(txtPrice.getText().toString()).doubleValue();
+                                            double number2 = nf.parse(filteredProductsBean.getEggless_amt()).doubleValue();
+                                            double sum = number - number2;
+                                            txtPrice.setText("" + sum);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }
+                            });
+
+                            // eggless checkbox
+                            heartShape.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                                    if (isChecked) {
+
+                                        NumberFormat nf = NumberFormat.getInstance();
+                                        try {
+                                            double number = nf.parse(txtPrice.getText().toString()).doubleValue();
+                                            double number2 = nf.parse(filteredProductsBean.getHeart_shape_amt()).doubleValue();
+                                            double sum = number + number2;
+                                            txtPrice.setText("" + sum);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    } else {
+
+                                        NumberFormat nf = NumberFormat.getInstance();
+                                        try {
+                                            double number = nf.parse(txtPrice.getText().toString()).doubleValue();
+                                            double number2 = nf.parse(filteredProductsBean.getHeart_shape_amt()).doubleValue();
+                                            double sum = number - number2;
+                                            txtPrice.setText("" + sum);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            });
+
+
+                        }
+                        else {
+
+                            txtPrice.setText("" + filteredProductsBean.getUnit_price_incl_tax());
+                        }
+
+
                     } else {
 
                         txtPrice.setText("\u20B9" + filteredProductsBean.getUnit_price_incl_tax());
@@ -355,6 +586,20 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         }
                     });
 
+                }
+
+                // slider Images 
+                String[] namesList = allImages.split(",");
+
+                Log.e("ALLIMAGESLIDES", "" + namesList.length);
+
+                for (String name : namesList) {
+
+                    System.out.println(name);
+
+                    Log.e("IMAGESLIDES", "" + name);
+
+                    viewPagerItemslist.add(new ViewPagerItem(imagePath + name));
                 }
 
                 final PageIndicatorView pageIndicatorView = findViewById(R.id.pageIndicatorView);
