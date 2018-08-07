@@ -39,7 +39,7 @@ public class Api {
     public final static String CHECKOUT_URL =BASE_URL+"checkout";
 
     // product List
-    public final static String PRODUCTS_URL =LOCAL_URL+"products?module=";
+    public final static String PRODUCTS_URL =BASE_URL+"products?module=";
 
     // product details url
   //  public final static String PRODUCT_DETAILS_URL =BASE_URL+"products?module=";
@@ -75,9 +75,9 @@ public class Api {
 
                                                  // celebrations Url
 
-    public final static String CELEBRATIONS_HOME_URL =LOCAL_URL+"banners_categories?module=celebrations";
+    public final static String CELEBRATIONS_HOME_URL =BASE_URL+"banners_categories?module=celebrations";
 
-    public final static String CELEBRATIONS_PRODUCT_URL = LOCAL_URL+"products?module=celebrations&limit=4&maincatId=";
+    public final static String CELEBRATIONS_PRODUCT_URL = BASE_URL+"products?module=celebrations&limit=4&maincatId=";
 
     public final static String CELEBRATIONS_FILTER_URL =BASE_URL+"filters?module=celebrations&maincatId=";
 

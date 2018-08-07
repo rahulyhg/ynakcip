@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
@@ -95,6 +96,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
     Button addtoCombo;
     @BindView(R.id.txtPriceSymbol)
     TextView txtPriceSymbol;
+    @BindView(R.id.messageonCake)
+    EditText messageonCake;
     private ProgressDialog pDialog;
     AppController appController;
     Gson gson;
@@ -105,7 +108,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     Button btnAddToCart, btnBuyNow;
     private PrefManager pref;
     String userid;
-    String selectedPrice, selectedItemId;
+    public String selectedPrice, selectedItemId, flavourValue, timeslotValue, egglessPrice, heartshapePrice, egglessValue, heartshapeValue;
 
 
     @Override
@@ -369,15 +372,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             }
 
                             // flavour
-                            String[] flavour = filteredProductsBean.getFlavour().split(",");
-                            for (String flav : flavour) {
+                            final String[][] flavour = {filteredProductsBean.getFlavour().split(",")};
+                            for (String flav : flavour[0]) {
                                 System.out.println("flav = " + flav);
                                 listFlavour.add(flav);
                             }
 
                             // timeslot
-                            String[] timeslot = filteredProductsBean.getDelivery_time().split(",");
-                            for (String time : timeslot) {
+                            final String[][] timeslot = {filteredProductsBean.getDelivery_time().split(",")};
+                            for (String time : timeslot[0]) {
                                 System.out.println("time = " + time);
                                 listTimeslot.add(time);
                             }
@@ -424,8 +427,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             spinCelebFlavour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                                    // txtPrice.setText("\u20B9" + selectedPrice);
+                                    flavourValue = parent.getItemAtPosition(position).toString();
+                                    Log.e("FLAVOUR", "" + flavourValue);
                                 }
 
                                 @Override
@@ -444,7 +447,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                                    // txtPrice.setText("\u20B9" + selectedPrice);
+                                    timeslotValue = parent.getItemAtPosition(position).toString();
+                                    Log.e("TIMESLOT", "" + timeslotValue);
                                 }
 
                                 @Override
@@ -468,6 +472,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                             double number2 = nf.parse(filteredProductsBean.getEggless_amt()).doubleValue();
                                             double sum = number + number2;
                                             txtPrice.setText("" + sum);
+
+                                            egglessPrice = filteredProductsBean.getEggless_amt();
+                                            egglessValue = "Yes";
+
                                         } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
@@ -480,6 +488,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                             double number2 = nf.parse(filteredProductsBean.getEggless_amt()).doubleValue();
                                             double sum = number - number2;
                                             txtPrice.setText("" + sum);
+
+                                            egglessPrice = "0";
+                                            egglessValue = "No";
+
                                         } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
@@ -501,6 +513,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                             double number2 = nf.parse(filteredProductsBean.getHeart_shape_amt()).doubleValue();
                                             double sum = number + number2;
                                             txtPrice.setText("" + sum);
+
+                                            heartshapePrice = filteredProductsBean.getHeart_shape_amt();
+
+                                            heartshapeValue = "Yes";
+
                                         } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
@@ -513,6 +530,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                             double number2 = nf.parse(filteredProductsBean.getHeart_shape_amt()).doubleValue();
                                             double sum = number - number2;
                                             txtPrice.setText("" + sum);
+
+                                            heartshapePrice = "0";
+                                            heartshapeValue = "No";
+
                                         } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
@@ -521,8 +542,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             });
 
 
-                        }
-                        else {
+                            // message on cake
+
+
+                        } else {
 
                             txtPrice.setText("" + filteredProductsBean.getUnit_price_incl_tax());
                         }
@@ -548,7 +571,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             if (module.equalsIgnoreCase("grocery")) {
                                 addtocartData(userid, selectedItemId, "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
                                         filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
-                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), cart);
+                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), cart);
 
                             } else if (module.equalsIgnoreCase("mobiles")) {
 
@@ -556,12 +579,33 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                                 addtocartData(userid, filteredProductsBean.getItem_id(), "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
                                         filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
-                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), cart);
+                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), cart);
+
+                            } else if (module.equalsIgnoreCase("celebrations")) {
+
+                                if (filteredProductsBean.getMain_category_name().equalsIgnoreCase("Cakes")) {
+
+                                    if (!messageonCake.getText().toString().isEmpty() && !selectedItemId.isEmpty() && !timeslotValue.isEmpty() && !flavourValue.isEmpty()) {
+
+                                        addtocartData(userid, selectedItemId, "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
+                                                txtPrice.getText().toString(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), egglessValue, egglessPrice,
+                                                heartshapeValue, heartshapePrice, flavourValue, messageonCake.getText().toString(), timeslotValue, cart);
+                                    } else {
+
+                                        Toast.makeText(getApplicationContext(), "Select/Enter Mandatory Fields", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } else {
+                                    addtocartData(userid, filteredProductsBean.getItem_id(), "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
+                                            filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
+                                            filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), cart);
+
+                                }
 
                             } else {
                                 addtocartData(userid, filteredProductsBean.getProduct_id(), "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
                                         filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
-                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), cart);
+                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), cart);
 
                             }
                         }
@@ -575,12 +619,69 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             if (module.equalsIgnoreCase("grocery")) {
                                 addtocartData(userid, selectedItemId, "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
                                         filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
-                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), cart);
+                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), cart);
+
+                            } else if (module.equalsIgnoreCase("mobiles")) {
+
+                                Log.e("SUREH_ID", "" + filteredProductsBean.getItem_id());
+
+                                addtocartData(userid, filteredProductsBean.getItem_id(), "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
+                                        filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
+                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), cart);
+
+                            } else if (module.equalsIgnoreCase("celebrations")) {
+
+                                if (filteredProductsBean.getMain_category_name().equalsIgnoreCase("Cakes")) {
+
+                                    if (!messageonCake.getText().toString().isEmpty() && !selectedItemId.isEmpty() && !timeslotValue.isEmpty() && !flavourValue.isEmpty()) {
+
+                                        addtocartData(userid, selectedItemId, "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
+                                                txtPrice.getText().toString(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), egglessValue, egglessPrice,
+                                                heartshapeValue, heartshapePrice, flavourValue, messageonCake.getText().toString(), timeslotValue, cart);
+                                    } else {
+
+                                        Toast.makeText(getApplicationContext(), "Select/Enter Mandatory Fields", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } else {
+                                    addtocartData(userid, filteredProductsBean.getItem_id(), "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
+                                            filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
+                                            filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), cart);
+
+                                }
 
                             } else {
                                 addtocartData(userid, filteredProductsBean.getProduct_id(), "", filteredProductsBean.getModule(), filteredProductsBean.getCart_type(), "1",
                                         filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
-                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), cart);
+                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), cart);
+
+                            }
+                        }
+                    });
+
+// add to Combo Button
+                    addtoCombo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if (filteredProductsBean.getMain_category_name().equalsIgnoreCase("Cakes")) {
+
+
+                                if (!messageonCake.getText().toString().isEmpty() && !selectedItemId.isEmpty() && !timeslotValue.isEmpty() && !flavourValue.isEmpty()) {
+
+                                    addtocartData(userid, selectedItemId, "", filteredProductsBean.getModule(), "combo", "1",
+                                            txtPrice.getText().toString(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), egglessValue, egglessPrice,
+                                            heartshapeValue, heartshapePrice, flavourValue, messageonCake.getText().toString(), timeslotValue, "");
+
+                                } else {
+
+                                    Toast.makeText(getApplicationContext(), "Select/Enter Mandatory Fields", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                addtocartData(userid, filteredProductsBean.getItem_id(), "", filteredProductsBean.getModule(), "combo", "1",
+                                        filteredProductsBean.getUnit_price_incl_tax(), filteredProductsBean.getTax_rate(), filteredProductsBean.getDiscount(), filteredProductsBean.getColor(), filteredProductsBean.getEggless(), filteredProductsBean.getEggless_amt(),
+                                        filteredProductsBean.getHeart_shape(), filteredProductsBean.getHeart_shape_amt(), filteredProductsBean.getFlavour(), filteredProductsBean.getMessage(), filteredProductsBean.getDelivery_time(), "");
 
                             }
                         }
@@ -658,7 +759,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                final String cartType, final String quantity, final String unitPrice, final String tax_rate,
                                final String discount, final String color, final String eggless,
                                final String egglessAmount, final String heartShape, final String heartShapeAmount,
-                               final String flavour, final String message, final String btnValue) {
+                               final String flavour, final String message, final String timeslot, final String btnValue) {
 
 
         pDialog.show();
@@ -730,6 +831,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 params.put("heart_shape_amt", heartShapeAmount);
                 params.put("flavour", flavour);
                 params.put("message", message);
+                params.put("delivery_time", timeslot);
 
                 Log.e("RESPONSE_Parasms: ", "" + params);
                 return params;

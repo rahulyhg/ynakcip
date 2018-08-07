@@ -155,27 +155,27 @@ public class CelebrationsHomeActivity extends AppCompatActivity {
 
                 for (CatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
 
-                    if (mainCategoriesBean.getId().equals("18")){
+                    if (mainCategoriesBean.getId().equals("18") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Cakes")){
 
                         prepareCakesData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("20")){
+                    else if (mainCategoriesBean.getId().equals("20") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Flowers")){
 
                         prepareFlowersData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("19")){
+                    else if (mainCategoriesBean.getId().equals("19") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Combos")){
 
                         prepareCombosData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("21")){
+                    else if (mainCategoriesBean.getId().equals("21") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Gift House")){
 
                         prepareGiftHouseData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("22")){
+                    else if (mainCategoriesBean.getId().equals("22") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Accessories") ){
 
                         prepareAccessoriesData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 

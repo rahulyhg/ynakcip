@@ -45,7 +45,7 @@ public class CartActivity extends AppCompatActivity {
     AppController appController;
     private ProgressDialog pDialog;
     private PrefManager pref;
-    private static Products products;
+    public static Products products;
     private BaseAdapter productsAdapter;
     private int j = 1;
     String userId;
@@ -128,7 +128,8 @@ public class CartActivity extends AppCompatActivity {
                 for (CartResponse.CartItemsBean cartItemsBean : cartResponse.getCart_items()) {
 
                     productArrayList.add(new Product(cartItemsBean.getProduct_name(), Integer.parseInt(cartItemsBean.getQuantity()), Double.parseDouble(cartItemsBean.getUnit_price_incl_tax()), cartItemsBean.getImage(),
-                            cartItemsBean.getModule(),cartItemsBean.getUser_id(),cartItemsBean.getItem_id(),cartItemsBean.getId(),cartItemsBean.getProduct_id(), cartItemsBean.getAvailability()));
+                            cartItemsBean.getModule(),cartItemsBean.getUser_id(),cartItemsBean.getItem_id(),cartItemsBean.getId(),cartItemsBean.getProduct_id(), cartItemsBean.getAvailability(),cartItemsBean.getRequest_code(),cartItemsBean.getCart_type(),cartItemsBean.getEggless(),cartItemsBean.getEggless_amt(),
+                            cartItemsBean.getHeart_shape(),cartItemsBean.getHeart_shape_amt(),cartItemsBean.getFlavour(),cartItemsBean.getMessage(),cartItemsBean.getDelivery_time()));
 
                     products = new Products(productArrayList);
 
@@ -290,7 +291,9 @@ public class CartActivity extends AppCompatActivity {
 
             if (product.quantity > 1 ) {
 
-                Product updatedProduct = new Product(product.name, (product.quantity - 1), product.price, product.thumbnail,product.module,product.user_id,product.item_id,product.cartId,product.productId, product.availability);
+                Product updatedProduct = new Product(product.name, (product.quantity - 1), product.price, product.thumbnail,product.module,product.user_id,product.item_id,product.cartId,product.productId, product.availability,
+                        product.request_code,product.cart_type,product.eggless,product.eggless_amt,product.heart_shape,product.heart_shape_amt,product.flavour,
+                        product.message,product.delivery_time);
                 productList.remove(product);
                 productList.add(i, updatedProduct);
 
@@ -311,7 +314,10 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"You Reached Maximum Availability",Toast.LENGTH_SHORT).show();
             }else {
 
-                Product updatedProduct = new Product(product.name, (product.quantity + 1), product.price, product.thumbnail,product.module,product.user_id,product.item_id,product.cartId,product.productId, product.availability);
+                Product updatedProduct = new Product(product.name, (product.quantity + 1), product.price, product.thumbnail,product.module,product.user_id,product.item_id,product.cartId,product.productId, product.availability,
+                        product.request_code,product.cart_type,product.eggless,product.eggless_amt,product.heart_shape,product.heart_shape_amt,product.flavour,
+                        product.message,product.delivery_time);
+
                 productList.remove(product);
                 productList.add(i, updatedProduct);
 
@@ -415,7 +421,7 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-    // Save Wishlist
+    // update quantity
     public void updateQuantity(final Product product){
 
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, Api.QUANTITY_CART_URL,
@@ -456,9 +462,19 @@ public class CartActivity extends AppCompatActivity {
 
                 params.put("user_id", product.user_id);
                 params.put("product_id", product.productId);
+                params.put("request_code", product.request_code);
                 params.put("category", product.module);
+                params.put("cart_type", product.cart_type);
                 params.put("quantity", String.valueOf(product.quantity));
                 params.put("unit_price_incl_tax", String.valueOf(product.price));
+                params.put("eggless", String.valueOf(product.price));
+                params.put("eggless_amt", String.valueOf(product.price));
+                params.put("heart_shape", String.valueOf(product.price));
+                params.put("heart_shape_amt", String.valueOf(product.price));
+                params.put("flavour", String.valueOf(product.price));
+                params.put("message", String.valueOf(product.price));
+                params.put("delivery_time", String.valueOf(product.price));
+
 
                 Log.e("RESPONSE_Parasms: ",""+params);
                 return params;

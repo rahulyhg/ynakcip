@@ -11,8 +11,17 @@ public class Product {
     public final String cartId;
     public final String productId;
     public final String availability;
+    public final String request_code;
+    public final String cart_type;
+    public final String eggless;
+    public final String eggless_amt;
+    public final String heart_shape;
+    public final String heart_shape_amt;
+    public final String flavour;
+    public final String message;
+    public final String delivery_time;
 
-    public Product(String name, int quantity, double price, String thumbnail, String module, String user_id, String item_id, String cartId, String productId, String availability) {
+    public Product(String name, int quantity, double price, String thumbnail, String module, String user_id, String item_id, String cartId, String productId, String availability, String request_code, String cart_type, String eggless, String eggless_amt, String heart_shape, String heart_shape_amt, String flavour, String message, String delivery_time) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
@@ -23,6 +32,15 @@ public class Product {
         this.cartId = cartId;
         this.productId = productId;
         this.availability = availability;
+        this.request_code = request_code;
+        this.cart_type = cart_type;
+        this.eggless = eggless;
+        this.eggless_amt = eggless_amt;
+        this.heart_shape = heart_shape;
+        this.heart_shape_amt = heart_shape_amt;
+        this.flavour = flavour;
+        this.message = message;
+        this.delivery_time = delivery_time;
     }
 
     public String getName() {
@@ -63,5 +81,41 @@ public class Product {
 
     public String getAvailability() {
         return availability;
+    }
+
+    public String getRequest_code() {
+        return request_code;
+    }
+
+    public String getCart_type() {
+        return cart_type;
+    }
+
+    public String getEggless() {
+        return eggless;
+    }
+
+    public String getEggless_amt() {
+        return eggless_amt;
+    }
+
+    public String getHeart_shape() {
+        return heart_shape;
+    }
+
+    public String getHeart_shape_amt() {
+        return heart_shape_amt;
+    }
+
+    public String getFlavour() {
+        return flavour;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getDelivery_time() {
+        return delivery_time;
     }
 }

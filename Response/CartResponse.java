@@ -6,9 +6,9 @@ public class CartResponse {
 
 
     /**
-     * cart_items : [{"module":"stationery","id":"4666","item_id":"79","product_name":"Art Glue","image":"http://pickany247.com/stationery/stationery/../images/product_images/PIK202IX3/1.jpg","user_id":"23","request_code":"","category":"stationery","cart_type":"single","product_id":"PIK202IX3","quantity":"1","availability":"70","unit_price_incl_tax":"789.00","unit_price_exld_tax":"668.64","tax_rate":"18.00","tax_amt":"120.36","discount":"0.00","total_price":"789.00","storage":"","ram":"","color":"White","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","features":""},{"module":"grocery","id":"4665","item_id":"172","product_name":"Horse Gram (Ulavalu)","image":"http://pickany247.com/grocery/grocery/../../image/grocery/product_images/PIKGR40535/Horse-Gram-(Ulavalu).jpg","user_id":"23","request_code":"","category":"grocery","cart_type":"single","product_id":"172","quantity":"1","availability":"20","unit_price_incl_tax":"50.40","unit_price_exld_tax":"48.00","tax_rate":"5.00","tax_amt":"2.40","discount":"0.00","total_price":"50.40","storage":"","ram":"","color":"","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","features":""},{"module":"mobiles","id":"4729","item_id":"15","product_name":"LG G4 Dual","image":"http://pickany247.com/mobile/mobile/../../image/mobiles/product_images/PIKM128879/lg-g4dual-gray-back.jpg","user_id":"23","request_code":"","category":"mobiles","cart_type":"single","product_id":"15","quantity":"1","availability":"13","unit_price_incl_tax":"10080.00","unit_price_exld_tax":"9000.00","tax_rate":"12.00","tax_amt":"1080.00","discount":"0.00","total_price":"10080.00","storage":"3 GB","ram":"32 GB","color":"Grey","eggless":"","eggless_amt":"","heart_shape":"","heart_shape_amt":"","flavour":"","message":"","screen":"5.5 - 5.9 inch","processor":"Hexa Core","camera":"16 - 20.9 MP","battery":"3000-3999mAh","features":"<p>Sim Type: Dual Sim<\/p>\r\n\r\n<p>Touch Type: Yes<\/p>\r\n"}]
-     * total_bill : [{"priceInclTax":"21439.40","GST":"2349.88","SubTotal":"21439.40","DeliveryCharges":"0","grandTotal":"21439.40"}]
-     * user_address : [{"id":"58","user_id":"23","name":"Vizagkumar","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"vizag","set_as_default":"0","status":"1"},{"id":"52","user_id":"23","name":"mahesh","city":"vizag","state":"apup","zip":"532457","phone":"8790299482","address":"mvp","set_as_default":"1","status":"1"},{"id":"51","user_id":"23","name":"sureshkumar","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8790299482","address":"ishukatota","set_as_default":"1","status":"1"},{"id":"56","user_id":"23","name":"Test123","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"vizag","set_as_default":"0","status":"1"},{"id":"57","user_id":"23","name":"santhosh","city":"vizag","state":"ap","zip":"432457","phone":"1234567890","address":"vizag","set_as_default":"0","status":"1"}]
+     * cart_items : [{"module":"celebrations","id":"5944","item_id":"457","product_name":"Hazzelnut-Truffle Cake","image":"http://pickany247.com/celebrations/celebrations/../images/uploaded/2018-03-29-01-32-09hazzelnuttruffle.jpg","user_id":"23","request_code":"","category":"celebrations","cart_type":"single","product_id":"457","quantity":"1","availability":"1","unit_price_incl_tax":"475.00","unit_price_exld_tax":"402.54","tax_rate":"18.00","tax_amt":"72.46","discount":"0.00","total_price":"475.00","storage":"","ram":"","color":"","eggless":"Yes","eggless_amt":"75.00","heart_shape":"Yes","heart_shape_amt":"100.00","flavour":"Pineapple","message":"happy birthday ","screen":"","processor":"","camera":"","battery":"","features":"","delivery_time":"2 PM to 6 PM"},{"module":"celebrations","id":"5955","item_id":"459","product_name":"Mocha-Fruit Cake","image":"http://pickany247.com/celebrations/celebrations/../images/uploaded/2018-03-29-01-33-38mocha-fruit.jpg","user_id":"23","request_code":"","category":"celebrations","cart_type":"combo","product_id":"459","quantity":"1","availability":"1","unit_price_incl_tax":"1050.00","unit_price_exld_tax":"889.83","tax_rate":"18.00","tax_amt":"160.17","discount":"10.00","total_price":"1120.00","storage":"","ram":"","color":"","eggless":"Yes","eggless_amt":"75.00","heart_shape":"Yes","heart_shape_amt":"100.00","flavour":"Vanilla","message":"happy birthday","screen":"","processor":"","camera":"","battery":"","features":"","delivery_time":"10 AM to 2 PM"},{"module":"celebrations","id":"5957","item_id":"459","product_name":"Mocha-Fruit Cake","image":"http://pickany247.com/celebrations/celebrations/../images/uploaded/2018-03-29-01-33-38mocha-fruit.jpg","user_id":"23","request_code":"","category":"celebrations","cart_type":"single","product_id":"459","quantity":"1","availability":"1","unit_price_incl_tax":"575.00","unit_price_exld_tax":"487.29","tax_rate":"18.00","tax_amt":"87.71","discount":"0.00","total_price":"575.00","storage":"","ram":"","color":"","eggless":"Yes","eggless_amt":"75.00","heart_shape":"Yes","heart_shape_amt":"100.00","flavour":"Vanilla","message":"happy birthday","screen":"","processor":"","camera":"","battery":"","features":"","delivery_time":"10 AM to 2 PM"},{"module":"celebrations","id":"5959","item_id":"457","product_name":"Hazzelnut-Truffle Cake","image":"http://pickany247.com/celebrations/celebrations/../images/uploaded/2018-03-29-01-32-09hazzelnuttruffle.jpg","user_id":"23","request_code":"","category":"celebrations","cart_type":"single","product_id":"457","quantity":"1","availability":"1","unit_price_incl_tax":"900.00","unit_price_exld_tax":"762.71","tax_rate":"18.00","tax_amt":"137.29","discount":"0.00","total_price":"900.00","storage":"","ram":"","color":"","eggless":"Yes","eggless_amt":"75.00","heart_shape":"Yes","heart_shape_amt":"100.00","flavour":"Vanilla","message":"happy birthday","screen":"","processor":"","camera":"","battery":"","features":"","delivery_time":"10 AM to 2 PM"},{"module":"celebrations","id":"5965","item_id":"1224","product_name":"Symbol Of Friendship","image":"http://pickany247.com/celebrations/celebrations/../../image/celebrations/product_images/PIKC5C6754/2018-07-16-11-56-572018-03-26-12-36-231.jpg","user_id":"23","request_code":"","category":"celebrations","cart_type":"combo","product_id":"1224","quantity":"1","availability":"1","unit_price_incl_tax":"20.06","unit_price_exld_tax":"17.00","tax_rate":"18.00","tax_amt":"3.06","discount":"10.00","total_price":"18.05","storage":"","ram":"","color":"","eggless":"","eggless_amt":"0.00","heart_shape":"0","heart_shape_amt":"0.00","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","features":"","delivery_time":"10 AM to 2 PM,2 PM to 6 PM,6 PM to 10 PM,10 PM to 11.59 PM"},{"module":"celebrations","id":"5966","item_id":"1224","product_name":"Symbol Of Friendship","image":"http://pickany247.com/celebrations/celebrations/../../image/celebrations/product_images/PIKC5C6754/2018-07-16-11-56-572018-03-26-12-36-231.jpg","user_id":"23","request_code":"","category":"celebrations","cart_type":"single","product_id":"1224","quantity":"1","availability":"1","unit_price_incl_tax":"20.06","unit_price_exld_tax":"17.00","tax_rate":"18.00","tax_amt":"3.06","discount":"0.00","total_price":"20.06","storage":"","ram":"","color":"","eggless":"","eggless_amt":"0.00","heart_shape":"0","heart_shape_amt":"0.00","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","features":"","delivery_time":"10 AM to 2 PM,2 PM to 6 PM,6 PM to 10 PM,10 PM to 11.59 PM"},{"module":"celebrations","id":"5971","item_id":"1224","product_name":"Symbol Of Friendship","image":"http://pickany247.com/celebrations/celebrations/../../image/celebrations/product_images/PIKC5C6754/2018-07-16-11-56-572018-03-26-12-36-231.jpg","user_id":"23","request_code":"","category":"celebrations","cart_type":"combo","product_id":"1224","quantity":"1","availability":"1","unit_price_incl_tax":"20.06","unit_price_exld_tax":"17.00","tax_rate":"18.00","tax_amt":"3.06","discount":"10.00","total_price":"18.05","storage":"","ram":"","color":"","eggless":"","eggless_amt":"0.00","heart_shape":"0","heart_shape_amt":"0.00","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","features":"","delivery_time":""},{"module":"celebrations","id":"5972","item_id":"1224","product_name":"Symbol Of Friendship","image":"http://pickany247.com/celebrations/celebrations/../../image/celebrations/product_images/PIKC5C6754/2018-07-16-11-56-572018-03-26-12-36-231.jpg","user_id":"23","request_code":"","category":"celebrations","cart_type":"single","product_id":"1224","quantity":"1","availability":"1","unit_price_incl_tax":"20.06","unit_price_exld_tax":"17.00","tax_rate":"18.00","tax_amt":"3.06","discount":"0.00","total_price":"20.06","storage":"","ram":"","color":"","eggless":"","eggless_amt":"0.00","heart_shape":"0","heart_shape_amt":"0.00","flavour":"","message":"","screen":"","processor":"","camera":"","battery":"","features":"","delivery_time":""}]
+     * total_bill : [{"priceInclTax":"3146.22","GST":"469.87","SubTotal":"3146.22","DeliveryCharges":"0","grandTotal":"3146.22"}]
+     * user_address : [{"id":"58","user_id":"23","name":"Vizagkumar","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"vizag","set_as_default":"0","status":"1"},{"id":"52","user_id":"23","name":"mahesh","city":"vizag","state":"apup","zip":"532457","phone":"8790299482","address":"mvp","set_as_default":"1","status":"1"},{"id":"51","user_id":"23","name":"sureshkumar","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8790299482","address":"ishukatota","set_as_default":"1","status":"1"},{"id":"56","user_id":"23","name":"Test123","city":"vizag","state":"andrapradesh","zip":"532457","phone":"8985018103","address":"vizag","set_as_default":"0","status":"1"},{"id":"57","user_id":"23","name":"santosh","city":"vizag","state":"ap","zip":"432457","phone":"1234567890","address":"vizag","set_as_default":"0","status":"1"}]
      * message : List of items in cart
      */
 
@@ -51,38 +51,39 @@ public class CartResponse {
 
     public static class CartItemsBean {
         /**
-         * module : stationery
-         * id : 4666
-         * item_id : 79
-         * product_name : Art Glue
-         * image : http://pickany247.com/stationery/stationery/../images/product_images/PIK202IX3/1.jpg
+         * module : celebrations
+         * id : 5944
+         * item_id : 457
+         * product_name : Hazzelnut-Truffle Cake
+         * image : http://pickany247.com/celebrations/celebrations/../images/uploaded/2018-03-29-01-32-09hazzelnuttruffle.jpg
          * user_id : 23
          * request_code :
-         * category : stationery
+         * category : celebrations
          * cart_type : single
-         * product_id : PIK202IX3
+         * product_id : 457
          * quantity : 1
-         * availability : 70
-         * unit_price_incl_tax : 789.00
-         * unit_price_exld_tax : 668.64
+         * availability : 1
+         * unit_price_incl_tax : 475.00
+         * unit_price_exld_tax : 402.54
          * tax_rate : 18.00
-         * tax_amt : 120.36
+         * tax_amt : 72.46
          * discount : 0.00
-         * total_price : 789.00
+         * total_price : 475.00
          * storage :
          * ram :
-         * color : White
-         * eggless :
-         * eggless_amt :
-         * heart_shape :
-         * heart_shape_amt :
-         * flavour :
-         * message :
+         * color :
+         * eggless : Yes
+         * eggless_amt : 75.00
+         * heart_shape : Yes
+         * heart_shape_amt : 100.00
+         * flavour : Pineapple
+         * message : happy birthday
          * screen :
          * processor :
          * camera :
          * battery :
          * features :
+         * delivery_time : 2 PM to 6 PM
          */
 
         private String module;
@@ -117,6 +118,7 @@ public class CartResponse {
         private String camera;
         private String battery;
         private String features;
+        private String delivery_time;
 
         public String getModule() {
             return module;
@@ -373,15 +375,23 @@ public class CartResponse {
         public void setFeatures(String features) {
             this.features = features;
         }
+
+        public String getDelivery_time() {
+            return delivery_time;
+        }
+
+        public void setDelivery_time(String delivery_time) {
+            this.delivery_time = delivery_time;
+        }
     }
 
     public static class TotalBillBean {
         /**
-         * priceInclTax : 21439.40
-         * GST : 2349.88
-         * SubTotal : 21439.40
+         * priceInclTax : 3146.22
+         * GST : 469.87
+         * SubTotal : 3146.22
          * DeliveryCharges : 0
-         * grandTotal : 21439.40
+         * grandTotal : 3146.22
          */
 
         private String priceInclTax;

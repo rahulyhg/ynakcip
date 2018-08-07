@@ -155,19 +155,19 @@ public class MobileHomeActivity extends AppCompatActivity {
 
                 for (CatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
 
-                    if (mainCategoriesBean.getId().equals("1")) {
+                    if (mainCategoriesBean.getId().equals("6") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("New")) {
 
                         prepareNewMobileData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 
-                    } else if (mainCategoriesBean.getId().equals("2")) {
+                    } else if (mainCategoriesBean.getId().equals("7") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Used")) {
 
                         prepareUsedMobileData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 
-                    } else if (mainCategoriesBean.getId().equals("3")) {
+                    } else if (mainCategoriesBean.getId().equals("8") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Tablets")) {
 
                         prepareTabletsData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 
-                    } else if (mainCategoriesBean.getId().equals("4")) {
+                    } else if (mainCategoriesBean.getId().equals("9") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Accessories")) {
 
                         prepareAccessioriesData(mainCategoriesBean.getId(), mainCategoriesBean.getCategory_name(), mainCategoriesBean.getModule());
 

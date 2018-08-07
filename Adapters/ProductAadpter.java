@@ -104,6 +104,10 @@ public class ProductAadpter extends RecyclerView.Adapter<ProductAadpter.MyViewHo
                 if (home.getModule().equalsIgnoreCase("mobiles")){
                     intent.putExtra("productId",home.getProduct_id()+"&itemId="+home.getItem_id());
                 }
+                else if (home.getModule().equalsIgnoreCase("celebrations")){
+
+                    intent.putExtra("productId",home.getProduct_id()+"&maincatId="+home.getMain_category_id());
+                }
                 else {
                     intent.putExtra("productId",home.getProduct_id());
                 }

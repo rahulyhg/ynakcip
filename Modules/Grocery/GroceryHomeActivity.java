@@ -157,27 +157,27 @@ public class GroceryHomeActivity extends AppCompatActivity{
 
                 for (CatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
 
-                    if (mainCategoriesBean.getId().equals("14")){
+                    if (mainCategoriesBean.getId().equals("14")|| mainCategoriesBean.getCategory_name().equalsIgnoreCase("Fruits")){
 
                         prepareFruitsData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("2")){
+                    else if (mainCategoriesBean.getId().equals("2")|| mainCategoriesBean.getCategory_name().equalsIgnoreCase("Vegetables")){
 
                         prepareVegData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("7")){
+                    else if (mainCategoriesBean.getId().equals("7")|| mainCategoriesBean.getCategory_name().equalsIgnoreCase("Beverages")){
 
                         prepareBevragesData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("11")){
+                    else if (mainCategoriesBean.getId().equals("11")|| mainCategoriesBean.getCategory_name().equalsIgnoreCase("Snacks")){
 
                         prepareSnacksData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("15")){
+                    else if (mainCategoriesBean.getId().equals("15")|| mainCategoriesBean.getCategory_name().equalsIgnoreCase("Ready to Eat")){
 
                         prepareReadyData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 

@@ -159,27 +159,27 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
                 for (CatResponse.CategoriesBean mainCategoriesBean : homeResponse.getCategories()) {
 
-                    if (mainCategoriesBean.getId().equals("1")){
+                    if (mainCategoriesBean.getId().equals("1") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Art & Craft")){
 
                         prepareArtData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                         }
-                    else if (mainCategoriesBean.getId().equals("2")){
+                    else if (mainCategoriesBean.getId().equals("2") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Desk Organizers")){
 
                         prepareDeskData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("3")){
+                    else if (mainCategoriesBean.getId().equals("3") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Office Stationery")){
 
                         prepareOfficeData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("4")){
+                    else if (mainCategoriesBean.getId().equals("4") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("School & College")){
 
                         prepareSchoolData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 
                     }
-                    else if (mainCategoriesBean.getId().equals("5")){
+                    else if (mainCategoriesBean.getId().equals("5") || mainCategoriesBean.getCategory_name().equalsIgnoreCase("Extra Stationery")){
 
                         prepareExtraData(mainCategoriesBean.getId(),mainCategoriesBean.getCategory_name(),mainCategoriesBean.getModule());
 

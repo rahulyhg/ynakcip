@@ -47,6 +47,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.prism.pickany247.Adapters.HomeAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.DataBase.SampleSQLiteDBHelper;
+import com.prism.pickany247.Helper.Converter;
 import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.Model.HomeItem;
 import com.prism.pickany247.Response.HomeResponse;
@@ -291,11 +292,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onRestart() {
+
+       /* if(CartActivity.products.size()!=0) {
+            cartindex = CartActivity.cart.size();
+            invalidateOptionsMenu();
+        }*/
+        super.onRestart();
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds countries to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_cart);
+        menuItem.setIcon(Converter.convertLayoutToImage(HomeActivity.this,0,R.drawable.ic_actionbar_bag));
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
