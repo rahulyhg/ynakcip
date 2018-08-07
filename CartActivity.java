@@ -258,7 +258,7 @@ public class CartActivity extends AppCompatActivity {
     };
 
 
-    private class Products implements CartDataSet {
+    public class Products implements CartDataSet {
 
         private List<Product> productList;
 

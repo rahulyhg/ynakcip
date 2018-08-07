@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     HomeResponse homeResponse =new HomeResponse();
     Gson gson;
     List<HomeItem> homeItemList =new ArrayList<>();
-
+    int  cartindex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +83,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setContentInsetStartWithNavigation(0);
 
         appController= (AppController) getApplication();
+
 
         pref = new PrefManager(getApplicationContext());
 
@@ -291,13 +292,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     @Override
     protected void onRestart() {
 
-       /* if(CartActivity.products.size()!=0) {
-            cartindex = CartActivity.cart.size();
+        if(CartActivity.products.size()!=0) {
+            cartindex = CartActivity.products.size();
             invalidateOptionsMenu();
-        }*/
+        }
         super.onRestart();
     }
 
@@ -307,7 +309,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu; this adds countries to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         MenuItem menuItem = menu.findItem(R.id.action_cart);
-        menuItem.setIcon(Converter.convertLayoutToImage(HomeActivity.this,0,R.drawable.ic_actionbar_bag));
+        menuItem.setIcon(Converter.convertLayoutToImage(HomeActivity.this,cartindex,R.drawable.ic_actionbar_bag));
         return true;
     }
 
