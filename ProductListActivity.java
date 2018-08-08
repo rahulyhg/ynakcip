@@ -1,6 +1,7 @@
 package com.prism.pickany247;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -33,11 +34,15 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.ProductAadpter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.Fragments.BottomSheet3DialogFragment;
+import com.prism.pickany247.Helper.Converter;
+import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.Modules.Grocery.GroceryFilterActivity;
 import com.prism.pickany247.Modules.Mobiles.MobileFilterActivity;
 import com.prism.pickany247.Modules.Stationery.StationeryFilterActivity;
 import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Singleton.AppController;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +57,9 @@ public class ProductListActivity extends AppCompatActivity {
     Gson gson;
     ProductResponse productResponse = new ProductResponse();
     LinearLayout sortLinear, filterLinear;
+    private PrefManager pref;
+    String userid;
+    int cartindex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,11 @@ public class ProductListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_list);
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        pref = new PrefManager(getApplicationContext());
+        // Displaying user information from shared preferences
+        HashMap<String, String> profile = pref.getUserDetails();
+        userid = profile.get("id");
 
         final String id = getIntent().getStringExtra("catId");
         final String title = getIntent().getStringExtra("title");
@@ -128,6 +141,12 @@ public class ProductListActivity extends AppCompatActivity {
 
         rcProduct = (RecyclerView) findViewById(R.id.rcProduct);
 
+        // cart count
+        appController.cartCount(userid);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindex",""+cartindex);
+        invalidateOptionsMenu();
 
         if (appController.isConnection()) {
 
@@ -138,7 +157,10 @@ public class ProductListActivity extends AppCompatActivity {
                 public void onRefresh() {
 
                     prepareProductData(id, title, module);
+
                     swipeRefreshLayout.setRefreshing(false);
+
+
                 }
             });
 
@@ -221,9 +243,33 @@ public class ProductListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onRestart() {
+
+        appController.cartCount(userid);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindexonstart",""+cartindex);
+        invalidateOptionsMenu();
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStart() {
+        appController.cartCount(userid);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindexonstart",""+cartindex);
+        invalidateOptionsMenu();
+        super.onStart();
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        final MenuItem menuItem = menu.findItem(R.id.action_cart);
+        menuItem.setIcon(Converter.convertLayoutToImage(ProductListActivity.this,cartindex,R.drawable.ic_actionbar_bag));
         return true;
     }
 

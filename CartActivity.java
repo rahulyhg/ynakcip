@@ -54,6 +54,7 @@ public class CartActivity extends AppCompatActivity {
     public TextView txtSubTotal;
     public Button btnCheckOut;
     public String length;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +84,9 @@ public class CartActivity extends AppCompatActivity {
             pDialog.setCancelable(false);
             pDialog.show();
             pDialog.setContentView(R.layout.my_progress);
+
+            // cart count Update
+            appController.cartCount(userId);
 
             cartData();
 
@@ -356,6 +360,11 @@ public class CartActivity extends AppCompatActivity {
                                 throw new IndexOutOfBoundsException();
                             }
                             productList.remove(productList.get(i));
+
+                            // cart count Update
+                            appController.cartCount(userId);
+                            invalidateOptionsMenu();
+
                             calculateMealTotal();
                             productsAdapter.notifyDataSetChanged();
 
@@ -390,6 +399,7 @@ public class CartActivity extends AppCompatActivity {
         Log.e("TOTAL", "" +products.size()+"Items | "+ mealTotal);
 
         txtSubTotal.setText(products.size()+" Items | Rs "+ mealTotal);
+
 
         if(products.size()==0){
 
@@ -429,6 +439,9 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.e("RESPONSE : ",""+response);
+
+
+
                         // hideDialog();
                        /* Intent intent = new Intent(mContext, CartActivity.class);
                         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -495,6 +508,11 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.e("RESPONSE : ",""+response);
+
+                        // cart count Update
+                        appController.cartCount(userId);
+                        invalidateOptionsMenu();
+
                         // hideDialog();
                        /* Intent intent = new Intent(mContext, CartActivity.class);
                         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -550,6 +568,7 @@ public class CartActivity extends AppCompatActivity {
 
             case android.R.id.home:
                 onBackPressed();
+                invalidateOptionsMenu();
                 break;
         }
         return super.onOptionsItemSelected(item);

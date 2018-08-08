@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -26,6 +27,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -33,10 +35,12 @@ import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -44,12 +48,15 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.prism.pickany247.Adapters.CartAdapter;
 import com.prism.pickany247.Adapters.HomeAdapter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.DataBase.SampleSQLiteDBHelper;
 import com.prism.pickany247.Helper.Converter;
 import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.Model.HomeItem;
+import com.prism.pickany247.Model.Product;
+import com.prism.pickany247.Response.CartResponse;
 import com.prism.pickany247.Response.HomeResponse;
 import com.prism.pickany247.Singleton.AppController;
 
@@ -73,6 +80,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     Gson gson;
     List<HomeItem> homeItemList =new ArrayList<>();
     int  cartindex;
+    String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +104,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         // Displaying user information from shared preferences
         HashMap<String, String> profile = pref.getUserDetails();
+        userId=profile.get("id");
         recyclerView = (RecyclerView) findViewById(R.id.homeRecycler);
 
 
@@ -117,7 +127,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             pDialog.setContentView(R.layout.my_progress);
 
             prepareHomeData();
-           // requestStoragePermission();
+
+            // cart count
+            appController.cartCount(userId);
+            SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+            cartindex =preferences.getInt("itemCount",0);
+            Log.e("cartindex",""+cartindex);
+            invalidateOptionsMenu();
+
+
+
 
 
         } else {
@@ -139,6 +158,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         }
+
 
 
 
@@ -293,22 +313,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
+
     @Override
     protected void onRestart() {
 
-        if(CartActivity.products.size()!=0) {
-            cartindex = CartActivity.products.size();
-            invalidateOptionsMenu();
-        }
+        appController.cartCount(userId);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindexonstart",""+cartindex);
+        invalidateOptionsMenu();
         super.onRestart();
     }
+
+    @Override
+    protected void onStart() {
+        appController.cartCount(userId);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindexonstart",""+cartindex);
+        invalidateOptionsMenu();
+        super.onStart();
+    }
+
+
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds countries to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_cart);
+        final MenuItem menuItem = menu.findItem(R.id.action_cart);
         menuItem.setIcon(Converter.convertLayoutToImage(HomeActivity.this,cartindex,R.drawable.ic_actionbar_bag));
         return true;
     }

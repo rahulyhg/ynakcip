@@ -1,6 +1,7 @@
 package com.prism.pickany247.Modules.Stationery;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +34,10 @@ import com.prism.pickany247.Adapters.CatageoryAdapter;
 import com.prism.pickany247.Adapters.ProductAadpter;
 import com.prism.pickany247.Apis.Api;
 import com.prism.pickany247.CartActivity;
+import com.prism.pickany247.Helper.Converter;
+import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.HomeActivity;
+import com.prism.pickany247.ProductDetailsActivity;
 import com.prism.pickany247.ProductListActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Response.CatResponse;
@@ -41,6 +45,7 @@ import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Singleton.AppController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -95,6 +100,9 @@ public class StationeryHomeActivity extends AppCompatActivity {
     CatResponse homeResponse = new CatResponse();
     ProductResponse productResponse = new ProductResponse();
     Gson gson;
+    private PrefManager pref;
+    String userid;
+    int  cartindex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +114,24 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
         appController = (AppController) getApplication();
 
+        pref = new PrefManager(getApplicationContext());
+
+        // Displaying user information from shared preferences
+        HashMap<String, String> profile = pref.getUserDetails();
+        userid = profile.get("id");
+
         simpleSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorBlue, R.color.colorPrimary);
         appController = (AppController) getApplicationContext();
         if (appController.isConnection()) {
 
             prepareHomeData();
+
+            // cart count
+            appController.cartCount(userid);
+            SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+            cartindex =preferences.getInt("itemCount",0);
+            Log.e("cartindex",""+cartindex);
+            invalidateOptionsMenu();
 
 
             simpleSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -574,11 +595,34 @@ public class StationeryHomeActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onRestart() {
+
+        appController.cartCount(userid);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindexonstart",""+cartindex);
+        invalidateOptionsMenu();
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStart() {
+        appController.cartCount(userid);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindexonstart",""+cartindex);
+        invalidateOptionsMenu();
+        super.onStart();
+    }
 ///
 @Override
 public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+    final MenuItem menuItem = menu.findItem(R.id.action_cart);
+    menuItem.setIcon(Converter.convertLayoutToImage(StationeryHomeActivity.this,cartindex,R.drawable.ic_actionbar_bag));
     return true;
 }
 

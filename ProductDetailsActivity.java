@@ -3,6 +3,7 @@ package com.prism.pickany247;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -45,11 +46,15 @@ import com.google.gson.Gson;
 import com.prism.pickany247.Adapters.SpinnerAdapter;
 import com.prism.pickany247.Adapters.ViewPagerAdapter;
 import com.prism.pickany247.Apis.Api;
+import com.prism.pickany247.Helper.Converter;
 import com.prism.pickany247.Helper.PrefManager;
 import com.prism.pickany247.Model.ViewPagerItem;
 import com.prism.pickany247.Response.ProductResponse;
 import com.prism.pickany247.Singleton.AppController;
 import com.rd.PageIndicatorView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -108,6 +113,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     Button btnAddToCart, btnBuyNow;
     private PrefManager pref;
     String userid;
+    int  cartindex;
     public String selectedPrice, selectedItemId, flavourValue, timeslotValue, egglessPrice, heartshapePrice, egglessValue, heartshapeValue;
 
 
@@ -146,6 +152,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
             pDialog.setContentView(R.layout.my_progress);
 
             prepareProductDetailsData(id, module);
+
+            // cart count
+            appController.cartCount(userid);
+            SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+            cartindex =preferences.getInt("itemCount",0);
+            Log.e("cartindex",""+cartindex);
+            invalidateOptionsMenu();
 
 
         } else {
@@ -767,28 +780,54 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("RESPONSE : ", "" + response);
+                        Log.e("PRODUCT_RESPONSE : ", "" + response);
                         // hideDialog();
 
                         pDialog.hide();
 
-                        if (btnValue.equals("ADD TO CART")) {
+                        String status = "";
+                        String message = "";
 
-                            if (btnAddToCart.getText().equals("GO TO CART")) {
+                        try {
+                            JSONObject messageObject = new JSONObject(response);
+                            status = messageObject.getString("status");
+                            message = messageObject.getString("message");
+                            Log.e("status", "" + status);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+
+
+                           // Toast.makeText(ProductDetailsActivity.this, "Item already exists", Toast.LENGTH_SHORT).show();
+
+
+                            if (btnValue.equals("ADD TO CART")) {
+
+                                if (btnAddToCart.getText().equals("GO TO CART")) {
+                                    Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                } else {
+                                    btnAddToCart.setText("GO TO CART");
+                                    Toast.makeText(getApplicationContext(), "Item Added to cart", Toast.LENGTH_SHORT).show();
+                                }
+                            } else if (btnValue.equalsIgnoreCase("BUY NOW")) {
                                 Intent intent = new Intent(getApplicationContext(), CartActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            } else {
-                                btnAddToCart.setText("GO TO CART");
-                                Toast.makeText(getApplicationContext(), "Item Added to cart", Toast.LENGTH_SHORT).show();
                             }
-                        } else if (btnValue.equalsIgnoreCase("BUY NOW")) {
-                            Intent intent = new Intent(getApplicationContext(), CartActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        }
+
+
+
+                        // cart count Update
+                        appController.cartCount(userid);
+                        invalidateOptionsMenu();
+
 
 
                     }
@@ -859,11 +898,33 @@ public class ProductDetailsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onRestart() {
+
+        appController.cartCount(userid);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindexonstart",""+cartindex);
+        invalidateOptionsMenu();
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStart() {
+        appController.cartCount(userid);
+        SharedPreferences preferences =getSharedPreferences("CARTCOUNT",0);
+        cartindex =preferences.getInt("itemCount",0);
+        Log.e("cartindexonstart",""+cartindex);
+        invalidateOptionsMenu();
+        super.onStart();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        final MenuItem menuItem = menu.findItem(R.id.action_cart);
+        menuItem.setIcon(Converter.convertLayoutToImage(ProductDetailsActivity.this,cartindex,R.drawable.ic_actionbar_bag));
         return true;
     }
 
