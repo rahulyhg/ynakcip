@@ -798,36 +798,52 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         }
 
 
+                         if (status.equalsIgnoreCase("Item already exists with this userId and ItemId")){
 
+                            Toast.makeText(ProductDetailsActivity.this, "Item already exists", Toast.LENGTH_SHORT).show();
 
+                              btnAddToCart.setText("GO TO CART");
 
-                           // Toast.makeText(ProductDetailsActivity.this, "Item already exists", Toast.LENGTH_SHORT).show();
+                              if (btnAddToCart.getText().equals("GO TO CART") || btnBuyNow.getText().equals("BUY NOW")) {
+                                 Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                 startActivity(intent);
+                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                             }
 
+                         }
+                         else {
 
-                            if (btnValue.equals("ADD TO CART")) {
+                            // cart count updation
+                             cartindex = cartindex+1;
+                             Log.e("CARTPLUSCOUNT",""+cartindex);
+                             SharedPreferences preferences = getSharedPreferences("CARTCOUNT", 0);
+                             SharedPreferences.Editor editor = preferences.edit();
+                             editor.putInt("itemCount", cartindex);
+                             editor.apply();
 
-                                if (btnAddToCart.getText().equals("GO TO CART")) {
-                                    Intent intent = new Intent(getApplicationContext(), CartActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                } else {
-                                    btnAddToCart.setText("GO TO CART");
-                                    Toast.makeText(getApplicationContext(), "Item Added to cart", Toast.LENGTH_SHORT).show();
-                                }
-                            } else if (btnValue.equalsIgnoreCase("BUY NOW")) {
-                                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            }
+                             // cart count Update
+                             appController.cartCount(userid);
+                             invalidateOptionsMenu();
 
+                             if (btnValue.equals("ADD TO CART")) {
 
-
-                        // cart count Update
-                        appController.cartCount(userid);
-                        invalidateOptionsMenu();
-
+                                 if (btnAddToCart.getText().equals("GO TO CART")) {
+                                     Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                     startActivity(intent);
+                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                 } else {
+                                     btnAddToCart.setText("GO TO CART");
+                                     Toast.makeText(getApplicationContext(), "Item Added to cart", Toast.LENGTH_SHORT).show();
+                                 }
+                             } else if (btnValue.equalsIgnoreCase("BUY NOW")) {
+                                 Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                 startActivity(intent);
+                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                             }
+                         }
 
 
                     }
