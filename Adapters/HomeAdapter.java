@@ -15,6 +15,7 @@ import com.prism.pickany247.Modules.Celebrations.CelebrationsHomeActivity;
 import com.prism.pickany247.Modules.Grocery.GroceryHomeActivity;
 import com.prism.pickany247.Modules.HomeKitchen.KitchenHomeActivity;
 import com.prism.pickany247.Modules.Mobiles.MobileHomeActivity;
+import com.prism.pickany247.Modules.Rentals.RentalsHomeActivity;
 import com.prism.pickany247.R;
 import com.prism.pickany247.Model.HomeItem;
 import com.prism.pickany247.Modules.Stationery.StationeryHomeActivity;
@@ -126,9 +127,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>{
                 else  if (home.getId().equalsIgnoreCase("7")|| home.getTitle().equalsIgnoreCase("Car & Bike Rentals")) {
 
 //                    Activity activity = (Activity) mContext;
-                    Intent intent = new Intent(mContext, KitchenHomeActivity.class);
+                    Intent intent = new Intent(mContext, RentalsHomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                   // mContext.startActivity(intent);
+                    mContext.startActivity(intent);
                     // activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
 
